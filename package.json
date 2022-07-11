@@ -1,0 +1,12 @@
+{
+  "browserslist": "> 0.1%, last 2 versions, not dead",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel --port=80 --open",
+    "build": "parcel build"
+  },
+  "devDependencies": {
+    "parcel": "latest",
+    "@parcel/transformer-sass": "latest"
+  }
+}
