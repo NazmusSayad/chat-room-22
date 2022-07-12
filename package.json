@@ -2,7 +2,7 @@
   "browserslist": "> 0.1%, last 2 versions, not dead",
   "source": "src/index.html",
   "scripts": {
-    "start": "parcel --port=80 --open",
+    "start": "parcel --port=800 --open",
     "build": "parcel build"
   },
   "devDependencies": {
