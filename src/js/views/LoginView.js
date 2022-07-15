@@ -1,4 +1,4 @@
-import markup from "../../components/welcome.html"
+import markup from "../../components/login.html"
 import { HTML } from "../HELPER"
 import { Views } from "./Views"
 
@@ -8,9 +8,12 @@ class Welcome extends Views {
     this.element = new HTML(markup)
   }
 
-  addLoginHandler(callback) {}
+  addSubmitHandler(callback) {}
 
   addSignupHandler(callback) {}
 }
 
 export default new Welcome()
+
+// focus me
+// tumi kichu korbana?
