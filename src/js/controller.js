@@ -1,5 +1,5 @@
 import { login, STATE } from "./model.js"
-import * as welcome from "./views/welcome.js"
+import WelcomeView from "./views/welcome.js"
 
 // Add handlers
 ;(async () => {})()
@@ -20,7 +20,7 @@ import * as welcome from "./views/welcome.js"
     }
   } else {
     // Render Welcome Page
-    welcome.render()
+    WelcomeView.render()
   }
 })()
 

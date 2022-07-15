@@ -1,10 +1,10 @@
 .welcome {
   min-height: 100vh;
-  background: url("../assests/Chat\ bot-rafiki.svg"), #23272A;
+  background: url("../assests/Chat\ bot-rafiki.svg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: right;
-  color: #f1f2f3;
+  // color: #f1f2f3;
   font-family: "Lato", sans-serif;
 
   &__content {

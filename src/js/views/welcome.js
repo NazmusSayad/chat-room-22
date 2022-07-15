@@ -1,10 +1,16 @@
 import markup from "../../components/welcome.html"
-import { HTML } from "../HELPER.js"
-const element = new HTML(markup)
+import { HTML } from "../HELPER"
+import { Views } from "./Views"
 
-export const addLoginHandler = (callback) => {}
-export const addSignupHandler = (callback) => {}
+class Welcome extends Views {
+  constructor() {
+    super()
+    this.element = new HTML(markup)
+  }
 
-export const render = () => {
-  document.body.append(element)
+  addLoginHandler(callback) {}
+
+  addSignupHandler(callback) {}
 }
+
+export default new Welcome()
