@@ -1,4 +1,57 @@
 import { API_URL } from "./CONFIG"
+import { getJSON } from "./HELPER"
+
+export const STATE = {
+  user: null,
+  auth: null,
+}
+
+export const login = async (token) => {
+  const res = await getJSON(API_URL + "/user", {
+    headers: {
+      email: token.email,
+      password: token.password,
+    },
+  })
+
+  saveAuthInfo(res.data)
+}
+
+export const signUp = async (token) => {
+  const res = await getJSON(API_URL + "/user", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(token),
+  })
+
+  saveAuthInfo(res.data)
+}
+
+export const postMessage = async (msg) => {
+  const res = await getJSON(API_URL + "/chat", {
+    method: "POST",
+    headers: {
+      ...STATE.auth,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ msg }),
+  })
+
+  return res.data
+}
+
+export const getMessage = async () => {
+  const res = await getJSON(API_URL + "/chat", {
+    headers: {
+      ...STATE.auth,
+      instant: 1,
+    },
+  })
+
+  return res.data
+}
 
 const startChatLoop = (
   successCallback = (data) => console.log(data),
@@ -30,20 +83,30 @@ const startChatLoop = (
     { once: true }
   )
 
-  xhr.open("GET", API_URL + "/chat/")
-  xhr.setRequestHeader("email", "online2sayad@gmail.com")
-  xhr.setRequestHeader("password", "hello")
+  xhr.open("GET", API_URL + "/chat")
+  xhr.setRequestHeader("email", STATE.auth.email)
+  xhr.setRequestHeader("password", STATE.auth.password)
 
   xhr.send()
 }
 
-startChatLoop(
-  ({ data }) => {
-    console.log(data)
-    document.body.innerHTML += data.name + ": " + data.msg + "<br/>"
-  },
-  (e) => {
-    console.log(e)
-    document.body.innerHTML += "<br/>OPS Network gone!<br/>"
-  }
-)
+const saveAuthInfo = (data) => {
+  localStorage.setItem(`auth`, JSON.stringify(data))
+  loadAuthInfo()
+}
+
+const loadAuthInfo = () => {
+  const data = JSON.parse(localStorage.getItem(`auth`))
+  if (!data) return
+
+  STATE.user = { _id: data?._id, name: data?.name, email: data?.email, dateJoin: data?.dateJoin }
+  STATE.auth = { email: data?.email, password: data?.password }
+}
+
+// Init
+;(() => {
+  loadAuthInfo()
+})()
+
+// getMessage()
+// postMessage("World!")

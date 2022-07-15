@@ -1,17 +1,17 @@
 @mixin --($_, $__: null) {
-   @if ($__) {
-      @media only screen and (min-width: $_) and (max-width: $__) {
-         @content;
-      }
-   } @else if($_ > 0) {
-      @media only screen and (max-width: $_) {
-         @content;
-      }
-   } @else {
-      @media only screen and (min-width: -$_) {
-         @content;
-      }
-   }
+  @if ($__) {
+    @media only screen and (min-width: $_) and (max-width: $__) {
+      @content;
+    }
+  } @else if($_ > 0) {
+    @media only screen and (max-width: $_) {
+      @content;
+    }
+  } @else {
+    @media only screen and (min-width: -$_) {
+      @content;
+    }
+  }
 }
 
 // Breakpoints

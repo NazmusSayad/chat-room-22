@@ -8,9 +8,9 @@ const timeout = function (seconds) {
   })
 }
 
-export const getJSON = async (url) => {
+export const getJSON = async function (url) {
   try {
-    const res = await Promise.race([timeout(TIMEOUT_SEC), fetch(url)])
+    const res = await Promise.race([timeout(TIMEOUT_SEC), fetch(...arguments)])
     const data = await res.json()
 
     if (!res.ok) throw new Error(data.message + " " + data.status)
@@ -18,4 +18,8 @@ export const getJSON = async (url) => {
   } catch (error) {
     throw error
   }
+}
+
+export const HTML = function (body = "<div></div>") {
+  return new DOMParser().parseFromString(body, "text/html").body.firstElementChild
 }

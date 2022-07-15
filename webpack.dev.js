@@ -8,7 +8,7 @@ CONFIG.devServer = {
   },
   port: 80,
   open: true,
-  hot: true,
+  // hot: true,
   compress: false,
 }
 

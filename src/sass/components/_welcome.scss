@@ -1,0 +1,14 @@
+.welcome {
+  min-height: 100vh;
+  background: url("../assests/Chat\ bot-rafiki.svg"), #23272A;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+  color: #f1f2f3;
+  font-family: "Lato", sans-serif;
+
+  &__content {
+    width: 50%;
+    min-height: inherit;
+  }
+}
