@@ -1,1 +1,1 @@
-import './js/controller'
+import "./js/controller"

@@ -11,4 +11,7 @@
 @import "base/utility";
 @import "base/app";
 
-// @import "components/nav"
+@import "./components/chat";
+@import "./components/login";
+@import "./components/signup";
+@import "./components/welcome";

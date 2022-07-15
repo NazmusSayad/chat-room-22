@@ -1,12 +1,20 @@
 {
-  "browserslist": "> 0.1%, last 2 versions, not dead",
-  "source": "src/index.html",
   "scripts": {
-    "start": "parcel --port=800 --open",
-    "build": "parcel build"
+    "start": "webpack serve --config webpack.dev.js",
+    "build": "webpack build --config webpack.prod.js"
   },
   "devDependencies": {
-    "parcel": "latest",
-    "@parcel/transformer-sass": "latest"
+    "@babel/core": "latest",
+    "@babel/preset-env": "latest",
+    "babel-loader": "latest",
+    "css-loader": "latest",
+    "html-loader": "latest",
+    "html-webpack-plugin": "latest",
+    "sass": "latest",
+    "sass-loader": "latest",
+    "style-loader": "latest",
+    "webpack": "latest",
+    "webpack-cli": "latest",
+    "webpack-dev-server": "latest"
   }
 }
