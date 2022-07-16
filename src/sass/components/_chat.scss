@@ -1,7 +1,6 @@
 .chat {
   background-color: #f6f6f6;
   margin: 0 auto;
-  overflow-y: scroll;
   width: min(100%, 640px);
   height: min(100%, 850px);
 
@@ -9,12 +8,11 @@
     width: 100%;
     height: 100%;
     position: relative;
+    overflow-y: scroll;
   }
   &__container {
     padding: 15px 20px;
-    min-height: calc(
-      100% - 70px
-    ); // subtract whatever the computed value of chat__form is
+    /* min-height: calc(100% - 60x); */
     margin-inline: 0.75rem;
     z-index: 1;
     overflow-y: overlay;
