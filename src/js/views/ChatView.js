@@ -26,6 +26,7 @@ class Chat extends Views {
       event.preventDefault()
       const { msg } = event.target
       callback(msg.value)
+      msg.value = ""
     }
   }
 

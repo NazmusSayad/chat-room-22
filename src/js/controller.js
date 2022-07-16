@@ -40,6 +40,26 @@ const logOut = () => {
   // Log Out
 }
 
+const initChat = async () => {
+  ChatView.render()
+
+  model.startChatLoop(
+    ({ data }) => {
+      console.log(data)
+
+      ChatView.appendMessage(data)
+    },
+    () => {
+      location.reload()
+    }
+  )
+
+  const data = await model.getMessage()
+  data.reverse().forEach((msg) => {
+    ChatView.appendMessage(msg)
+  })
+}
+
 // Add handlers
 ;(() => {
   WelcomeView.addSignupHandler(signupPage)
@@ -53,27 +73,6 @@ const logOut = () => {
   // ChatView.addLogoutHandler(logOut)
   ChatView.addMsgSubmitHandler(sendMessage)
 })()
-
-const initChat = async () => {
-  ChatView.render()
-  const res = model.getMessage()
-
-  model.startChatLoop(
-    ({ data }) => {
-      console.log(data)
-
-      ChatView.appendMessage(data)
-    },
-    () => {
-      location.reload()
-    }
-  )
-
-  const data = (await res).reverse()
-  data.forEach((msg) => {
-    ChatView.appendMessage(msg)
-  })
-}
 
 // Init
 ;(async () => {

@@ -43,11 +43,16 @@ export const postMessage = async (msg) => {
 }
 
 export const getMessage = async () => {
-  const res = await getJSON(API_URL + "/chat", {
-    headers: {
-      ...STATE.auth,
-      instant: 1,
-    },
+  const res = await getJSON(API_URL + "/chats", {
+    headers: STATE.auth,
+  })
+
+  return res.data
+}
+
+export const getMessageById = async (id) => {
+  const res = await getJSON(API_URL + "/chats/" + id, {
+    headers: STATE.auth,
   })
 
   return res.data
@@ -107,6 +112,3 @@ const loadAuthInfo = () => {
 ;(() => {
   loadAuthInfo()
 })()
-
-// getMessage()
-// postMessage("World!")
