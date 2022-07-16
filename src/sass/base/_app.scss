@@ -1,8 +1,18 @@
 html {
-   scroll-behavior: smooth;
-   // user-select: none;
+  scroll-behavior: smooth;
+  //   user-select: none;
 }
 
 body {
-   font-family: sans-serif;
+  font-family: sans-serif;
+}
+
+body main {
+  background-color: #12202d;
+  color: white;
+  padding: 20px;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
 }

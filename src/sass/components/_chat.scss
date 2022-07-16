@@ -1,0 +1,57 @@
+.chat {
+  background-color: #2f4157;
+  margin: 0 auto;
+  overflow-y: scroll;
+  width: min(100%, 640px);
+  height: min(100%, 850px);
+
+  &__parent {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  &__container {
+    padding: 15px 20px;
+    min-height: calc(100% - 58px);
+    margin-inline: 0.75rem;
+    z-index: 1;
+    overflow-y: overlay;
+  }
+  &__form {
+    padding: 15px 20px;
+    background-color: #172737;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+
+    input {
+      display: inline-block;
+      width: 100%;
+      background: transparent;
+      color: white;
+      outline: none;
+      border: none;
+      font-size: 18px;
+    }
+    button {
+      width: 15%;
+      box-shadow: none;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      text-align: center;
+      font-weight: 700;
+      background-color: #2f4157;
+      color: white;
+      padding: 8px 25px;
+      transition: background-color 0.3s ease;
+
+      cursor: pointer;
+      &:hover {
+        background-color: #205ffe;
+      }
+    }
+  }
+}

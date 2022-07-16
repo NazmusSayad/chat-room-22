@@ -2,42 +2,64 @@
 *,
 *::after,
 *::before {
-   box-sizing: border-box;
-   padding: 0;
-   margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+// scrollbar
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #8f3131;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 html {
-   font-size: 62.5%;
-   height: 100%;
+  font-size: 62.5%;
+  height: 100%;
 }
 
 body {
-   font-size: 1.6rem;
-   line-height: 1.5;
-   min-height: 100%;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  min-height: 100%;
 }
 
 table {
-   border-collapse: collapse;
-   border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 button,
-input[type="submit"] {
-   cursor: pointer;
+input[type='submit'] {
+  cursor: pointer;
 
-   &[disabled] {
-      cursor: not-allowed;
-   }
+  &[disabled] {
+    cursor: not-allowed;
+  }
 }
 
 input,
 button,
 textarea,
 select {
-   font: inherit;
-   color: inherit;
+  font: inherit;
+  color: inherit;
 }
 
 img,
@@ -45,21 +67,21 @@ picture,
 video,
 canvas,
 svg {
-   display: block;
-   max-width: 100%;
+  display: block;
+  max-width: 100%;
 }
 
 h1 {
-   font-size: 2em;
+  font-size: 2em;
 }
 
 [hidden] {
-   display: none;
+  display: none;
 }
 
 .-- {
-   width: 100%;
-   max-width: 144rem;
-   margin-left: auto;
-   margin-right: auto;
+  width: 100%;
+  max-width: 144rem;
+  margin-left: auto;
+  margin-right: auto;
 }
