@@ -12,62 +12,95 @@ const loginSubmit = async (token) => {
   try {
     await model.login(token)
     initChat()
-  } catch {}
+  } catch (err) {
+    console.error(err)
+    alert("Wrong email or password.")
+  }
 }
 
 const signupSubmit = async (token) => {
   try {
     await model.signUp(token)
     initChat()
-  } catch {}
+  } catch (err) {
+    console.error(err)
+    alert("Invalid email or email already exixts!")
+  }
 }
 
 const sendMessage = async (msg) => {
   try {
-    console.log(msg)
-
-    ChatView.appendMessage({
-      ...model.STATE.user,
+    const element = ChatView.appendMessage({
+      name: model.STATE.user.name,
+      email: model.STATE.user.email,
+      you: true,
       msg,
     })
-
-    await model.postMessage(msg)
-    console.log("msg sent!")
-  } catch {}
+    const data = await model.postMessage(msg)
+    ChatView.appendMessageSent(element, data._id)
+  } catch (err) {
+    console.error(err)
+    somethingWentWrong()
+  }
 }
 
-const logOut = () => {
-  // Log Out
+const loadMoreMessages = async (id) => {
+  try {
+    const data = await model.getMessageById(id)
+    data.forEach((msg) => {
+      msg.you = msg.email === model.STATE.user.email
+      ChatView.prependMessage(msg)
+    })
+  } catch (err) {
+    console.error(err)
+    somethingWentWrong()
+  }
 }
 
 const initChat = async () => {
-  ChatView.render()
+  try {
+    ChatView.render()
 
-  model.startChatLoop(
-    ({ data }) => {
-      console.log(data)
+    model.startChatLoop(
+      ({ data }) => {
+        ChatView.appendMessage(data)
+      },
+      () => {
+        location.reload()
+      }
+    )
 
-      ChatView.appendMessage(data)
-    },
-    () => {
-      location.reload()
-    }
-  )
+    const data = await model.getMessage()
+    data.reverse().forEach((msg) => {
+      msg.you = msg.email === model.STATE.user.email
+      ChatView.appendMessage(msg)
+    })
 
-  const data = await model.getMessage()
-  data.reverse().forEach((msg) => {
-    ChatView.appendMessage(msg)
-  })
+    ChatView.addLoadMoreHandler(loadMoreMessages)
+  } catch (err) {
+    console.error(err)
+    somethingWentWrong()
+  }
+}
+
+const logOut = () => {
+  localStorage.clear()
+  location.reload()
+}
+
+const somethingWentWrong = () => {
+  alert(`Something went wrong!`)
 }
 
 // Add handlers
 ;(() => {
   WelcomeView.addSignupHandler(signupPage)
-  LoginView.addSignupHandler(signupPage)
   WelcomeView.addLoginHandler(loginPage)
-  SignupView.addLoginHandler(loginPage)
 
+  LoginView.addSignupHandler(signupPage)
   LoginView.addSubmitHandler(loginSubmit)
+
+  SignupView.addLoginHandler(loginPage)
   SignupView.addSubmitHandler(signupSubmit)
 
   // ChatView.addLogoutHandler(logOut)
@@ -84,8 +117,9 @@ const initChat = async () => {
       })
 
       initChat()
-    } catch {
-      // Something went wrong!
+    } catch (err) {
+      console.error(err)
+      somethingWentWrong()
     }
   } else {
     WelcomeView.render()

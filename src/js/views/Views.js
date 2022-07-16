@@ -1,12 +1,12 @@
 export class Views {
-  root = document.getElementById(`root`)
+  _root = document.getElementById(`root`)
 
-  clear() {
-    this.root.innerHTML = ""
+  _clear() {
+    this._root.innerHTML = ""
   }
 
   render() {
-    this.clear()
-    this.root.appendChild(this._element)
+    this._clear()
+    this._root.appendChild(this._element)
   }
 }

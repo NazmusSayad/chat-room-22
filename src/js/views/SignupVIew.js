@@ -3,11 +3,11 @@ import { HTML } from "../HELPER"
 import { Views } from "./Views"
 
 class Welcome extends Views {
-  _element = new HTML(markup)
-
   constructor() {
     super()
   }
+
+  _element = new HTML(markup)
 
   addSubmitHandler(callback) {
     this._element.querySelector(`#signup-form`).onsubmit = (event) => {
