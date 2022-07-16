@@ -1,5 +1,5 @@
 .chat {
-  background-color: #2f4157;
+  background-color: #f6f6f6;
   margin: 0 auto;
   overflow-y: scroll;
   width: min(100%, 640px);
@@ -12,14 +12,53 @@
   }
   &__container {
     padding: 15px 20px;
-    min-height: calc(100% - 58px);
+    min-height: calc(
+      100% - 70px
+    ); // subtract whatever the computed value of chat__form is
     margin-inline: 0.75rem;
     z-index: 1;
     overflow-y: overlay;
+
+    .message {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+
+    .message span {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 0.5rem;
+      color: #8aafe7;
+    }
+
+    .message p:first-of-type {
+      max-width: 450px;
+      margin-bottom: 12px;
+      line-height: 24px;
+      padding: 10px 20px;
+      position: relative;
+      color: black;
+      word-wrap: break-word;
+
+      background: #ffffff;
+      border-radius: 0 15px 15px 15px;
+    }
+
+    .message[data-user='you'] {
+      align-items: flex-end;
+    }
+    .message[data-user='you'] p:first-of-type {
+      border-radius: 15px 0 15px 15px;
+      color: white;
+      background: #51db98;
+      align-self: flex-end;
+    }
   }
   &__form {
     padding: 15px 20px;
-    background-color: #172737;
+    background-color: #ffffff;
     position: sticky;
     bottom: 0;
     left: 0;
@@ -30,7 +69,7 @@
       display: inline-block;
       width: 100%;
       background: transparent;
-      color: white;
+      color: black;
       outline: none;
       border: none;
       font-size: 18px;
@@ -43,14 +82,15 @@
       background: transparent;
       text-align: center;
       font-weight: 700;
-      background-color: #2f4157;
-      color: white;
+      background-color: #f6f6f6;
+      color: black;
       padding: 8px 25px;
-      transition: background-color 0.3s ease;
+      transition: all 0.3s ease;
 
       cursor: pointer;
       &:hover {
-        background-color: #205ffe;
+        background-color: #299fff;
+        color: white;
       }
     }
   }
