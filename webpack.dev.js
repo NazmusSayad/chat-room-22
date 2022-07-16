@@ -11,7 +11,7 @@ CONFIG.devServer = {
     directory: PATH.output,
   },
 
-  // port: 80,
+  port: 80,
   open: true,
   hot: true,
   compress: false,

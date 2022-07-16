@@ -1,45 +1,94 @@
-import { login, STATE } from "./model.js"
-import LoginView from "./views/LoginView.js";
+import * as model from "./model.js"
+import ChatView from "./views/ChatView.js"
+import LoginView from "./views/LoginView.js"
+import SignupView from "./views/SignupVIew.js"
 import WelcomeView from "./views/WelcomeView.js"
 
-const loginClick = () => {
-  // Render Login Page
+const loginPage = () => LoginView.render()
+
+const signupPage = () => SignupView.render()
+
+const loginSubmit = async (token) => {
+  try {
+    await model.login(token)
+    initChat()
+  } catch {}
 }
 
-const signupClick = () => {
-  // Render Signup page
+const signupSubmit = async (token) => {
+  try {
+    await model.signUp(token)
+    initChat()
+  } catch {}
+}
+
+const sendMessage = async (msg) => {
+  try {
+    console.log(msg)
+
+    ChatView.appendMessage({
+      ...model.STATE.user,
+      msg,
+    })
+
+    await model.postMessage(msg)
+    console.log("msg sent!")
+  } catch {}
+}
+
+const logOut = () => {
+  // Log Out
 }
 
 // Add handlers
 ;(() => {
-  WelcomeView.addLoginHandler(loginClick)
-  WelcomeView.addSignupHandler(signupClick)
+  WelcomeView.addSignupHandler(signupPage)
+  LoginView.addSignupHandler(signupPage)
+  WelcomeView.addLoginHandler(loginPage)
+  SignupView.addLoginHandler(loginPage)
+
   LoginView.addSubmitHandler(loginSubmit)
-  LoginView.addGoToSignupHandler(signupClick)
+  SignupView.addSubmitHandler(signupSubmit)
+
+  // ChatView.addLogoutHandler(logOut)
+  ChatView.addMsgSubmitHandler(sendMessage)
 })()
+
+const initChat = async () => {
+  ChatView.render()
+  const res = model.getMessage()
+
+  model.startChatLoop(
+    ({ data }) => {
+      console.log(data)
+
+      ChatView.appendMessage(data)
+    },
+    () => {
+      location.reload()
+    }
+  )
+
+  const data = (await res).reverse()
+  data.forEach((msg) => {
+    ChatView.appendMessage(msg)
+  })
+}
 
 // Init
 ;(async () => {
-  if (STATE.auth) {
+  if (model.STATE.auth) {
     try {
-      await login({
-        email: STATE.auth.email,
-        password: STATE.auth.password,
+      await model.login({
+        email: model.STATE.auth.email,
+        password: model.STATE.auth.password,
       })
 
-      // Render Chat
-      console.log(`Render Chat!`)
+      initChat()
     } catch {
       // Something went wrong!
     }
   } else {
-    // Render Welcome Page
     WelcomeView.render()
   }
 })()
-
-/* login({
-  email: "247sayad@gmail.com",
-  password: "hello",
-})
- */

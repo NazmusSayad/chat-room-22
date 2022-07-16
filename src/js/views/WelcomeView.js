@@ -3,19 +3,19 @@ import { HTML } from "../HELPER"
 import { Views } from "./Views"
 
 class Welcome extends Views {
+  _element = new HTML(markup)
+
   constructor() {
     super()
-    this.element = new HTML(markup)
   }
 
-  addLoginHandler(callback) {}
+  addLoginHandler(callback) {
+    this._element.querySelector(`#goto-login-btn`).onclick = (event) => callback(event)
+  }
 
-  addSignupHandler(callback) {}
+  addSignupHandler(callback) {
+    this._element.querySelector(`#goto-signup-btn`).onclick = (event) => callback(event)
+  }
 }
 
 export default new Welcome()
-
-// blank hoye gelo je, welcome page terminal open kore dekho terminal open hoiche? hoiche kam kore?, terminal e to kichu chole na same here
-
-// ja korchi git e push diye vscode insider e astechi, okay
-// push korbo kemne?, git add .; git commit "hi"; git push"/////// terminal to nai

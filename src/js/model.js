@@ -53,7 +53,7 @@ export const getMessage = async () => {
   return res.data
 }
 
-const startChatLoop = (
+export const startChatLoop = (
   successCallback = (data) => console.log(data),
   errorCallback = (data) => console.warn(data)
 ) => {

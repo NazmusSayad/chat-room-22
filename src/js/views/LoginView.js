@@ -2,18 +2,25 @@ import markup from "../../components/login.html"
 import { HTML } from "../HELPER"
 import { Views } from "./Views"
 
-class Welcome extends Views {
+class Login extends Views {
+  _element = new HTML(markup)
+
   constructor() {
     super()
-    this.element = new HTML(markup)
   }
 
-  addSubmitHandler(callback) {}
+  addSubmitHandler(callback) {
+    this._element.querySelector(`#login-form`).onsubmit = (event) => {
+      event.preventDefault()
+      const { email, password } = event.target
 
-  addSignupHandler(callback) {}
+      callback({ email: email.value, password: password.value })
+    }
+  }
+
+  addSignupHandler(callback) {
+    this._element.querySelector(`#goto-signup-btn`).onclick = (event) => callback(event)
+  }
 }
 
-export default new Welcome()
-
-// focus me
-// tumi kichu korbana?
+export default new Login()

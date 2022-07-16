@@ -7,6 +7,6 @@ export class Views {
 
   render() {
     this.clear()
-    this.root.appendChild(this.element)
+    this.root.appendChild(this._element)
   }
 }
