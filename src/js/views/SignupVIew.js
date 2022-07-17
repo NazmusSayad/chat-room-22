@@ -12,7 +12,7 @@ class Welcome extends Views {
   _beforeRender() {
     document.title = "chat-room #22 | Signup"
   }
-  
+
   addSubmitHandler(callback) {
     this._element.querySelector(`#signup-form`).onsubmit = (event) => {
       event.preventDefault()
