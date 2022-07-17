@@ -21,10 +21,16 @@ export const getJSON = async function () {
 }
 
 export const HTML = function (body = "<div></div>") {
-  return new DOMParser().parseFromString(body, "text/html").body.firstElementChild
+  // return new DOMParser().parseFromString(body, "text/html").body.firstElementChild
+
+  const element = document.createElement("div")
+  element.innerHTML = body
+  return element.firstElementChild
 }
 
 export const simpleDate = (date) => {
   date = new Date(date)
   return date.toLocaleString()
 }
+
+

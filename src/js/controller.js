@@ -30,6 +30,18 @@ const signupSubmit = async (token) => {
 
 const sendMessage = async (msg) => {
   try {
+    while (msg.includes("\n\n")) {
+      msg = msg.replace(/\n\n/gim, "\n")
+    }
+
+    model.STATE.badWords.forEach((word) => {
+      const regex = new RegExp(word, "igm")
+      msg = msg.replace(regex, new Array(word.length).fill("*").join(""))
+
+      const regex2 = new RegExp(word.split("").join("\n"), "igm")
+      msg = msg.replace(regex2, new Array(word.length).fill("*").join("\n"))
+    })
+
     const element = ChatView.appendMessage({
       name: model.STATE.user.name,
       email: model.STATE.user.email,
@@ -84,11 +96,6 @@ const initChat = async () => {
   }
 }
 
-const logOut = () => {
-  localStorage.clear()
-  location.reload()
-}
-
 const somethingWentWrong = () => {
   alert(`Something went wrong!`)
 }
@@ -104,7 +111,7 @@ const somethingWentWrong = () => {
   SignupView.addLoginHandler(loginPage)
   SignupView.addSubmitHandler(signupSubmit)
 
-  // ChatView.addLogoutHandler(logOut)
+  // ChatView.addLogoutHandler(model.logOut)
   ChatView.addMsgSubmitHandler(sendMessage)
 })()
 

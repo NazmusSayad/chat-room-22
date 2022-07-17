@@ -1,9 +1,11 @@
 import { API_URL } from "./CONFIG"
 import { getJSON } from "./HELPER"
+import badWords from "./a.json"
 
 export const STATE = {
   user: null,
   auth: null,
+  badWords,
 }
 
 export const login = async (token) => {
@@ -27,6 +29,11 @@ export const signUp = async (token) => {
   })
 
   saveAuthInfo(res.data)
+}
+
+export const logOut = () => {
+  localStorage.clear()
+  location.reload()
 }
 
 export const postMessage = async (msg) => {

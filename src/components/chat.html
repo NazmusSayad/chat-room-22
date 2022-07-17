@@ -2,9 +2,17 @@
   <div class="chat__parent">
     <div id="chat-container" class="chat__container"></div>
   </div>
-  
+
   <form action="" id="chat-form" class="chat__form">
-    <input name="msg" placeholder="Type something to send..." autocomplete="off" type="text" required></input>
+    <textarea
+      name="msg"
+      placeholder="Type something to send..."
+      autocomplete="off"
+      cols="1"
+      rows="1"
+      required
+      onkeydown="if(!event.shiftKey&&!event.ctrlKey&&!event.altKey&&event.keyCode===13){event.preventDefault();this.nextElementSibling.click();this.focus()}"
+    ></textarea>
     <button type="submit">${Send}</button>
   </form>
 </section>

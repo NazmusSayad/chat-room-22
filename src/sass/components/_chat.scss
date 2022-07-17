@@ -70,9 +70,10 @@
     padding: 0.7rem 1.5rem;
     background-color: #ffffff;
     display: flex;
-    align-items: stretch;
+    align-items: center;
 
-    input {
+    textarea {
+      resize: none;
       display: inline-block;
       width: 100%;
       background: transparent;
@@ -83,7 +84,7 @@
       background: #f1f2f3;
       padding: 0.5rem 1.5rem;
       border-radius: 100vmax;
-      margin-right: 0.5rem;
+      margin: 0 0.7rem;
 
       &:focus {
         background: #eee;

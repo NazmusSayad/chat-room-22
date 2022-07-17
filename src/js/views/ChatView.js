@@ -20,19 +20,24 @@ class Chat extends Views {
   }
 
   #generateMessageMarkup(data) {
+    data.msg = data.msg.replace(/\n/gm, "<br/>")
+
     const element = new HTML(`
       <div class="message">
-        <span title="<${data.name}>${data.email}">${data.name}</span>
-        <p>${data.msg}<p>         
+        <span user>${data.name}</span>
+        <p text><p>         
       </div>
-      `)
+    `)
+
+    const text = element.querySelector(`[text]`)
+    text.textContent = data.msg
 
     if (data._id) {
       const isMsgAlreadyRendered = this.#messageContainer.querySelector(`[data-id="${data._id}"]`)
       if (isMsgAlreadyRendered) return false
 
       element.dataset.id = data._id
-      element.querySelector("p").title = simpleDate(data.sent)
+      text.title = simpleDate(data.sent)
     } else {
       element.dataset.status = "pending"
     }
@@ -69,7 +74,7 @@ class Chat extends Views {
   }
 
   addLoadMoreHandler(callback) {
-    this.#messageContainer.parentElement.onscroll = () => {
+    this.#messageContainer.parentElement.onscroll = (event) => {
       if (event.target.scrollTop === 0) {
         const oldestMessage = this.#messageContainer.firstElementChild
         callback(oldestMessage)
@@ -78,7 +83,7 @@ class Chat extends Views {
   }
 
   addMsgSubmitHandler(callback) {
-    this._element.querySelector(`#chat-form`).onsubmit = () => {
+    this._element.querySelector(`#chat-form`).onsubmit = (event) => {
       event.preventDefault()
       const { msg } = event.target
       callback(msg.value)
