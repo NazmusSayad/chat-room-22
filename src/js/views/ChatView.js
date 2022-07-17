@@ -20,8 +20,6 @@ class Chat extends Views {
   }
 
   #generateMessageMarkup(data) {
-    data.msg = data.msg.replace(/\n/gm, "<br/>")
-
     const element = new HTML(`
       <div class="message">
         <span user>${data.name}</span>
@@ -30,7 +28,7 @@ class Chat extends Views {
     `)
 
     const text = element.querySelector(`[text]`)
-    text.textContent = data.msg
+    text.innerText = data.msg
 
     if (data._id) {
       const isMsgAlreadyRendered = this.#messageContainer.querySelector(`[data-id="${data._id}"]`)
