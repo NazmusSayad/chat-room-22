@@ -82,7 +82,6 @@ export const startChatLoop = (
   xhr.addEventListener(
     "timeout",
     () => {
-      console.log("Started...")
       startChatLoop(successCallback, errorCallback)
     },
     { once: true }

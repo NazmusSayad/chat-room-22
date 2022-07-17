@@ -44,12 +44,13 @@ const sendMessage = async (msg) => {
   }
 }
 
-const loadMoreMessages = async (id) => {
+const loadMoreMessages = async (oldestMessage) => {
   try {
+    const id = oldestMessage.dataset.id
     const data = await model.getMessageById(id)
     data.forEach((msg) => {
       msg.you = msg.email === model.STATE.user.email
-      ChatView.prependMessage(msg)
+      ChatView.prependMessage(msg, oldestMessage)
     })
   } catch (err) {
     console.error(err)

@@ -1,27 +1,33 @@
 .chat {
+  $padding: 40px;
   background-color: #f6f6f6;
   margin: 0 auto;
   width: min(100%, 640px);
-  height: min(100%, 850px);
+  height: calc(100% - $padding);
+  display: flex;
+  flex-direction: column;
 
   &__parent {
-    width: 100%;
-    height: 100%;
+    flex: 1;
     position: relative;
     overflow-y: scroll;
   }
+
   &__container {
+    scroll-behavior: smooth;
     padding: 15px 20px;
-    /* min-height: calc(100% - 60x); */
     margin-inline: 0.75rem;
     z-index: 1;
     overflow-y: overlay;
+    /* min-height: calc(100% - 60x); */
 
     .message {
+      width: fit-content;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       margin-bottom: 0.5rem;
+      animation: slideIn 0.5s forwards;
     }
 
     .message span {
@@ -39,28 +45,27 @@
       position: relative;
       color: black;
       word-wrap: break-word;
-
       background: #ffffff;
       border-radius: 0 15px 15px 15px;
     }
 
-    .message[data-user='you'] {
+    .message[data-user="you"] {
       align-items: flex-end;
+      margin-left: auto;
+      animation-name: slideInYou;
     }
-    .message[data-user='you'] p:first-of-type {
+
+    .message[data-user="you"] p:first-of-type {
       border-radius: 15px 0 15px 15px;
       color: white;
       background: #51db98;
       align-self: flex-end;
     }
   }
+
   &__form {
     padding: 15px 20px;
     background-color: #ffffff;
-    position: sticky;
-    bottom: 0;
-    left: 0;
-    width: 100%;
     display: flex;
 
     input {
@@ -72,7 +77,9 @@
       border: none;
       font-size: 18px;
     }
+
     button {
+      cursor: pointer;
       width: 15%;
       box-shadow: none;
       border: 0;
@@ -85,7 +92,6 @@
       padding: 8px 25px;
       transition: all 0.3s ease;
 
-      cursor: pointer;
       &:hover {
         background-color: #299fff;
         color: white;
