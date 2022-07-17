@@ -22,7 +22,6 @@
     margin-inline: 0.75rem;
     z-index: 1;
     overflow: hidden;
-    /* min-height: calc(100% - 60x); */
 
     .message {
       width: fit-content;
@@ -38,6 +37,7 @@
       font-size: 1.4rem;
       margin-bottom: 0.5rem;
       color: #8aafe7;
+      text-transform: capitalize;
     }
 
     .message p:first-of-type {
@@ -73,6 +73,7 @@
       background: darken(#51db98, 15);
       opacity: 0.5;
     }
+
     .message[data-status="sent"] p:first-of-type {
       opacity: 1;
       transition: 0.3s;

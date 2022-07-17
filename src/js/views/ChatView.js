@@ -38,6 +38,7 @@ class Chat extends Views {
       text.title = simpleDate(data.sent)
     } else {
       element.dataset.status = "pending"
+      text.title = "Sending"
     }
 
     if (data.you) {
