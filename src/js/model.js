@@ -1,6 +1,6 @@
 import { API_URL } from "./CONFIG"
 import { getJSON } from "./HELPER"
-import badWords from "./a.json"
+import badWords from "../bad-words.json"
 
 export const STATE = {
   user: null,
