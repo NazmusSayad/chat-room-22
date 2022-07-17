@@ -3,10 +3,14 @@ import { HTML } from "../HELPER"
 import { Views } from "./Views"
 
 class Welcome extends Views {
-  _element = new HTML(markup)
-
   constructor() {
     super()
+  }
+
+  _element = new HTML(markup)
+
+  _beforeRender() {
+    document.title = "chat-room #22"
   }
 
   addLoginHandler(callback) {

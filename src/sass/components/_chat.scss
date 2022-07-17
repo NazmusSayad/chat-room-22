@@ -1,9 +1,12 @@
 .chat {
-  $padding: 40px;
+  --padding: 4rem;
+  width: min(calc(100% - var(--padding)), 64rem);
+  height: calc(100% - var(--padding));
+  border-radius: 0.5rem;
+  box-shadow: 0 0 2rem #000;
+  overflow: hidden;
   background-color: #f6f6f6;
   margin: 0 auto;
-  width: min(100%, 640px);
-  height: calc(100% - $padding);
   display: flex;
   flex-direction: column;
 
@@ -15,10 +18,10 @@
 
   &__container {
     scroll-behavior: smooth;
-    padding: 15px 20px;
+    padding: 1.5rem 2rem;
     margin-inline: 0.75rem;
     z-index: 1;
-    overflow-y: overlay;
+    overflow: hidden;
     /* min-height: calc(100% - 60x); */
 
     .message {
@@ -27,36 +30,36 @@
       flex-direction: column;
       align-items: flex-start;
       margin-bottom: 0.5rem;
-      animation: slideIn 0.5s forwards;
+      animation: slide-message 0.5s forwards;
     }
 
     .message span {
       font-weight: 700;
-      font-size: 14px;
+      font-size: 1.4rem;
       margin-bottom: 0.5rem;
       color: #8aafe7;
     }
 
     .message p:first-of-type {
-      max-width: 450px;
-      margin-bottom: 12px;
-      line-height: 24px;
-      padding: 10px 20px;
+      max-width: 45rem;
+      margin-bottom: 1.2rem;
+      line-height: 2.4rem;
+      padding: 1rem 2rem;
       position: relative;
       color: black;
       word-wrap: break-word;
       background: #ffffff;
-      border-radius: 0 15px 15px 15px;
+      border-radius: 0 1.5rem 1.5rem 1.5rem;
     }
 
     .message[data-user="you"] {
       align-items: flex-end;
       margin-left: auto;
-      animation-name: slideInYou;
+      animation-name: slide-message-you;
     }
 
     .message[data-user="you"] p:first-of-type {
-      border-radius: 15px 0 15px 15px;
+      border-radius: 1.5rem 0 1.5rem 1.5rem;
       color: white;
       background: #51db98;
       align-self: flex-end;
@@ -64,9 +67,10 @@
   }
 
   &__form {
-    padding: 15px 20px;
+    padding: 0.7rem 1.5rem;
     background-color: #ffffff;
     display: flex;
+    align-items: stretch;
 
     input {
       display: inline-block;
@@ -75,26 +79,36 @@
       color: black;
       outline: none;
       border: none;
-      font-size: 18px;
+      font-size: 1.6rem;
+      background: #f1f2f3;
+      padding: 0.5rem 1.5rem;
+      border-radius: 100vmax;
+      margin-right: 0.5rem;
+
+      &:focus {
+        background: #eee;
+      }
     }
 
     button {
       cursor: pointer;
-      width: 15%;
       box-shadow: none;
       border: 0;
-      border-radius: 0;
       background: transparent;
       text-align: center;
       font-weight: 700;
-      background-color: #f6f6f6;
-      color: black;
-      padding: 8px 25px;
       transition: all 0.3s ease;
+      padding: 0.6rem;
+      border-radius: 50%;
+      aspect-ratio: 1;
+      height: 100%;
+
+      svg {
+        transform: translateX(1.5px);
+      }
 
       &:hover {
-        background-color: #299fff;
-        color: white;
+        background: #eee;
       }
     }
   }

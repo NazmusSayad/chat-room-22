@@ -5,8 +5,11 @@ export class Views {
     this._root.innerHTML = ""
   }
 
+  _beforeRender() {}
+
   render() {
     this._clear()
+    this._beforeRender()
     this._root.appendChild(this._element)
   }
 }

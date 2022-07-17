@@ -8,6 +8,10 @@ class Login extends Views {
   }
 
   _element = new HTML(markup)
+  
+  _beforeRender() {
+    document.title = "chat-room #22 | Login"
+  }
 
   addSubmitHandler(callback) {
     this._element.querySelector(`#login-form`).onsubmit = (event) => {

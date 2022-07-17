@@ -1,13 +1,13 @@
 html {
   scroll-behavior: smooth;
-  //   user-select: none;
+  // user-select: none;
 }
 
 body {
   font-family: sans-serif;
 }
 
-body main {
+#root {
   background-color: #102c55;
   color: white;
   width: 100%;

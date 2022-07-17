@@ -1,23 +1,23 @@
-@keyframes slideInYou {
+@keyframes slide-message-you {
   from {
-    transform: translateX(65%);
+    transform: translate(65%, 20%);
     opacity: 0;
   }
 
   to {
-    transform: translateX(0%);
+    transform: translate(0);
     opacity: 1;
   }
 }
 
-@keyframes slideIn {
+@keyframes slide-message {
   from {
     transform: translateX(-65%);
     opacity: 0;
   }
 
   to {
-    transform: translateX(0%);
+    transform: translateX(0);
     opacity: 1;
   }
 }
