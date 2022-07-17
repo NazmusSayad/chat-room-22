@@ -48,6 +48,7 @@ const sendMessage = async (msg) => {
       you: true,
       msg,
     })
+
     const data = await model.postMessage(msg)
     ChatView.appendMessageSent(element, data)
   } catch (err) {

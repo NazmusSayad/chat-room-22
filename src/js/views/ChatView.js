@@ -1,5 +1,5 @@
 import markup from "../../components/chat.html"
-import { HTML, simpleDate } from "../HELPER"
+import { elementToPlainText, HTML, simpleDate, textLinkify } from "../HELPER"
 import { Views } from "./Views"
 
 const iconSend_SVGColor = `#555`
@@ -28,7 +28,7 @@ class Chat extends Views {
     `)
 
     const text = element.querySelector(`[text]`)
-    text.innerText = data.msg
+    text.innerHTML = textLinkify(data.msg)
 
     if (data._id) {
       const isMsgAlreadyRendered = this.#messageContainer.querySelector(`[data-id="${data._id}"]`)

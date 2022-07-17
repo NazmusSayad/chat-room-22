@@ -8,7 +8,7 @@ class Login extends Views {
   }
 
   _element = new HTML(markup)
-  
+
   _beforeRender() {
     document.title = "chat-room #22 | Login"
   }

@@ -16,5 +16,8 @@
     "webpack": "latest",
     "webpack-cli": "latest",
     "webpack-dev-server": "latest"
+  },
+  "dependencies": {
+    "anchorme": "^2.1.2"
   }
 }

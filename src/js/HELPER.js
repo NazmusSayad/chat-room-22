@@ -1,4 +1,5 @@
 import { TIMEOUT_SEC } from "./CONFIG"
+import anchorme from "anchorme"
 
 const timeout = function (seconds) {
   return new Promise(function (_, reject) {
@@ -33,4 +34,17 @@ export const simpleDate = (date) => {
   return date.toLocaleString()
 }
 
+export const textLinkify = (input) => {
+  input = input.replace(/</gim, "&lt;")
+  input = input.replace(/\n/gm, "<br/>")
 
+  return anchorme({
+    input,
+    options: {
+      attributes: {
+        target: "_blank",
+        class: "message-link",
+      },
+    },
+  })
+}
