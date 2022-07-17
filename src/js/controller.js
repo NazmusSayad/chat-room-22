@@ -114,6 +114,7 @@ const somethingWentWrong = () => {
 
   // ChatView.addLogoutHandler(model.logOut)
   ChatView.addMsgSubmitHandler(sendMessage)
+  ChatView.addTextAreaHandler()
 })()
 
 // Init

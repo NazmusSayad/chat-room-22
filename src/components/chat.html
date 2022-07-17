@@ -3,15 +3,10 @@
     <div id="chat-container" class="chat__container"></div>
   </div>
 
-  <form action="" id="chat-form" class="chat__form">
-    <textarea
-      name="msg"
-      placeholder="Type something to send..."
-      autocomplete="off"
-      rows="1"
-      required
-      onkeydown="if(!event.shiftKey&&!event.ctrlKey&&!event.altKey&&event.keyCode===13){event.preventDefault();this.nextElementSibling.click();this.focus()}"
-    ></textarea>
+  <form id="chat-form" class="chat__form">
+    <div class="textarea-container">
+      <textarea name="msg" placeholder="Aa..." autocomplete="off" rows="1" required></textarea>
+    </div>
     <button type="submit">${Send}</button>
   </form>
 </section>

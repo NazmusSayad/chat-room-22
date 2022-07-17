@@ -1,5 +1,5 @@
 import markup from "../../components/chat.html"
-import { elementToPlainText, HTML, simpleDate, textLinkify } from "../HELPER"
+import { HTML, simpleDate, textLinkify } from "../HELPER"
 import { Views } from "./Views"
 
 const iconSend_SVGColor = `#555`
@@ -88,6 +88,23 @@ class Chat extends Views {
       callback(msg.value)
       msg.value = ""
     }
+  }
+
+  addTextAreaHandler() {
+    const textarea = this._element.querySelector(`textarea`)
+
+    textarea.addEventListener("keydown", function (event) {
+      if (event.keyCode !== 13 || event.shiftKey || event.ctrlKey) return
+      event.preventDefault()
+      this.closest(`form`).querySelector(`[type="submit"]`).click()
+      this.focus()
+    })
+
+    textarea.addEventListener("input", function () {
+      let newLineCount = this.value.match(/\n/gim)?.length + 1 || 1
+      if (newLineCount > 4) newLineCount = 4
+      this.setAttribute(`rows`, newLineCount)
+    })
   }
 
   addLogoutHandler(callback) {}
