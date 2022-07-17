@@ -52,13 +52,33 @@
       border-radius: 0 1.5rem 1.5rem 1.5rem;
     }
 
-    .message[data-user="you"] {
+    .message[data-user='you'] {
       align-items: flex-end;
       margin-left: auto;
       animation-name: slide-message-you;
     }
 
-    .message[data-user="you"] p:first-of-type {
+    .message[data-status] p:first-of-type {
+      position: relative;
+    }
+    .message[data-status] p:first-of-type::after {
+      content: '\f058';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: regular;
+      color: #51db98;
+      position: absolute;
+      bottom: -4px;
+      right: -20px;
+    }
+
+    .message[data-status='pending'] p:first-of-type::after {
+      font-weight: 400;
+    }
+    .message[data-status='sent'] p:first-of-type::after {
+      font-weight: 700;
+    }
+
+    .message[data-user='you'] p:first-of-type {
       border-radius: 1.5rem 0 1.5rem 1.5rem;
       color: white;
       background: #51db98;
