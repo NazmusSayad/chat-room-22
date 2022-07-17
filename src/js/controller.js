@@ -37,7 +37,7 @@ const sendMessage = async (msg) => {
       msg,
     })
     const data = await model.postMessage(msg)
-    ChatView.appendMessageSent(element, data._id)
+    ChatView.appendMessageSent(element, data)
   } catch (err) {
     console.error(err)
     somethingWentWrong()

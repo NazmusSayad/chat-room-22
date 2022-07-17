@@ -23,3 +23,8 @@ export const getJSON = async function () {
 export const HTML = function (body = "<div></div>") {
   return new DOMParser().parseFromString(body, "text/html").body.firstElementChild
 }
+
+export const simpleDate = (date) => {
+  date = new Date(date)
+  return date.toLocaleString()
+}

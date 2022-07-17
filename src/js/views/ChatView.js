@@ -1,5 +1,5 @@
 import markup from "../../components/chat.html"
-import { HTML } from "../HELPER"
+import { HTML, simpleDate } from "../HELPER"
 import { Views } from "./Views"
 
 const iconSend_SVGColor = `#555`
@@ -22,15 +22,17 @@ class Chat extends Views {
   #generateMessageMarkup(data) {
     const element = new HTML(`
       <div class="message">
-        <span>${data.name}</span>
+        <span title="<${data.name}>${data.email}">${data.name}</span>
         <p>${data.msg}<p>         
       </div>
       `)
 
     if (data._id) {
-      element.dataset.id = data._id
       const isMsgAlreadyRendered = this.#messageContainer.querySelector(`[data-id="${data._id}"]`)
       if (isMsgAlreadyRendered) return false
+
+      element.dataset.id = data._id
+      element.querySelector("p").title = simpleDate(data.sent)
     } else {
       element.dataset.status = "pending"
     }
@@ -39,7 +41,6 @@ class Chat extends Views {
       element.dataset.user = "you"
     }
 
-    element.title = `<${data.name}>${data.email}`
     return element
   }
 
@@ -61,8 +62,9 @@ class Chat extends Views {
     oldestMessage.scrollIntoView(true)
   }
 
-  appendMessageSent(element, id) {
-    element.dataset.id = id
+  appendMessageSent(element, data) {
+    element.dataset.id = data._id
+    element.querySelector("p").title = simpleDate(data.sent)
     element.dataset.status = "sent"
   }
 
