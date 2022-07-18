@@ -1,7 +1,7 @@
 import { TIMEOUT_SEC } from "./CONFIG"
 import anchorme from "anchorme"
 
-const timeout = function (seconds) {
+const timeout = function (seconds = TIMEOUT_SEC) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
       reject(new Error(`Request took too long! Timeout after ${seconds} second`))
@@ -11,7 +11,7 @@ const timeout = function (seconds) {
 
 export const getJSON = async function () {
   try {
-    const res = await Promise.race([timeout(TIMEOUT_SEC), fetch(...arguments)])
+    const res = await Promise.race([timeout(), fetch(...arguments)])
     const data = await res.json()
 
     if (!res.ok) throw new Error(data.message + " " + data.status)
@@ -22,11 +22,7 @@ export const getJSON = async function () {
 }
 
 export const HTML = function (body = "<div></div>") {
-  // return new DOMParser().parseFromString(body, "text/html").body.firstElementChild
-
-  const element = document.createElement("div")
-  element.innerHTML = body
-  return element.firstElementChild
+  return new DOMParser().parseFromString(body, "text/html").body.firstElementChild
 }
 
 export const simpleDate = (date) => {
@@ -49,10 +45,9 @@ export const textLinkify = (input) => {
   })
 }
 
-export const newMessageNotification = (user = "Random", body = "") => {
-  if (Notification.permission === "denied") {
-    Notification.requestPermission()
-  }
+export const newMessageNotification = async (user = "Random", body = "") => {
+  await Notification.requestPermission()
+  if (Notification.permission === "denied") return
 
   const id = String(Math.random())
   const title = "New message from: " + user
@@ -62,5 +57,18 @@ export const newMessageNotification = (user = "Random", body = "") => {
     tag: id,
   })
 
-  setTimeout(notification.close, 5000)
+  Wait(5000)
+  notification.close()
+}
+
+export const Wait = function (duration) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, duration)
+  })
+}
+
+export const getScrollBottom = (element) => {
+  const offset = element.scrollTop + element.clientHeight
+  const height = element.scrollHeight
+  return height - offset
 }

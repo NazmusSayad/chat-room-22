@@ -90,6 +90,7 @@ const initChat = async () => {
       ChatView.appendMessage(msg)
     })
 
+    ChatView.setLoadedClass()
     ChatView.addLoadMoreHandler(loadMoreMessages)
   } catch (err) {
     console.error(err)
@@ -114,7 +115,7 @@ const somethingWentWrong = () => {
 
   // ChatView.addLogoutHandler(model.logOut)
   ChatView.addMsgSubmitHandler(sendMessage)
-  ChatView.addTextAreaHandler()
+  ChatView.addTextAreaHandlers()
 })()
 
 // Init

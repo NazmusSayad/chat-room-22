@@ -16,8 +16,6 @@
     border-radius: 0;
   }
 
-
-  
   &__container {
     position: relative;
     flex: 1;
@@ -25,6 +23,10 @@
     overflow-y: scroll;
     padding: 1.5rem 2.5rem;
     z-index: 1;
+
+    &.loaded {
+      scroll-behavior: smooth;
+    }
 
     .message {
       width: fit-content;

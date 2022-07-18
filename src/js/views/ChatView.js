@@ -1,5 +1,6 @@
 import markup from "../../components/chat.html"
-import { HTML, newMessageNotification, simpleDate, textLinkify } from "../HELPER"
+import messageMarkup from "../../components/chatMessage.html"
+import { getScrollBottom, HTML, newMessageNotification, simpleDate, textLinkify } from "../HELPER"
 import { Views } from "./Views"
 
 const iconSend_SVGColor = `#555`
@@ -17,17 +18,19 @@ class Chat extends Views {
 
   _beforeRender() {
     document.title = "chat-room #22 | chat"
+    Notification.requestPermission()
+  }
+
+  setLoadedClass() {
+    this.#messageContainer.classList.add(`loaded`)
   }
 
   #generateMessageMarkup(data) {
-    const element = new HTML(`
-      <div class="message">
-        <span user>${data.name}</span>
-        <p text><p>         
-      </div>
-    `)
+    const element = new HTML(messageMarkup)
 
+    const user = element.querySelector(`[user]`)
     const text = element.querySelector(`[text]`)
+    user.textContent = data.name
     text.innerHTML = textLinkify(data.msg)
 
     if (data._id) {
@@ -53,12 +56,18 @@ class Chat extends Views {
     if (!element) return
 
     this.#messageContainer.appendChild(element)
+    const scrollBottom = getScrollBottom(this.#messageContainer)
+    const msgHeight_x4 = element.clientHeight * 4
 
-    let offset = this.#messageContainer.scrollTop + this.#messageContainer.clientHeight
-    let height = this.#messageContainer.scrollHeight
-
-    if (height - offset < element.clientHeight * 4 || data.you) {
+    if (scrollBottom < msgHeight_x4 || data.you) {
       this.#messageContainer.scrollTop = this.#messageContainer.scrollHeight
+
+      if (
+        document.visibilityState === "hidden" &&
+        this.#messageContainer.classList.contains(`loaded`)
+      ) {
+        newMessageNotification(data.user, data.msg)
+      }
     } else {
       newMessageNotification(data.user, data.msg)
     }
@@ -81,8 +90,6 @@ class Chat extends Views {
   }
 
   addLoadMoreHandler(callback) {
-    this.#messageContainer.style.scrollBehavior = "smooth"
-
     this.#messageContainer.onscroll = (event) => {
       if (event.target.scrollTop === 0) {
         const oldestMessage = this.#messageContainer.firstElementChild
@@ -100,7 +107,7 @@ class Chat extends Views {
     }
   }
 
-  addTextAreaHandler() {
+  addTextAreaHandlers() {
     const textarea = this._element.querySelector(`textarea`)
 
     textarea.addEventListener("keydown", function (event) {
