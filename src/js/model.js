@@ -112,7 +112,46 @@ const loadAuthInfo = () => {
   STATE.auth = { email: data?.email, password: data?.password }
 }
 
+const appTheme = Object.seal({
+  dark() {
+    document.querySelector(`html`).setAttribute(`theme`, "dark")
+    localStorage.setItem(`theme`, "dark")
+  },
+  light() {
+    document.querySelector(`html`).setAttribute(`theme`, "light")
+    localStorage.setItem(`theme`, "light")
+  },
+  toggle() {
+    const currentTheme = document.querySelector(`html`).getAttribute(`theme`)
+    if (currentTheme === "light") this.dark()
+    else this.light()
+  },
+  load() {
+    return localStorage.getItem(`theme`)
+  },
+  reset() {
+    localStorage.removeItem(`theme`)
+    const lightTheme = matchMedia("(prefers-color-scheme: light)")
+    if (lightTheme) appTheme.dark()
+    else appTheme.light()
+  },
+})
+
 // Init
 ;(() => {
   loadAuthInfo()
+
+  if (appTheme.load() === "light") {
+    appTheme.light()
+  } else if (appTheme.load() === "dark") {
+    appTheme.dark()
+  } else {
+    appTheme.reset()
+  }
+
+  document.onkeydown = (event) => {
+    if (event.key === "t" && event.altKey && !event.ctrlKey && !event.shiftKey) {
+      appTheme.toggle()
+    }
+  }
 })()
