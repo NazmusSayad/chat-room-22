@@ -1,6 +1,6 @@
 import markup from "../../components/chat.html"
 import messageMarkup from "../../components/chatMessage.html"
-import { getScrollBottom, HTML, newMessageNotification, simpleDate, textLinkify } from "../HELPER"
+import { getScrollBottom, HTML, newMessageNotification, simplifyDate, textLinkify } from "../HELPER"
 import { Views } from "./Views"
 
 const iconSend_SVGColor = `#555`
@@ -38,7 +38,7 @@ class Chat extends Views {
       if (isMsgAlreadyRendered) return false
 
       element.dataset.id = data._id
-      text.title = simpleDate(data.sent)
+      text.title = simplifyDate(data.sent)
     } else {
       element.dataset.status = "pending"
       text.title = "Sending"
@@ -85,7 +85,7 @@ class Chat extends Views {
 
   appendMessageSent(element, data) {
     element.dataset.id = data._id
-    element.querySelector("[text]").title = simpleDate(data.sent)
+    element.querySelector("[text]").title = simplifyDate(data.sent)
     element.dataset.status = "sent"
   }
 
@@ -93,7 +93,7 @@ class Chat extends Views {
     while (this.#messageContainer.scrollTop === 0) {
       const oldestMessage = this.#messageContainer.firstElementChild
       const isNoMessageFound = await callback(oldestMessage)
-      if (!isNoMessageFound) break
+      if (isNoMessageFound) break
     }
 
     this.#messageContainer.onscroll = (event) => {

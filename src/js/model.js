@@ -1,11 +1,9 @@
 import { API_URL } from "./CONFIG"
 import { getJSON } from "./HELPER"
-import badWords from "../bad-words.json"
 
 export const STATE = {
   user: null,
   auth: null,
-  badWords,
 }
 
 export const login = async (token) => {

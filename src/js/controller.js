@@ -1,3 +1,4 @@
+import { blockBadWords, deleteDuplicateNewLines } from "./HELPER.js"
 import * as model from "./model.js"
 import ChatView from "./views/ChatView.js"
 import LoginView from "./views/LoginView.js"
@@ -14,7 +15,7 @@ const loginSubmit = async (token) => {
     initChat()
   } catch (err) {
     console.error(err)
-    alert("Wrong email or password.")
+    alert(err.message)
   }
 }
 
@@ -24,23 +25,14 @@ const signupSubmit = async (token) => {
     initChat()
   } catch (err) {
     console.error(err)
-    alert("Invalid email or email already exixts!")
+    alert(err.message)
   }
 }
 
 const sendMessage = async (msg) => {
   try {
-    while (msg.includes("\n\n")) {
-      msg = msg.replace(/\n\n/gim, "\n")
-    }
-
-    model.STATE.badWords.forEach((word) => {
-      const regex = new RegExp(word, "igm")
-      msg = msg.replace(regex, new Array(word.length).fill("*").join(""))
-
-      const regex2 = new RegExp(word.split("").join("\n"), "igm")
-      msg = msg.replace(regex2, new Array(word.length).fill("*").join("\n"))
-    })
+    msg = deleteDuplicateNewLines(msg)
+    msg = blockBadWords(msg)
 
     const element = ChatView.appendMessage({
       name: model.STATE.user.name,
@@ -97,10 +89,6 @@ const initChat = async () => {
   }
 }
 
-const somethingWentWrong = () => {
-  alert(`Something went wrong!`)
-}
-
 // Add handlers
 ;(() => {
   WelcomeView.addSignupHandler(signupPage)
@@ -129,7 +117,7 @@ const somethingWentWrong = () => {
       initChat()
     } catch (err) {
       console.error(err)
-      somethingWentWrong()
+      alert(`Something went wrong!`)
     }
   } else {
     WelcomeView.render()
