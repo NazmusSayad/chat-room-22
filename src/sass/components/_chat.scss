@@ -1,15 +1,21 @@
+#root[view="chatView"] {
+  background-color: #102c55;
+}
+
 .chat {
   --padding: 4rem;
   width: min(calc(100% - var(--padding)), 64rem);
   height: calc(100% - var(--padding));
-  border-radius: 0.5rem;
-  box-shadow: 0 0 2rem #000;
+  border-radius: 0.35rem;
+  box-shadow: 0 0 3rem #444;
   overflow: hidden;
   background-color: #f6f6f6;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   font-family: "Rubik", sans-serif;
+  transition-property: width, height, border-radius;
+  transition-duration: 0.25s;
 
   @include --($small) {
     height: 100%;
@@ -77,12 +83,10 @@
     }
 
     .message[data-status="pending"] p {
-      background: darken(#51db98, 15);
-      opacity: 0.5;
+      background: lighten(#51db98, 20);
     }
 
     .message[data-status="sent"] p {
-      opacity: 1;
       transition: 0.3s;
     }
   }
