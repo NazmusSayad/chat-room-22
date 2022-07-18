@@ -48,3 +48,19 @@ export const textLinkify = (input) => {
     },
   })
 }
+
+export const newMessageNotification = (user = "Random", body = "") => {
+  if (Notification.permission === "denied") {
+    Notification.requestPermission()
+  }
+
+  const id = String(Math.random())
+  const title = "New message from: " + user
+  const notification = new Notification(title, {
+    body,
+    vibrate: [1],
+    tag: id,
+  })
+
+  setTimeout(notification.close, 5000)
+}

@@ -1,5 +1,5 @@
 import markup from "../../components/chat.html"
-import { HTML, simpleDate, textLinkify } from "../HELPER"
+import { HTML, newMessageNotification, simpleDate, textLinkify } from "../HELPER"
 import { Views } from "./Views"
 
 const iconSend_SVGColor = `#555`
@@ -53,17 +53,25 @@ class Chat extends Views {
     if (!element) return
 
     this.#messageContainer.appendChild(element)
-    this.#messageContainer.scrollIntoView(false)
+
+    let offset = this.#messageContainer.scrollTop + this.#messageContainer.clientHeight
+    let height = this.#messageContainer.scrollHeight
+
+    if (height - offset < element.clientHeight * 4 || data.you) {
+      this.#messageContainer.scrollTop = this.#messageContainer.scrollHeight
+    } else {
+      newMessageNotification(data.user, data.msg)
+    }
 
     return element
   }
 
-  prependMessage(data, oldestMessage) {
+  prependMessage(data) {
     const element = this.#generateMessageMarkup(data)
     if (!element) return
 
     this.#messageContainer.prepend(element)
-    oldestMessage.scrollIntoView(true)
+    this.#messageContainer.scrollTo(0, 1)
   }
 
   appendMessageSent(element, data) {
@@ -73,7 +81,9 @@ class Chat extends Views {
   }
 
   addLoadMoreHandler(callback) {
-    this.#messageContainer.parentElement.onscroll = (event) => {
+    this.#messageContainer.style.scrollBehavior = "smooth"
+
+    this.#messageContainer.onscroll = (event) => {
       if (event.target.scrollTop === 0) {
         const oldestMessage = this.#messageContainer.firstElementChild
         callback(oldestMessage)

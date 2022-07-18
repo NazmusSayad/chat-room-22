@@ -16,18 +16,15 @@
     border-radius: 0;
   }
 
-  &__parent {
-    flex: 1;
-    position: relative;
-    overflow-y: scroll;
-  }
 
+  
   &__container {
-    scroll-behavior: smooth;
-    padding: 1.5rem 2rem;
-    margin-inline: 0.75rem;
+    position: relative;
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 1.5rem 2.5rem;
     z-index: 1;
-    overflow: hidden;
 
     .message {
       width: fit-content;
