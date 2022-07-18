@@ -103,6 +103,14 @@ const initChat = async () => {
   // ChatView.addLogoutHandler(model.logOut)
   ChatView.addMsgSubmitHandler(sendMessage)
   ChatView.addTextAreaHandlers()
+
+  window.onkeydown = (event) => {
+    if (event.key === "t" && event.altKey && !event.ctrlKey && !event.shiftKey) {
+      appTheme.toggle()
+    }
+    
+    
+  }
 })()
 
 // Init

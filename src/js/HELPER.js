@@ -76,10 +76,10 @@ export const getScrollBottom = (element) => {
 
 export const blockBadWords = (text) => {
   BadWordList.forEach((word) => {
-    const regex = new RegExp(word, "igm")
+    const regex = new RegExp("^" + word + "$", "igm")
     text = text.replace(regex, new Array(word.length).fill("*").join(""))
 
-    const regex2 = new RegExp(word.split("").join("\n"), "igm")
+    const regex2 = new RegExp("^" + word + "$".split("").join("\n"), "igm")
     text = text.replace(regex2, new Array(word.length).fill("*").join("\n"))
   })
 

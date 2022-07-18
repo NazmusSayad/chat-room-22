@@ -8,13 +8,24 @@ const iconSend_SVG = `<svg viewBox="0 0 24 24" class="crt8y2ji"><path d="M16.691
 const finalMarkup = markup.replace("${Send}", iconSend_SVG)
 
 class Chat extends Views {
+  ChocolateChip = class {
+    constructor(parent) {
+      this.parent = parent
+    }
+    sayMyOuterClassName() {
+      console.log(this.parent.name)
+    }
+  }
+
   constructor() {
     super()
+    this.test = new this.ChocolateChip()
+    console.log(this.test.sayMyOuterClassName)
   }
 
   _element = new HTML(finalMarkup)
 
-  #messageContainer = this._element.querySelector(`#chat-container`)
+  _chatForm = this._element.querySelector(`form`)
 
   _beforeRender() {
     document.title = "chat-room #22 | chat"
@@ -22,10 +33,71 @@ class Chat extends Views {
   }
 
   setLoadedClass() {
-    this.#messageContainer.classList.add(`loaded`)
+    this._messageContainer.classList.add(`loaded`)
   }
 
-  #generateMessageMarkup(data) {
+  async addLoadMoreHandler(callback) {
+    while (this._messageContainer.scrollTop === 0) {
+      const oldestMessage = this._messageContainer.firstElementChild
+      const isNoMessageFound = await callback(oldestMessage)
+      if (isNoMessageFound) break
+    }
+
+    this._messageContainer.onscroll = (event) => {
+      if (event.target.scrollTop === 0) {
+        const oldestMessage = this._messageContainer.firstElementChild
+        callback(oldestMessage)
+      }
+    }
+  }
+
+  addMsgSubmitHandler(callback) {
+    this._chatForm.onsubmit = (event) => {
+      event.preventDefault()
+      const { msg } = event.target
+      callback(msg.value)
+      msg.value = ""
+    }
+  }
+
+  addTextAreaHandlers() {
+    const form = this._chatForm
+    const button = this._chatForm.querySelector(`button`)
+    const textarea = this._element.querySelector(`textarea`)
+
+    textarea.addEventListener("keydown", function (event) {
+      if (event.keyCode !== 13 || event.shiftKey || event.ctrlKey) return
+      event.preventDefault()
+      button.click()
+      this.focus()
+    })
+
+    textarea.addEventListener("input", function () {
+      let newLineCount = this.value.match(/\n/gim)?.length + 1 || 1
+      if (newLineCount > 4) newLineCount = 4
+      this.setAttribute(`rows`, newLineCount)
+
+      if (this.value) {
+        form.removeAttribute(`hideButton`)
+        button.removeAttribute(`disabled`)
+      } else {
+        form.setAttribute(`hideButton`, "")
+        button.setAttribute(`disabled`, "")
+      }
+    })
+  }
+
+  addLogoutHandler(callback) {}
+}
+
+class ChatAndMessages extends Chat {
+  constructor() {
+    super()
+  }
+
+  _messageContainer = this._element.querySelector(`#chat-container`)
+
+  _generateMessageMarkup(data) {
     const element = new HTML(messageMarkup)
 
     const user = element.querySelector(`[user]`)
@@ -34,7 +106,7 @@ class Chat extends Views {
     text.innerHTML = textLinkify(data.msg)
 
     if (data._id) {
-      const isMsgAlreadyRendered = this.#messageContainer.querySelector(`[data-id="${data._id}"]`)
+      const isMsgAlreadyRendered = this._messageContainer.querySelector(`[data-id="${data._id}"]`)
       if (isMsgAlreadyRendered) return false
 
       element.dataset.id = data._id
@@ -52,19 +124,19 @@ class Chat extends Views {
   }
 
   appendMessage(data) {
-    const element = this.#generateMessageMarkup(data)
+    const element = this._generateMessageMarkup(data)
     if (!element) return
 
-    this.#messageContainer.appendChild(element)
-    const scrollBottom = getScrollBottom(this.#messageContainer)
+    this._messageContainer.appendChild(element)
+    const scrollBottom = getScrollBottom(this._messageContainer)
     const msgHeight_x4 = element.clientHeight * 4
 
     if (scrollBottom < msgHeight_x4 || data.you) {
-      this.#messageContainer.scrollTop = this.#messageContainer.scrollHeight
+      this._messageContainer.scrollTop = this._messageContainer.scrollHeight
 
       if (
         document.visibilityState === "hidden" &&
-        this.#messageContainer.classList.contains(`loaded`)
+        this._messageContainer.classList.contains(`loaded`)
       ) {
         newMessageNotification(data.user, data.msg)
       }
@@ -76,11 +148,11 @@ class Chat extends Views {
   }
 
   prependMessage(data) {
-    const element = this.#generateMessageMarkup(data)
+    const element = this._generateMessageMarkup(data)
     if (!element) return
 
-    this.#messageContainer.prepend(element)
-    this.#messageContainer.scrollTo(0, 1)
+    this._messageContainer.prepend(element)
+    this._messageContainer.scrollTo(0, 1)
   }
 
   appendMessageSent(element, data) {
@@ -88,49 +160,6 @@ class Chat extends Views {
     element.querySelector("[text]").title = simplifyDate(data.sent)
     element.dataset.status = "sent"
   }
-
-  async addLoadMoreHandler(callback) {
-    while (this.#messageContainer.scrollTop === 0) {
-      const oldestMessage = this.#messageContainer.firstElementChild
-      const isNoMessageFound = await callback(oldestMessage)
-      if (isNoMessageFound) break
-    }
-
-    this.#messageContainer.onscroll = (event) => {
-      if (event.target.scrollTop === 0) {
-        const oldestMessage = this.#messageContainer.firstElementChild
-        callback(oldestMessage)
-      }
-    }
-  }
-
-  addMsgSubmitHandler(callback) {
-    this._element.querySelector(`#chat-form`).onsubmit = (event) => {
-      event.preventDefault()
-      const { msg } = event.target
-      callback(msg.value)
-      msg.value = ""
-    }
-  }
-
-  addTextAreaHandlers() {
-    const textarea = this._element.querySelector(`textarea`)
-
-    textarea.addEventListener("keydown", function (event) {
-      if (event.keyCode !== 13 || event.shiftKey || event.ctrlKey) return
-      event.preventDefault()
-      this.closest(`form`).querySelector(`[type="submit"]`).click()
-      this.focus()
-    })
-
-    textarea.addEventListener("input", function () {
-      let newLineCount = this.value.match(/\n/gim)?.length + 1 || 1
-      if (newLineCount > 4) newLineCount = 4
-      this.setAttribute(`rows`, newLineCount)
-    })
-  }
-
-  addLogoutHandler(callback) {}
 }
 
-export default new Chat()
+export default new ChatAndMessages()

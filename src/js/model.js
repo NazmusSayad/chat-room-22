@@ -112,14 +112,14 @@ const loadAuthInfo = () => {
   STATE.auth = { email: data?.email, password: data?.password }
 }
 
-const appTheme = Object.seal({
-  dark() {
+export const appTheme = Object.seal({
+  dark(save = true) {
     document.querySelector(`html`).setAttribute(`theme`, "dark")
-    localStorage.setItem(`theme`, "dark")
+    if (save) localStorage.setItem(`theme`, "dark")
   },
-  light() {
+  light(save = true) {
     document.querySelector(`html`).setAttribute(`theme`, "light")
-    localStorage.setItem(`theme`, "light")
+    if (save) localStorage.setItem(`theme`, "light")
   },
   toggle() {
     const currentTheme = document.querySelector(`html`).getAttribute(`theme`)
@@ -132,8 +132,8 @@ const appTheme = Object.seal({
   reset() {
     localStorage.removeItem(`theme`)
     const lightTheme = matchMedia("(prefers-color-scheme: light)")
-    if (lightTheme) appTheme.dark()
-    else appTheme.light()
+    if (lightTheme) appTheme.dark(false)
+    else appTheme.light(false)
   },
 })
 
@@ -147,11 +147,5 @@ const appTheme = Object.seal({
     appTheme.dark()
   } else {
     appTheme.reset()
-  }
-
-  document.onkeydown = (event) => {
-    if (event.key === "t" && event.altKey && !event.ctrlKey && !event.shiftKey) {
-      appTheme.toggle()
-    }
   }
 })()
