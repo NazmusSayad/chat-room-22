@@ -23,6 +23,14 @@
     border-radius: 0;
   }
 
+  header {
+    background-color: var(--light);
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   &__container {
     position: relative;
     flex: 1;
@@ -41,30 +49,30 @@
       flex-direction: column;
       align-items: flex-start;
       margin-bottom: 1.7rem;
+      color: var(--dark);
       animation: slide-message 0.5s forwards;
-    }
+      span {
+        color: var(--clr-secondary);
+        font-weight: 700;
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+        text-transform: capitalize;
+      }
 
-    .message span {
-      color: var(--clr-secondary);
-      font-weight: 700;
-      font-size: 1.4rem;
-      margin-bottom: 0.5rem;
-      text-transform: capitalize;
-    }
+      p {
+        max-width: 45rem;
+        position: relative;
+        color: var(--text-them);
+        background: var(--light);
+        line-height: 2rem;
+        padding: 1.25rem 2rem;
+        word-wrap: break-word;
+        border-radius: 2rem;
+        border-top-left-radius: 0;
 
-    .message p {
-      max-width: 45rem;
-      position: relative;
-      color: var(--text-them);
-      background: var(--light);
-      line-height: 2rem;
-      padding: 1.25rem 2rem;
-      word-wrap: break-word;
-      border-radius: 2rem;
-      border-top-left-radius: 0;
-
-      a {
-        color: inherit;
+        a {
+          color: inherit;
+        }
       }
     }
 
@@ -72,14 +80,14 @@
       align-items: flex-end;
       margin-left: auto;
       animation-name: slide-message-you;
-    }
 
-    .message[data-user='you'] p {
-      color: var(--text-you);
-      background: var(--clr-primary);
-      border-radius: 2rem;
-      border-top-right-radius: 0;
-      align-self: flex-end;
+      p {
+        color: var(--text-you);
+        background: var(--clr-primary);
+        border-radius: 2rem;
+        border-top-right-radius: 0;
+        align-self: flex-end;
+      }
     }
 
     .message[data-status='pending'] p {
