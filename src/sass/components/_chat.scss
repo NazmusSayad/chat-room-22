@@ -1,5 +1,5 @@
-#root[view="chatView"] {
-  background-color: #102c55;
+#root[view='chatView'] {
+  background-color: var(--root-bg);
 }
 
 .chat {
@@ -7,13 +7,13 @@
   width: min(calc(100% - var(--padding)), 64rem);
   height: calc(100% - var(--padding));
   border-radius: 0.35rem;
-  box-shadow: 0 0 3rem #444;
+  box-shadow: 0 0 3rem var(--clr-shadow);
   overflow: hidden;
-  background-color: #f6f6f6;
+  background-color: var(--bg-light);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  font-family: "Rubik", sans-serif;
+  font-family: 'Rubik', sans-serif;
   transition-property: width, height, border-radius;
   transition-duration: 0.25s;
 
@@ -45,7 +45,7 @@
     }
 
     .message span {
-      color: #8aafe7;
+      color: var(--clr-secondary);
       font-weight: 700;
       font-size: 1.4rem;
       margin-bottom: 0.5rem;
@@ -55,8 +55,8 @@
     .message p {
       max-width: 45rem;
       position: relative;
-      color: black;
-      background: #ffffff;
+      color: var(--text-them);
+      background: var(--light);
       line-height: 2rem;
       padding: 1.25rem 2rem;
       word-wrap: break-word;
@@ -68,40 +68,38 @@
       }
     }
 
-    .message[data-user="you"] {
+    .message[data-user='you'] {
       align-items: flex-end;
       margin-left: auto;
       animation-name: slide-message-you;
     }
 
-    .message[data-user="you"] p {
-      color: white;
-      background: #51db98;
+    .message[data-user='you'] p {
+      color: var(--text-you);
+      background: var(--clr-primary);
       border-radius: 2rem;
       border-top-right-radius: 0;
       align-self: flex-end;
     }
 
-    .message[data-status="pending"] p {
-      background: lighten(#51db98, 20);
+    .message[data-status='pending'] p {
+      background: var(--clr-primary-light);
     }
 
-    .message[data-status="sent"] p {
+    .message[data-status='sent'] p {
       transition: 0.3s;
     }
   }
 
   &__form {
-    background-color: #ffffff;
+    background-color: var(--light);
     display: flex;
     align-items: center;
     padding: 0.7rem 1.5rem;
 
-
-
     .textarea-container {
       width: 100%;
-      background: #eee;
+      background: var(--bg-dark);
       padding: 0.5rem 1.5rem;
       border-radius: 2rem;
       margin: 0 0.7rem;
@@ -110,7 +108,7 @@
     textarea {
       display: block;
       width: 100%;
-      color: black;
+      color: var(--dark);
       background: transparent;
       font-size: 1.6rem;
       line-height: 1.5;
@@ -132,7 +130,7 @@
       border-radius: 50%;
 
       &:hover {
-        background: #eee;
+        background: var(--bg-dark);
       }
 
       svg {

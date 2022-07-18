@@ -15,10 +15,10 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #bbf1d7;
+  background: var(--clr-primary-light);
 }
 ::-webkit-scrollbar-thumb {
-  background: #51db98;
+  background: var(--clr-primary);
   border-radius: 100vw;
 }
 
