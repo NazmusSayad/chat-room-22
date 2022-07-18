@@ -40,13 +40,6 @@ html[theme='dark'] #theme-toggle::before {
   background: hsl(0 0% 50% / 0.15);
 }
 
-#theme-toggle:hover::after,
-#theme-toggle:focus-visible::after {
-  opacity: 0.7;
-  transform: scale(1);
-  transition: transform 70ms linear, opacity 70ms linear;
-}
-
 .toggle-circle {
   transition: transform 500ms ease-out;
 }

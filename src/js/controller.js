@@ -108,9 +108,13 @@ const initChat = async () => {
   const toggleTheme = () => {
     const html = document.querySelector('html')
     const theme = html.getAttribute('theme')
+    const toggler = document.querySelector('#theme-toggle')
+
     if (theme == 'dark') {
+      toggler.setAttribute('title', 'Switch to dark theme')
       html.setAttribute('theme', 'light')
     } else {
+      toggler.setAttribute('title', 'Switch to light theme')
       html.setAttribute('theme', 'dark')
     }
   }
