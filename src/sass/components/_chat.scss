@@ -9,6 +9,7 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  font-family: "Rubik", sans-serif;
 
   @include --($small) {
     height: 100%;
@@ -33,28 +34,28 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1.7rem;
       animation: slide-message 0.5s forwards;
     }
 
     .message span {
+      color: #8aafe7;
       font-weight: 700;
       font-size: 1.4rem;
       margin-bottom: 0.5rem;
-      color: #8aafe7;
       text-transform: capitalize;
     }
 
-    .message p:first-of-type {
+    .message p {
       max-width: 45rem;
-      margin-bottom: 1.2rem;
-      line-height: 2.4rem;
-      padding: 1rem 2rem;
       position: relative;
       color: black;
-      word-wrap: break-word;
       background: #ffffff;
-      border-radius: 0 1.5rem 1.5rem 1.5rem;
+      line-height: 2rem;
+      padding: 1.25rem 2rem;
+      word-wrap: break-word;
+      border-radius: 2rem;
+      border-top-left-radius: 0;
 
       a {
         color: inherit;
@@ -67,63 +68,62 @@
       animation-name: slide-message-you;
     }
 
-    .message[data-user="you"] p:first-of-type {
-      border-radius: 1.5rem 0 1.5rem 1.5rem;
+    .message[data-user="you"] p {
       color: white;
       background: #51db98;
+      border-radius: 2rem;
+      border-top-right-radius: 0;
       align-self: flex-end;
     }
 
-    .message[data-status="pending"] p:first-of-type {
+    .message[data-status="pending"] p {
       background: darken(#51db98, 15);
       opacity: 0.5;
     }
 
-    .message[data-status="sent"] p:first-of-type {
+    .message[data-status="sent"] p {
       opacity: 1;
       transition: 0.3s;
     }
   }
 
   &__form {
-    padding: 0.7rem 1.5rem;
     background-color: #ffffff;
     display: flex;
     align-items: center;
+    padding: 0.7rem 1.5rem;
 
     .textarea-container {
       width: 100%;
+      background: #eee;
       padding: 0.5rem 1.5rem;
       border-radius: 2rem;
       margin: 0 0.7rem;
-      background: #eee;
     }
 
     textarea {
-      resize: none;
       display: block;
-      background: transparent;
       width: 100%;
       color: black;
-      outline: none;
-      border: none;
+      background: transparent;
       font-size: 1.6rem;
       line-height: 1.5;
+      resize: none;
+      outline: none;
+      border: none;
     }
 
     button {
+      height: 3.5rem;
+      aspect-ratio: 1;
+      background: transparent;
       cursor: pointer;
       box-shadow: none;
       border: 0;
-      background: transparent;
       text-align: center;
-      font-weight: 700;
       transition: all 0.3s ease;
       padding: 0.6rem;
       border-radius: 50%;
-      aspect-ratio: 1;
-      height: 3.5rem;
-      background: transparent;
 
       &:hover {
         background: #eee;
