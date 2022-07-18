@@ -53,7 +53,7 @@ const sendMessage = async (msg) => {
     ChatView.appendMessageSent(element, data)
   } catch (err) {
     console.error(err)
-    somethingWentWrong()
+    alert("Unable to send message.\nPlease reload this page.")
   }
 }
 
@@ -66,8 +66,8 @@ const loadMoreMessages = async (oldestMessage) => {
       ChatView.prependMessage(msg)
     })
   } catch (err) {
-    console.error(err)
-    somethingWentWrong()
+    console.warn(err.message)
+    return true
   }
 }
 
@@ -93,8 +93,7 @@ const initChat = async () => {
     ChatView.setLoadedClass()
     ChatView.addLoadMoreHandler(loadMoreMessages)
   } catch (err) {
-    console.error(err)
-    somethingWentWrong()
+    console.warn(err)
   }
 }
 

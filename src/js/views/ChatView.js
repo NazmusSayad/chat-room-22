@@ -85,11 +85,17 @@ class Chat extends Views {
 
   appendMessageSent(element, data) {
     element.dataset.id = data._id
-    element.querySelector("p").title = simpleDate(data.sent)
+    element.querySelector("[text]").title = simpleDate(data.sent)
     element.dataset.status = "sent"
   }
 
-  addLoadMoreHandler(callback) {
+  async addLoadMoreHandler(callback) {
+    while (this.#messageContainer.scrollTop === 0) {
+      const oldestMessage = this.#messageContainer.firstElementChild
+      const isNoMessageFound = await callback(oldestMessage)
+      if (!isNoMessageFound) break
+    }
+
     this.#messageContainer.onscroll = (event) => {
       if (event.target.scrollTop === 0) {
         const oldestMessage = this.#messageContainer.firstElementChild
