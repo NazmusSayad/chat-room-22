@@ -42,13 +42,6 @@ class Chat extends Views {
       callback()
     }
   }
-
-  addThemeToggleHandler(callback) {
-    const target = this._element.querySelector(`#theme-toggle`)
-    target.onclick = () => {
-      callback()
-    }
-  }
 }
 
 class Chat_Form extends Chat {

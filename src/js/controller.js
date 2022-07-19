@@ -1,4 +1,3 @@
-import { refactorMessageBeforeSending } from "./HELPER.js"
 import * as model from "./model.js"
 import ChatView from "./views/ChatView.js"
 import LoginView from "./views/LoginView.js"
@@ -90,10 +89,6 @@ const initChat = async () => {
   }
 }
 
-const themeToggler = () => {
-  model.appTheme.toggle()
-}
-
 const editProfile = () => {
   console.log(`Render edit profile view...`)
 }
@@ -111,7 +106,6 @@ const editProfile = () => {
 
   ChatView.addTextAreaHandlers()
   ChatView.addMsgSubmitHandler(sendMessage)
-  ChatView.addThemeToggleHandler(themeToggler)
   ChatView.addLogoutHandler(model.logOut)
   // ChatView.addEditProfileHandler(editProfile)
 })()
@@ -120,9 +114,7 @@ const editProfile = () => {
 ;(() => {
   window.onkeydown = (event) => {
     if (event.key === "t" && event.altKey && !event.ctrlKey && !event.shiftKey) {
-      model.appTheme.toggle()
-      // appTheme.toggle() // eita kaj kore na, so amar ta add korte hoiteche. fix it later
-      // toggleTheme()
+      appTheme.toggle()
     }
 
     if (event.key === "/" && !event.altKey && event.ctrlKey && !event.shiftKey) {

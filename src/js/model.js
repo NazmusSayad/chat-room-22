@@ -1,8 +1,5 @@
 import { API_URL } from "./CONFIG"
 import { getJSON } from "./HELPER"
-import Theme from "./theme.js"
-
-export const appTheme = new Theme()
 
 export const STATE = {
   user: null,
@@ -123,11 +120,4 @@ const loadAuthInfo = () => {
 // Init
 ;(() => {
   loadAuthInfo()
-  appTheme.start()
 })()
-
-// temp
-
-document.oncontextmenu = () => {
-  appTheme.default()
-}
