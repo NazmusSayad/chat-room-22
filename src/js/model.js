@@ -56,7 +56,7 @@ export const getMessage = async () => {
 }
 
 export const getMessageById = async (id) => {
-  const res = await getJSON(API_URL + "/chats" + id, {
+  const res = await getJSON(API_URL + "/chats/" + id, {
     headers: STATE.auth,
   })
 
