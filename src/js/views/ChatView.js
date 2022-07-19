@@ -1,6 +1,13 @@
 import markup from "../../components/chat.html"
 import messageMarkup from "../../components/chatMessage.html"
-import { getScrollBottom, HTML, newMessageNotification, simplifyDate, textLinkify } from "../HELPER"
+import {
+  getScrollBottom,
+  HTML,
+  newMessageNotification,
+  refactorMessageBeforeSending,
+  simplifyDate,
+  textLinkify,
+} from "../HELPER"
 import { Views } from "./Views"
 
 class Chat extends Views {
@@ -55,7 +62,9 @@ class Chat_Form extends Chat {
     this._chatForm.onsubmit = (event) => {
       event.preventDefault()
       const { msg } = event.target
-      callback(msg.value)
+      const value = refactorMessageBeforeSending(msg.value)
+      if (value === " ") return
+      callback(value)
       msg.value = ""
     }
   }
@@ -65,11 +74,14 @@ class Chat_Form extends Chat {
     const button = this._chatForm.querySelector(`button`)
     const textarea = this._chatForm.querySelector(`textarea`)
 
+    form.onclick = () => {
+      textarea.focus()
+    }
+
     textarea.addEventListener("keydown", function (event) {
       if (event.keyCode !== 13 || event.shiftKey || event.ctrlKey) return
       event.preventDefault()
       button.click()
-      this.focus()
     })
 
     textarea.addEventListener("input", function () {

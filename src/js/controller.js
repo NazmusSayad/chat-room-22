@@ -35,7 +35,6 @@ const signupFormSubmit = async (token) => {
 
 const sendMessage = async (msg) => {
   try {
-    msg = refactorMessageBeforeSending(msg)
     const element = ChatView.appendMessage({
       name: model.STATE.user.name,
       email: model.STATE.user.email,
@@ -113,8 +112,8 @@ const editProfile = () => {
   ChatView.addTextAreaHandlers()
   ChatView.addMsgSubmitHandler(sendMessage)
   ChatView.addThemeToggleHandler(themeToggler)
-  // ChatView.addEditProfileHandler(editProfile)
   ChatView.addLogoutHandler(model.logOut)
+  // ChatView.addEditProfileHandler(editProfile)
 })()
 
 // Add Keyboard-Shortcuts

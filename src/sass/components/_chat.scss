@@ -1,4 +1,4 @@
-#root[view='chatView'] {
+#root[view="chatView"] {
   background-color: var(--root-bg);
 }
 
@@ -7,13 +7,13 @@
   width: min(calc(100% - var(--padding)), 64rem);
   height: calc(100% - var(--padding));
   border-radius: 0.35rem;
-  box-shadow: 0 0 3rem var(--clr-shadow);
+  box-shadow: 0 0 2.5rem var(--clr-shadow);
   overflow: hidden;
   background-color: var(--bg-light);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   transition-property: width, height, border-radius;
   transition-duration: 0.25s;
 
@@ -25,7 +25,7 @@
 
   header {
     background-color: var(--light);
-    padding: 15px;
+    padding: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -76,7 +76,7 @@
       }
     }
 
-    .message[data-user='you'] {
+    .message[data-user="you"] {
       align-items: flex-end;
       margin-left: auto;
       animation-name: slide-message-you;
@@ -90,11 +90,11 @@
       }
     }
 
-    .message[data-status='pending'] p {
+    .message[data-status="pending"] p {
       background: var(--clr-primary-light);
     }
 
-    .message[data-status='sent'] p {
+    .message[data-status="sent"] p {
       transition: 0.3s;
     }
   }
@@ -126,10 +126,10 @@
     }
 
     button {
+      cursor: default;
       height: 3.5rem;
       aspect-ratio: 1;
       background: transparent;
-      cursor: pointer;
       box-shadow: none;
       border: 0;
       text-align: center;
@@ -137,12 +137,13 @@
       padding: 0.6rem;
       border-radius: 50%;
 
-      &:hover {
+      &:not([disabled]):hover {
+        cursor: pointer;
         background: var(--bg-dark);
       }
 
       svg {
-        transform: translateX(1.5px);
+        transform: translateX(0.15rem);
       }
     }
   }

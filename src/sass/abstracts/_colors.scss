@@ -24,7 +24,7 @@ $clr-light: #f1f2f3; */
   @if ($mode == 'dark') {
     --light: var(--black);
     --dark: var(--white);
-    --clr-shadow: #121212;
+    --clr-shadow: #050505;
     --clr-primary: #269e64;
     --clr-primary-light: #0c251a;
     --bg-dark: #181818;

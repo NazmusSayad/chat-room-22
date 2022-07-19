@@ -75,7 +75,7 @@ export const getScrollBottom = (element) => {
   return height - offset
 }
 
-export const replaceIndividualWords = (text = "") => {
+export const replaceIndividualWords = (text) => {
   CustomReplaceWords.forEach(([word, newWord, caseIns]) => {
     const isCaseInsensitive = caseIns ? "i" : ""
     const regex = new RegExp("^" + word + "$", "gm" + isCaseInsensitive)
@@ -83,7 +83,7 @@ export const replaceIndividualWords = (text = "") => {
   })
 
   BadWordList.forEach((word) => {
-    const regex = new RegExp("^" + word + "$", "igm")
+    const regex = RegExp("\\b" + word + "\\b", "igm")
     text = text.replace(regex, new Array(word.length).fill("🛇").join(""))
 
     const regex2 = new RegExp(word.split("").join("\n"), "igm")
@@ -93,7 +93,7 @@ export const replaceIndividualWords = (text = "") => {
   return text
 }
 
-export const removeDuplicateLinesOrSpaces = (text = "") => {
+export const removeDuplicateLinesOrSpaces = (text) => {
   while (text.includes("\n\n")) {
     text = text.replace(/\n\n/gim, "\n")
   }
@@ -105,8 +105,8 @@ export const removeDuplicateLinesOrSpaces = (text = "") => {
   return text
 }
 
-export const refactorMessageBeforeSending = (msg = "") => {
+export const refactorMessageBeforeSending = (msg) => {
   msg = removeDuplicateLinesOrSpaces(msg)
   msg = replaceIndividualWords(msg)
-  return msg
+  return msg.trim()
 }
