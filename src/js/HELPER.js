@@ -1,6 +1,7 @@
 import { TIMEOUT_SEC } from "./CONFIG"
 import anchorme from "anchorme"
 import BadWordList from "../bad-words.json"
+import CustomReplaceWords from "../custom-replace-words.json"
 
 const timeout = function (seconds = TIMEOUT_SEC) {
   return new Promise(function (_, reject) {
@@ -74,21 +75,38 @@ export const getScrollBottom = (element) => {
   return height - offset
 }
 
-export const blockBadWords = (text) => {
+export const replaceIndividualWords = (text = "") => {
+  CustomReplaceWords.forEach(([word, newWord, caseIns]) => {
+    const isCaseInsensitive = caseIns ? "i" : ""
+    const regex = new RegExp("^" + word + "$", "gm" + isCaseInsensitive)
+    text = text.replace(regex, newWord)
+  })
+
   BadWordList.forEach((word) => {
     const regex = new RegExp("^" + word + "$", "igm")
-    text = text.replace(regex, new Array(word.length).fill("*").join(""))
+    text = text.replace(regex, new Array(word.length).fill("🛇").join(""))
 
-    const regex2 = new RegExp("^" + word + "$".split("").join("\n"), "igm")
-    text = text.replace(regex2, new Array(word.length).fill("*").join("\n"))
+    const regex2 = new RegExp(word.split("").join("\n"), "igm")
+    text = text.replace(regex2, new Array(word.length).fill("🛇").join("\n"))
   })
 
   return text
 }
 
-export const deleteDuplicateNewLines = (text) => {
+export const removeDuplicateLinesOrSpaces = (text = "") => {
   while (text.includes("\n\n")) {
     text = text.replace(/\n\n/gim, "\n")
   }
+
+  while (text.includes("  ")) {
+    text = text.replace(/  /gim, " ")
+  }
+
   return text
+}
+
+export const refactorMessageBeforeSending = (msg = "") => {
+  msg = removeDuplicateLinesOrSpaces(msg)
+  msg = replaceIndividualWords(msg)
+  return msg
 }

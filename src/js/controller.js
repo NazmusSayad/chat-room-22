@@ -1,15 +1,19 @@
-import { blockBadWords, deleteDuplicateNewLines } from './HELPER.js'
-import * as model from './model.js'
-import ChatView from './views/ChatView.js'
-import LoginView from './views/LoginView.js'
-import SignupView from './views/SignupVIew.js'
-import WelcomeView from './views/WelcomeView.js'
+import { refactorMessageBeforeSending } from "./HELPER.js"
+import * as model from "./model.js"
+import ChatView from "./views/ChatView.js"
+import LoginView from "./views/LoginView.js"
+import SignupView from "./views/SignupVIew.js"
+import WelcomeView from "./views/WelcomeView.js"
 
-const loginPage = () => LoginView.render()
+const loginPage = () => {
+  LoginView.render()
+}
 
-const signupPage = () => SignupView.render()
+const signupPage = () => {
+  SignupView.render()
+}
 
-const loginSubmit = async token => {
+const loginFormSubmit = async (token) => {
   try {
     await model.login(token)
     initChat()
@@ -19,7 +23,7 @@ const loginSubmit = async token => {
   }
 }
 
-const signupSubmit = async token => {
+const signupFormSubmit = async (token) => {
   try {
     await model.signUp(token)
     initChat()
@@ -29,11 +33,9 @@ const signupSubmit = async token => {
   }
 }
 
-const sendMessage = async msg => {
+const sendMessage = async (msg) => {
   try {
-    msg = deleteDuplicateNewLines(msg)
-    msg = blockBadWords(msg)
-
+    msg = refactorMessageBeforeSending(msg)
     const element = ChatView.appendMessage({
       name: model.STATE.user.name,
       email: model.STATE.user.email,
@@ -45,15 +47,15 @@ const sendMessage = async msg => {
     ChatView.appendMessageSent(element, data)
   } catch (err) {
     console.error(err)
-    alert('Unable to send message.\nPlease reload this page.')
+    alert("Unable to send message.\nPlease reload this page.")
   }
 }
 
-const loadMoreMessages = async oldestMessage => {
+const loadMoreMessages = async (oldestMessage) => {
   try {
     const id = oldestMessage.dataset.id
     const data = await model.getMessageById(id)
-    data.forEach(msg => {
+    data.forEach((msg) => {
       msg.you = msg.email === model.STATE.user.email
       ChatView.prependMessage(msg)
     })
@@ -77,7 +79,7 @@ const initChat = async () => {
     )
 
     const data = await model.getMessage()
-    data.reverse().forEach(msg => {
+    data.reverse().forEach((msg) => {
       msg.you = msg.email === model.STATE.user.email
       ChatView.appendMessage(msg)
     })
@@ -89,40 +91,42 @@ const initChat = async () => {
   }
 }
 
-// Add handlers
+const themeToggler = () => {
+  model.appTheme.toggle()
+}
+
+const editProfile = () => {
+  console.log(`Render edit profile view...`)
+}
+
+// Add Event-Handlers
 ;(() => {
   WelcomeView.addSignupHandler(signupPage)
   WelcomeView.addLoginHandler(loginPage)
 
   LoginView.addSignupHandler(signupPage)
-  LoginView.addSubmitHandler(loginSubmit)
+  LoginView.addSubmitHandler(loginFormSubmit)
 
   SignupView.addLoginHandler(loginPage)
-  SignupView.addSubmitHandler(signupSubmit)
+  SignupView.addSubmitHandler(signupFormSubmit)
 
-  // ChatView.addLogoutHandler(model.logOut)
-  ChatView.addMsgSubmitHandler(sendMessage)
   ChatView.addTextAreaHandlers()
+  ChatView.addMsgSubmitHandler(sendMessage)
+  ChatView.addThemeToggleHandler(themeToggler)
+  // ChatView.addEditProfileHandler(editProfile)
+  ChatView.addLogoutHandler(model.logOut)
+})()
 
-  // don't kill me
-  const toggleTheme = () => {
-    const html = document.querySelector('html')
-    const theme = html.getAttribute('theme')
-
-    if (theme == 'dark') {
-      html.setAttribute('theme', 'light')
-    } else {
-      html.setAttribute('theme', 'dark')
-    }
-  }
-
-  window.onkeydown = event => {
-    if (event.key === 't' && event.altKey && !event.ctrlKey && !event.shiftKey) {
+// Add Keyboard-Shortcuts
+;(() => {
+  window.onkeydown = (event) => {
+    if (event.key === "t" && event.altKey && !event.ctrlKey && !event.shiftKey) {
+      model.appTheme.toggle()
       // appTheme.toggle() // eita kaj kore na, so amar ta add korte hoiteche. fix it later
-      toggleTheme()
+      // toggleTheme()
     }
 
-    if (event.key === '/' && !event.altKey && event.ctrlKey && !event.shiftKey) {
+    if (event.key === "/" && !event.altKey && event.ctrlKey && !event.shiftKey) {
       ChatView._chatForm.querySelector(`textarea`).focus()
     }
   }
