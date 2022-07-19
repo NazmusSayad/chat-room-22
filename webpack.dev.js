@@ -1,8 +1,14 @@
 const { CONFIG, PATH } = require("./webpack.common")
 
 CONFIG.mode = "development"
-CONFIG.devtool = "source-map"
+CONFIG.stats = "errors-warnings"
+CONFIG.devtool = "eval"
+
+CONFIG.module.rules[0].use.unshift("style-loader")
+
 CONFIG.devServer = {
+  watchFiles: ["src/*"],
+
   client: {
     logging: "none",
   },
@@ -12,7 +18,6 @@ CONFIG.devServer = {
   },
 
   port: 80,
-  open: true,
   hot: true,
   compress: false,
 }
