@@ -47,12 +47,10 @@ html[theme='dark'] {
 }
 html[theme='light'] {
   @include theme('light');
-} 
-
-// okay i can't thik anymore. with the theme attribute on, user settings get more specificity and system theme isn't inherited in that case.
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
-    @include theme('dark'); 
+    @include theme('dark');
   }
 }
