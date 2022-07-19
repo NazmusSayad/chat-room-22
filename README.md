@@ -24,8 +24,9 @@ if (theme === 'light' || matchMedia('(prefers-color-scheme: light)')) {
 
 ### Menu
 
-- Allow user to clear localstorage theme settings using the button "Use System Theme" from the menu
-- Use javascript to open and close the menu
+- Clicking on "Use System Theme" should remove the "theme" attribute from html and clear local storage theme settings.
+- Use javascript to open and close the menu.
+- Add animations if you want to.
 
 ### others
 
