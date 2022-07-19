@@ -1,5 +1,8 @@
 import { API_URL } from "./CONFIG"
 import { getJSON } from "./HELPER"
+import Theme from "./theme.js"
+
+export const appTheme = new Theme()
 
 export const STATE = {
   user: null,
@@ -108,44 +111,23 @@ const loadAuthInfo = () => {
   const data = JSON.parse(localStorage.getItem(`auth`))
   if (!data) return
 
-  STATE.user = { _id: data?._id, name: data?.name, email: data?.email, dateJoin: data?.dateJoin }
+  STATE.user = {
+    _id: data?._id,
+    name: data?.name,
+    email: data?.email,
+    dateJoin: data?.dateJoin,
+  }
   STATE.auth = { email: data?.email, password: data?.password }
 }
-
-export const appTheme = Object.seal({
-  dark(save = true) {
-    document.querySelector(`html`).setAttribute(`theme`, "dark")
-    if (save) localStorage.setItem(`theme`, "dark")
-  },
-  light(save = true) {
-    document.querySelector(`html`).setAttribute(`theme`, "light")
-    if (save) localStorage.setItem(`theme`, "light")
-  },
-  toggle() {
-    const currentTheme = document.querySelector(`html`).getAttribute(`theme`)
-    if (currentTheme === "light") this.dark()
-    else this.light()
-  },
-  load() {
-    return localStorage.getItem(`theme`)
-  },
-  reset() {
-    localStorage.removeItem(`theme`)
-    const lightTheme = matchMedia("(prefers-color-scheme: light)")
-    if (lightTheme) appTheme.dark(false)
-    else appTheme.light(false)
-  },
-})
 
 // Init
 ;(() => {
   loadAuthInfo()
-
-  if (appTheme.load() === "light") {
-    appTheme.light()
-  } else if (appTheme.load() === "dark") {
-    appTheme.dark()
-  } else {
-    appTheme.reset()
-  }
+  appTheme.start()
 })()
+
+// temp
+
+document.oncontextmenu = () => {
+  appTheme.default()
+}

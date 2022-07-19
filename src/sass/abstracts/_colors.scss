@@ -6,7 +6,7 @@ $clr-blue: #296eff;
 $clr-light: #f1f2f3; */
 
 @mixin theme($mode) {
-  @if ($mode == 'light') {
+  @if ($mode == "light") {
     --root-bg: #ebeeed;
     --light: var(--white);
     --dark: var(--black);
@@ -21,7 +21,7 @@ $clr-light: #f1f2f3; */
     --text-you: var(--white);
     --text-them: var(--black);
   }
-  @if ($mode == 'dark') {
+  @if ($mode == "dark") {
     --light: var(--black);
     --dark: var(--white);
     --clr-shadow: #050505;
@@ -39,18 +39,12 @@ $clr-light: #f1f2f3; */
 :root {
   --black: #111;
   --white: #fefefe;
-  @include theme('light');
+  @include theme("light");
 }
 
-html[theme='dark'] {
-  @include theme('dark');
+html[theme="dark"] {
+  @include theme("dark");
 }
-html[theme='light'] {
-  @include theme('light');
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    @include theme('dark');
-  }
+html[theme="light"] {
+  @include theme("light");
 }
