@@ -6,7 +6,7 @@ Let me tell you how it works first. When html has no attribute, the system theme
 
 <b>What you need to do:</b>
 
-- Have no "theme" attribute when loaded unless user has a value in the local storage
+- Have no "theme" attribute when loaded untill user has a value in the local storage
 - When clicked on the toggler, check
 
 ```javascript
