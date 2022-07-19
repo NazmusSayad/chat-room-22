@@ -1,7 +1,8 @@
 class Theme {
   #conf
+
   constructor({
-    root = document.querySelector(`html`),
+    root = document.querySelector(`:root`),
     rootAtt = "theme",
     dataKey = "theme",
   } = {}) {
@@ -15,7 +16,7 @@ class Theme {
     localStorage.setItem(this.#conf.dataKey, theme)
   }
 
-  #set() {
+  #init() {
     const current = this.#selected()
 
     if (current === "dark") {
@@ -30,26 +31,33 @@ class Theme {
   #watch() {
     const media = matchMedia("(prefers-color-scheme: dark)")
     media.onchange = () => {
-      this.#set()
+      this.#init()
     }
   }
 
-  light(save = true) {
-    this.#conf.root.setAttribute(this.#conf.rootAtt, "light")
-    if (save) this.#save("light")
+  #set(theme) {
+    if (theme) {
+      return this.#conf.root.setAttribute(this.#conf.rootAtt, theme)
+    }
+    this.#conf.root.removeAttribute(this.#conf.rootAtt, theme)
   }
 
-  dark(save = true) {
-    this.#conf.root.setAttribute(this.#conf.rootAtt, "dark")
-    if (save) this.#save("dark")
+  light() {
+    this.#set("light")
+    this.#save("light")
+  }
+
+  dark() {
+    this.#set("dark")
+    this.#save("dark")
   }
 
   toggle() {
     const current = this.#current()
 
-    if (current === "dark") {
+    if (current.includes("dark")) {
       this.light()
-    } else if (current === "light") {
+    } else if (current.includes("light")) {
       this.dark()
     } else {
       this.default()
@@ -59,17 +67,18 @@ class Theme {
   default() {
     const media = matchMedia("(prefers-color-scheme: dark)")
     if (media.matches) {
-      this.dark(false)
+      this.#set("auto-dark")
     } else {
-      this.light(false)
+      this.#set("auto-light")
     }
     localStorage.removeItem(this.#conf.dataKey)
   }
 
   start() {
-    this.#set()
+    this.#init()
     this.#watch()
   }
 }
 
-export default Theme
+const appTheme = new Theme()
+appTheme.start()

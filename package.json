@@ -1,7 +1,8 @@
 {
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
-    "build": "webpack build --config webpack.prod.js"
+    "build": "webpack build --config webpack.prod.js",
+    "theme": "tsc ./src/theme.ts --target es6"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",

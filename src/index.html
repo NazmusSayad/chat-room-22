@@ -7,80 +7,135 @@
     <title>Loading...</title>
 
     <script>
+      var __classPrivateFieldSet =
+        (this && this.__classPrivateFieldSet) ||
+        function (receiver, state, value, kind, f) {
+          if (kind === "m") throw new TypeError("Private method is not writable")
+          if (kind === "a" && !f)
+            throw new TypeError("Private accessor was defined without a setter")
+          if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver))
+            throw new TypeError(
+              "Cannot write private member to an object whose class did not declare it"
+            )
+          return (
+            kind === "a"
+              ? f.call(receiver, value)
+              : f
+              ? (f.value = value)
+              : state.set(receiver, value),
+            value
+          )
+        }
+      var __classPrivateFieldGet =
+        (this && this.__classPrivateFieldGet) ||
+        function (receiver, state, kind, f) {
+          if (kind === "a" && !f)
+            throw new TypeError("Private accessor was defined without a getter")
+          if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver))
+            throw new TypeError(
+              "Cannot read private member from an object whose class did not declare it"
+            )
+          return kind === "m"
+            ? f
+            : kind === "a"
+            ? f.call(receiver)
+            : f
+            ? f.value
+            : state.get(receiver)
+        }
+      var _Theme_instances,
+        _Theme_conf,
+        _Theme_selected,
+        _Theme_current,
+        _Theme_save,
+        _Theme_init,
+        _Theme_watch,
+        _Theme_set
       class Theme {
-        #conf
         constructor({
-          root = document.querySelector(`html`),
+          root = document.querySelector(`:root`),
           rootAtt = "theme",
           dataKey = "theme",
         } = {}) {
-          this.#conf = { root, rootAtt, dataKey }
+          _Theme_instances.add(this)
+          _Theme_conf.set(this, void 0)
+          _Theme_selected.set(this, () =>
+            localStorage.getItem(__classPrivateFieldGet(this, _Theme_conf, "f").dataKey)
+          )
+          _Theme_current.set(this, () =>
+            __classPrivateFieldGet(this, _Theme_conf, "f").root.getAttribute(
+              __classPrivateFieldGet(this, _Theme_conf, "f").rootAtt
+            )
+          )
+          __classPrivateFieldSet(this, _Theme_conf, { root, rootAtt, dataKey }, "f")
         }
-
-        #selected = () => localStorage.getItem(this.#conf.dataKey)
-        #current = () => this.#conf.root.getAttribute(this.#conf.rootAtt)
-
-        #save(theme = null) {
-          localStorage.setItem(this.#conf.dataKey, theme)
+        light() {
+          __classPrivateFieldGet(this, _Theme_instances, "m", _Theme_set).call(this, "light")
+          __classPrivateFieldGet(this, _Theme_instances, "m", _Theme_save).call(this, "light")
         }
-
-        #set() {
-          const current = this.#selected()
-
-          if (current === "dark") {
-            this.dark()
-          } else if (current === "light") {
-            this.light()
-          } else {
-            this.default()
-          }
+        dark() {
+          __classPrivateFieldGet(this, _Theme_instances, "m", _Theme_set).call(this, "dark")
+          __classPrivateFieldGet(this, _Theme_instances, "m", _Theme_save).call(this, "dark")
         }
-
-        #watch() {
-          const media = matchMedia("(prefers-color-scheme: dark)")
-          media.onchange = () => {
-            this.#set()
-          }
-        }
-
-        light(save = true) {
-          this.#conf.root.setAttribute(this.#conf.rootAtt, "light")
-          if (save) this.#save("light")
-        }
-
-        dark(save = true) {
-          this.#conf.root.setAttribute(this.#conf.rootAtt, "dark")
-          if (save) this.#save("dark")
-        }
-
         toggle() {
-          const current = this.#current()
-
-          if (current === "dark") {
+          const current = __classPrivateFieldGet(this, _Theme_current, "f").call(this)
+          if (current.includes("dark")) {
             this.light()
-          } else if (current === "light") {
+          } else if (current.includes("light")) {
             this.dark()
           } else {
             this.default()
           }
         }
-
         default() {
           const media = matchMedia("(prefers-color-scheme: dark)")
           if (media.matches) {
-            this.dark(false)
+            __classPrivateFieldGet(this, _Theme_instances, "m", _Theme_set).call(this, "auto-dark")
           } else {
-            this.light(false)
+            __classPrivateFieldGet(this, _Theme_instances, "m", _Theme_set).call(this, "auto-light")
           }
-          localStorage.removeItem(this.#conf.dataKey)
+          localStorage.removeItem(__classPrivateFieldGet(this, _Theme_conf, "f").dataKey)
         }
-
         start() {
-          this.#set()
-          this.#watch()
+          __classPrivateFieldGet(this, _Theme_instances, "m", _Theme_init).call(this)
+          __classPrivateFieldGet(this, _Theme_instances, "m", _Theme_watch).call(this)
         }
       }
-
+      ;(_Theme_conf = new WeakMap()),
+        (_Theme_selected = new WeakMap()),
+        (_Theme_current = new WeakMap()),
+        (_Theme_instances = new WeakSet()),
+        (_Theme_save = function _Theme_save(theme = null) {
+          localStorage.setItem(__classPrivateFieldGet(this, _Theme_conf, "f").dataKey, theme)
+        }),
+        (_Theme_init = function _Theme_init() {
+          const current = __classPrivateFieldGet(this, _Theme_selected, "f").call(this)
+          if (current === "dark") {
+            this.dark()
+          } else if (current === "light") {
+            this.light()
+          } else {
+            this.default()
+          }
+        }),
+        (_Theme_watch = function _Theme_watch() {
+          const media = matchMedia("(prefers-color-scheme: dark)")
+          media.onchange = () => {
+            __classPrivateFieldGet(this, _Theme_instances, "m", _Theme_init).call(this)
+          }
+        }),
+        (_Theme_set = function _Theme_set(theme) {
+          if (theme) {
+            return __classPrivateFieldGet(this, _Theme_conf, "f").root.setAttribute(
+              __classPrivateFieldGet(this, _Theme_conf, "f").rootAtt,
+              theme
+            )
+          }
+          __classPrivateFieldGet(this, _Theme_conf, "f").root.removeAttribute(
+            __classPrivateFieldGet(this, _Theme_conf, "f").rootAtt,
+            theme
+          )
+        })
       const appTheme = new Theme()
       appTheme.start()
     </script>
@@ -90,30 +145,6 @@
     <script src="https://kit.fontawesome.com/31d1a29a39.js" crossorigin="anonymous"></script>
   </head>
 
-  <style>
-    @media (prefers-color-scheme: no-preference) {
-      body {
-        background: black;
-        color: white;
-      }
-    }
-
-    /* Use dark mode */
-    @media (prefers-color-scheme: dark) {
-      body {
-        background: black;
-        color: white;
-      }
-    }
-
-    /* Use light mode */
-    @media (prefers-color-scheme: light) {
-      body {
-        background: white;
-        color: black;
-      }
-    }
-  </style>
   <body>
     <main id="root"></main>
   </body>

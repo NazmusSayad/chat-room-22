@@ -2,15 +2,3 @@
   content: "";
   display: block;
 }
-
-@mixin theme-dark {
-  html[theme="dark"] & {
-    @content;
-  }
-}
-
-@mixin theme-light {
-  html[theme="light"] & {
-    @content;
-  }
-}

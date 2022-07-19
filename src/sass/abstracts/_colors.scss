@@ -36,15 +36,30 @@ $clr-light: #f1f2f3; */
   }
 }
 
+@mixin theme-auto {
+  :root[theme^="auto"] & {
+    @content;
+  }
+}
+
+@mixin theme-dark {
+  :root[theme$="dark"] & {
+    @content;
+  }
+}
+
+@mixin theme-light {
+  :root[theme$="light"] & {
+    @content;
+  }
+}
+
 :root {
   --black: #111;
   --white: #fefefe;
   @include theme("light");
 }
 
-html[theme="dark"] {
+:root[theme$="dark"] {
   @include theme("dark");
-}
-html[theme="light"] {
-  @include theme("light");
 }

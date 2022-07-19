@@ -3,5 +3,15 @@
   ["allah", "ﷲ"],
 
   ["sayad", "Sayad"],
-  ["tanim", "Tanim"]
+  ["tanim", "Tanim"],
+
+  [":admin:", "Nazmus Sayad & Tasnimul Hasan", true],
+  [":dev:", "Nazmus Sayad & Tasnimul Hasan", true],
+  [
+    ":repo:",
+    "Client: https://github.com/NazmusSayad/chat-room-22\nServer: https://github.com/NazmusSayad/chat-room-22.server",
+    true
+  ],
+  [":repo-c:", "https://github.com/NazmusSayad/chat-room-22", true],
+  [":repo-s:", "https://github.com/NazmusSayad/chat-room-22.server", true]
 ]

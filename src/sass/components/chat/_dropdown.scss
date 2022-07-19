@@ -5,9 +5,9 @@
 
   .icon {
     cursor: pointer;
-    padding: 10px 15px;
+    padding: 1rem 1.5rem;
     clip-path: circle();
-    margin-inline: 10px;
+    margin-inline: 1rem;
     transition: background-color 0.3s ease;
 
     &:hover {
@@ -15,51 +15,58 @@
     }
 
     i {
-      font-size: 15px;
+      font-size: 1.5rem;
       line-height: 0;
     }
   }
 
   #btn {
-    display: none;
+    position: fixed;
+    top: -100vh;
+    opacity: 0;
   }
 
-  #btn:checked + .list {
-    display: block;
-  }
-  .list {
-    width: 150px;
+  #btn:focus-within + .list {
     z-index: 100;
-    display: none;
+    transition-delay: 0s;
+    opacity: 1;
+  }
+
+  .list {
+    width: 18rem;
+    z-index: -100;
     position: absolute;
-    top: 50px;
-    left: 10px;
-    border-radius: 5px;
+    top: 5rem;
+    left: 1rem;
+    border-radius: 0.5rem;
     background: var(--dark);
     list-style: none;
+    opacity: 0;
+    transition-delay: 0.25s;
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
-      top: -20px;
-      left: 10px;
+      top: -2rem;
+      left: 1rem;
       width: 0;
       height: 0;
-      border: 10px solid transparent;
-      border-bottom: 10px solid var(--dark);
+      border: 1rem solid transparent;
+      border-bottom: 1rem solid var(--dark);
     }
 
     li:first-of-type {
-      border-radius: 5px 5px 0 0;
+      border-radius: 0.5rem 0.5rem 0 0;
     }
+    
     li:last-of-type {
-      border-radius: 0 0 5px 5px;
+      border-radius: 0 0 0.5rem 0.5rem;
     }
 
     li {
       cursor: pointer;
       color: var(--light);
-      padding: 5px 15px;
+      padding: 0.5rem 1.5rem;
       transition: all 0.3s ease;
 
       &:hover {

@@ -1,19 +1,17 @@
 // Importing All files
-@import 'abstracts/breakpoints';
-@import 'abstracts/colors';
-@import 'abstracts/functions';
-@import 'abstracts/keyframes';
-@import 'abstracts/mixins';
-@import 'abstracts/placeholders';
+@import "abstracts/breakpoints";
+@import "abstracts/colors";
+@import "abstracts/functions";
+@import "abstracts/keyframes";
+@import "abstracts/mixins";
+@import "abstracts/placeholders";
 
-@import 'base/reset';
-@import 'base/fonts';
-@import 'base/utility';
-@import 'base/app';
+@import "base/reset";
+@import "base/fonts";
+@import "base/utility";
+@import "base/app";
 
-@import './components/chat';
-@import './components/dropdown';
-@import './components/theme-toggle';
-@import './components/login';
-@import './components/signup';
-@import './components/welcome';
+@import "./components/chat";
+@import "./components/login";
+@import "./components/signup";
+@import "./components/welcome";
