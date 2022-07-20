@@ -21,7 +21,7 @@ CONFIG.plugins.push(
   })
 )
 
-CONFIG.module.rules[0].use = [
+const cssLoaders = [
   MiniCssExtractPlugin.loader,
   "css-loader",
   {
@@ -32,7 +32,8 @@ CONFIG.module.rules[0].use = [
       },
     },
   },
-  "sass-loader",
 ]
+CONFIG.module.rules[0].use = cssLoaders
+CONFIG.module.rules[1].use = [...cssLoaders, "sass-loader"]
 
 module.exports = CONFIG
