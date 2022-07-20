@@ -98,10 +98,12 @@ class Chat_Form_Messages extends Chat_Form {
     super()
   }
 
+  _loaded = false
+
   _messageContainer = this._element.querySelector(`#chat-container`)
 
   setLoadedClass() {
-    this._messageContainer.classList.add(`loaded`)
+    this._loaded = true
   }
 
   _generateMessageMarkup(data) {
@@ -139,12 +141,13 @@ class Chat_Form_Messages extends Chat_Form {
     const msgHeight_x4 = element.clientHeight * 4
 
     if (scrollBottom < msgHeight_x4 || data.you) {
-      this._messageContainer.scrollTop = this._messageContainer.scrollHeight
+      this._messageContainer.scrollTo({
+        top: this._messageContainer.scrollHeight,
+        left: 0,
+        behavior: this._loaded ? "smooth" : "auto",
+      })
 
-      if (
-        document.visibilityState === "hidden" &&
-        this._messageContainer.classList.contains(`loaded`)
-      ) {
+      if (document.visibilityState === "hidden" && this._loaded) {
         newMessageNotification(data.user, data.msg)
       }
     } else {
@@ -158,8 +161,16 @@ class Chat_Form_Messages extends Chat_Form {
     const element = this._generateMessageMarkup(data)
     if (!element) return
 
+    const scrollBottom = getScrollBottom(this._messageContainer)
     this._messageContainer.prepend(element)
-    this._messageContainer.scrollTo(0, 1)
+
+    const scp =
+      this._messageContainer.scrollHeight - scrollBottom - this._messageContainer.clientHeight
+    this._messageContainer.scrollTo({
+      top: scp,
+      left: 0,
+      behavior: "auto",
+    })
   }
 
   appendMessageSent(element, data) {
