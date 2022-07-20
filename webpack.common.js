@@ -35,7 +35,7 @@ const CONFIG = {
     rules: [
       {
         test: /\.(css|scss|sass)$/i,
-        use: ["css-loader", "sass-loader"],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.html$/i,

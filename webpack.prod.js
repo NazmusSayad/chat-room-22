@@ -2,7 +2,6 @@ const { CONFIG } = require("./webpack.common")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 CONFIG.mode = "production"
-CONFIG.devtool = false
 CONFIG.output.clean = true
 
 CONFIG.module.rules.push({
@@ -21,15 +20,19 @@ CONFIG.plugins.push(
     filename: "[name].css",
   })
 )
-CONFIG.module.rules[0].use.unshift(MiniCssExtractPlugin.loader)
 
-CONFIG.module.rules[0].use.push({
-  loader: "postcss-loader",
-  options: {
-    postcssOptions: {
-      plugins: ["postcss-preset-env"],
+CONFIG.module.rules[0].use = [
+  MiniCssExtractPlugin.loader,
+  "css-loader",
+  {
+    loader: "postcss-loader",
+    options: {
+      postcssOptions: {
+        plugins: ["postcss-preset-env"],
+      },
     },
   },
-})
+  "sass-loader",
+]
 
 module.exports = CONFIG
