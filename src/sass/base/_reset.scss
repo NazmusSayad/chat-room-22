@@ -5,9 +5,9 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  scrollbar-color: var(--clr-primary) var(--clr-primary-light);
+  scrollbar-width: thin;
 }
-
-// scrollbar
 
 ::-webkit-scrollbar {
   width: 5px;
@@ -17,6 +17,7 @@
 ::-webkit-scrollbar-track {
   background: var(--clr-primary-light);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--clr-primary);
   border-radius: 100vw;
@@ -39,7 +40,7 @@ table {
 }
 
 button,
-input[type='submit'] {
+input[type="submit"] {
   cursor: pointer;
 
   &[disabled] {
