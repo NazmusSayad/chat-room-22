@@ -4,7 +4,7 @@
 
 .chat {
   --padding: 4rem;
-  width: min(calc(100% - var(--padding)), 64rem);
+  width: min(calc(100% - var(--padding)), 65rem);
   height: calc(100% - var(--padding));
   border-radius: 0.35rem;
   box-shadow: 0 0 2.5rem var(--clr-shadow);
@@ -45,12 +45,14 @@
 
     .message {
       width: fit-content;
+      max-width: min(80%, 45rem);
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       margin-bottom: 1.7rem;
       color: var(--dark);
       animation: slide-message 0.5s forwards;
+
       span {
         color: var(--clr-secondary);
         font-weight: 700;
@@ -60,8 +62,8 @@
       }
 
       p {
-        max-width: 45rem;
-        position: relative;
+        max-width: 100%;
+        // position: relative;
         color: var(--text-them);
         background: var(--light);
         line-height: 2rem;
