@@ -1,9 +1,11 @@
-/* $clr-dark: #131517;
+/*
+$clr-dark: #131517;
 $clr-dark-light: #1e1f25;
 $clr-dark-lighter: #282932;
 $clr-blue-magantaish: #606389;
 $clr-blue: #296eff;
-$clr-light: #f1f2f3; */
+$clr-light: #f1f2f3;
+*/
 
 @mixin theme($mode) {
   @if ($mode == "light") {
@@ -36,30 +38,12 @@ $clr-light: #f1f2f3; */
   }
 }
 
-@mixin theme-auto {
-  :root[theme^="auto"] & {
-    @content;
-  }
-}
-
-@mixin theme-dark {
-  :root[theme$="dark"] & {
-    @content;
-  }
-}
-
-@mixin theme-light {
-  :root[theme$="light"] & {
-    @content;
-  }
-}
-
 :root {
   --black: #111;
   --white: #fefefe;
   @include theme("light");
 }
 
-:root[theme$="dark"] {
+@include root-dark {
   @include theme("dark");
 }

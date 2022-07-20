@@ -1,0 +1,35 @@
+@mixin theme-auto {
+  :root[theme^="auto"] & {
+    @content;
+  }
+}
+
+@mixin theme-dark {
+  :root[theme$="dark"] & {
+    @content;
+  }
+}
+
+@mixin theme-light {
+  :root[theme$="light"] & {
+    @content;
+  }
+}
+
+@mixin root-auto {
+  :root[theme^="auto"] {
+    @content;
+  }
+}
+
+@mixin root-dark {
+  :root[theme$="dark"] {
+    @content;
+  }
+}
+
+@mixin root-light {
+  :root[theme$="light"] {
+    @content;
+  }
+}

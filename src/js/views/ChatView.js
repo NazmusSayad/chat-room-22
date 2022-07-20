@@ -78,15 +78,15 @@ class Chat_Form extends Chat {
     })
 
     textarea.addEventListener("input", function () {
-      let newLineCount = this.value.match(/\n/gim)?.length + 1 || 1
-      if (newLineCount > 4) newLineCount = 4
-      this.setAttribute(`rows`, newLineCount)
+      this.style.height = "auto"
+      const scrollHeight = this.scrollHeight
+      this.style.height = scrollHeight > 120 ? "120px" : scrollHeight + "px"
 
       if (this.value) {
-        form.removeAttribute(`hideButton`)
+        // form.removeAttribute(`hideButton`)
         button.removeAttribute(`disabled`)
       } else {
-        form.setAttribute(`hideButton`, "")
+        // form.setAttribute(`hideButton`, "")
         button.setAttribute(`disabled`, "")
       }
     })
