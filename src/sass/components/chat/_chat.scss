@@ -3,11 +3,11 @@
 }
 
 .chat {
-  --padding: 4rem;
+  --padding: 3rem;
   width: min(calc(100% - var(--padding)), 65rem);
   height: calc(100% - var(--padding));
-  border-radius: 0.35rem;
-  box-shadow: 0 0 2.5rem var(--clr-shadow);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1rem var(--clr-shadow);
   overflow: hidden;
   background-color: var(--bg-light);
   margin: 0 auto;
