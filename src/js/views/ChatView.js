@@ -51,6 +51,12 @@ class Chat_Form extends Chat {
 
   _chatForm = this._element.querySelector(`form`)
 
+  _textareaResizer(textarea) {
+    textarea.style.height = "auto"
+    const scrollHeight = textarea.scrollHeight
+    textarea.style.height = scrollHeight > 120 ? "120px" : scrollHeight + "px"
+  }
+
   addMsgSubmitHandler(callback) {
     this._chatForm.onsubmit = (event) => {
       event.preventDefault()
@@ -59,6 +65,7 @@ class Chat_Form extends Chat {
       if (value === " ") return
       callback(value)
       msg.value = ""
+      this._textareaResizer(msg)
     }
   }
 
@@ -71,18 +78,16 @@ class Chat_Form extends Chat {
       textarea.focus()
     }
 
-    textarea.addEventListener("keydown", function (event) {
+    textarea.addEventListener("keydown", (event) => {
       if (event.keyCode !== 13 || event.shiftKey || event.ctrlKey) return
       event.preventDefault()
       button.click()
     })
 
-    textarea.addEventListener("input", function () {
-      this.style.height = "auto"
-      const scrollHeight = this.scrollHeight
-      this.style.height = scrollHeight > 120 ? "120px" : scrollHeight + "px"
+    textarea.addEventListener("input", () => {
+      this._textareaResizer(textarea)
 
-      if (this.value) {
+      if (textarea.value) {
         // form.removeAttribute(`hideButton`)
         button.removeAttribute(`disabled`)
       } else {
