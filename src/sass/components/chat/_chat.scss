@@ -38,7 +38,7 @@
     overflow-y: scroll;
     padding: 1.5rem 2.5rem;
     z-index: 1;
-    scrollbar-color: var(--clr-primary);
+    @extend %firefox-scrollbar;
 
     &.loaded {
       scroll-behavior: smooth;
