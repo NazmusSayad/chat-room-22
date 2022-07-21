@@ -18,7 +18,7 @@ class ChatWebSocket {
     console.log("Socket connected!")
 
     return new Promise((resolve, reject) => {
-      this.#socket.on("start", (data) => {
+      this.#socket.on("message-initial", (data) => {
         resolve(data)
       })
     })
