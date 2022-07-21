@@ -107,6 +107,22 @@ class Chat_Form_Messages extends Chat_Form {
 
   _messageContainer = this._element.querySelector(`#chat-container`)
 
+  getOldestSentMessage() {
+    const firstPendingMessage = this._messageContainer.querySelector(`[data-status="pending"]`)
+    if (firstPendingMessage) {
+      return firstPendingMessage.previousElementSibling
+    }
+    return this._messageContainer.lastElementChild
+  }
+
+  getPendingMessages() {
+    const elements = this._messageContainer.querySelectorAll(`[data-status="pending"]`)
+    elements.forEach((element) => {
+      element.msg = element.querySelector(`[text]`).textContent
+    })
+    return elements
+  }
+
   setLoadedClass() {
     this._loaded = true
   }
@@ -137,20 +153,24 @@ class Chat_Form_Messages extends Chat_Form {
     return element
   }
 
+  scrollToBottom() {
+    this._messageContainer.scrollTo({
+      top: this._messageContainer.scrollHeight,
+      left: 0,
+      behavior: this._loaded ? "smooth" : "auto",
+    })
+  }
+
   appendMessage(data) {
     const element = this._generateMessageMarkup(data)
     if (!element) return
 
     this._messageContainer.appendChild(element)
     const scrollBottom = getScrollBottom(this._messageContainer)
-    const msgHeight_x4 = element.clientHeight * 4
+    const skipHeight = this._messageContainer.clientHeight
 
-    if (scrollBottom < msgHeight_x4 || data.you) {
-      this._messageContainer.scrollTo({
-        top: this._messageContainer.scrollHeight,
-        left: 0,
-        behavior: this._loaded ? "smooth" : "auto",
-      })
+    if (scrollBottom < skipHeight || data.you) {
+      this.scrollToBottom()
 
       if (document.visibilityState === "hidden" && this._loaded) {
         newMessageNotification(data.user, data.msg)
@@ -179,6 +199,10 @@ class Chat_Form_Messages extends Chat_Form {
   }
 
   appendMessageSent(element, data) {
+    if (!element.isEqualNode(this._messageContainer.lastElementChild)) {
+      this._messageContainer.appendChild(element)
+    }
+
     element.dataset.id = data._id
     element.querySelector("[text]").title = simplifyDate(data.sent)
     element.dataset.status = "sent"

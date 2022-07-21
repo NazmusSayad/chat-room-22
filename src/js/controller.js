@@ -1,4 +1,5 @@
 import * as model from "./model.js"
+import { Wait } from "./utils.js"
 import ChatView from "./views/ChatView.js"
 import LoginView from "./views/LoginView.js"
 import SignupView from "./views/SignupVIew.js"
@@ -41,7 +42,7 @@ const sendMessage = async (msg) => {
       msg,
     })
 
-    const data = await model.Socket.newMessage(msg)
+    const data = await model.Socket.sendNewMessage(msg)
     ChatView.appendMessageSent(element, data)
   } catch (err) {
     console.error(err)
@@ -52,10 +53,31 @@ const sendMessage = async (msg) => {
 const loadMoreMessages = async (oldestMessage) => {
   try {
     const id = oldestMessage.dataset.id
-    const data = await model.Socket.lodeMoreMessages(id)
-    data.forEach((msg) => {
-      ChatView.prependMessage(msg)
-    })
+    const data = await model.Socket.getOlderMessagesThanId(id)
+    data.forEach(ChatView.prependMessage)
+  } catch (err) {
+    console.warn(err.message)
+    return true
+  }
+}
+
+const loadSentMessagesOnReconnect = async () => {
+  try {
+    const id = ChatView.getOldestSentMessage().dataset.id
+    const data = await model.Socket.getNewerMessagesThanId(id)
+    if (typeof data === "number") {
+      alert("Too many messages to laod.\nWe are reloading!")
+      location.reload()
+    }
+    data.forEach(ChatView.appendMessage)
+
+    const pendingMessages = ChatView.getPendingMessages()
+    for (let element of pendingMessages) {
+      await Wait(10)
+      model.Socket.sendNewMessage(element.msg).then((data) => {
+        ChatView.appendMessageSent(element, data)
+      })
+    }
   } catch (err) {
     console.warn(err.message)
     return true
@@ -64,17 +86,16 @@ const loadMoreMessages = async (oldestMessage) => {
 
 const initChat = async () => {
   try {
+    const starterMessages = await model.Socket.Start()
     ChatView.render()
+    console.log("Socket connected!")
 
-    const starterMessages = await model.Socket.start()
-    starterMessages.reverse().forEach((msg) => {
-      ChatView.appendMessage(msg)
-    })
-
+    model.Socket.OnReconnect(loadSentMessagesOnReconnect)
     model.Socket.onNewMessage((data) => {
       ChatView.appendMessage(data)
     })
 
+    starterMessages.reverse().forEach(ChatView.appendMessage)
     ChatView.setLoadedClass()
     ChatView.addLoadMoreHandler(loadMoreMessages)
   } catch (err) {

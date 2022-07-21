@@ -1,34 +1,21 @@
 import { io } from "socket.io-client"
 import { API_URL } from "./.config"
-import { getJSON } from "./utils"
+import { checkIfYou, getJSON } from "./utils"
 
 export const STATE = {
   user: null,
   auth: null,
 }
 
-const checkIfYou = (input) => {
-  if (Array.isArray(input)) {
-    input.forEach((msg) => {
-      msg.you = msg.email === STATE.user.email
-    })
-
-    return input
-  }
-
-  input.you = input.email === STATE.user.email
-  return input
-}
-
 class ChatWebSocket {
   #socket
 
-  start() {
+  Start() {
     this.#socket = io(API_URL + "/chat", {
       auth: STATE.auth,
     })
 
-    console.log("Socket connected!")
+    this.onDisconnect()
 
     return new Promise((resolve, reject) => {
       this.#socket.on("message-initial", (data) => {
@@ -37,25 +24,62 @@ class ChatWebSocket {
     })
   }
 
-  newMessage(msg) {
+  OnReconnect(callback) {
+    const defaultReconnect = this.#socket.io.onreconnect
+    this.#socket.io.onreconnect = function () {
+      defaultReconnect.call(this)
+      console.log("Socket reconnected!")
+      callback()
+    }
+  }
+
+  /* 
+  OnConnect(callback) {
+    if (this.#socket.connected) callback()
+    else this.#socket.on("connect", callback)
+  }
+
+  WaitForConnection() {
     return new Promise((resolve, reject) => {
-      this.#socket.emit("message-new", msg, (data) => {
-        resolve(checkIfYou(data))
-      })
+      this.OnConnect(resolve)
     })
   }
 
-  lodeMoreMessages(id) {
-    return new Promise((resolve, reject) => {
-      this.#socket.emit("message-loadmore", id, (data) => {
-        resolve(checkIfYou(data))
-      })
+  OnDisconnect(callback) {
+    this.#socket.on("disconnect", () => {
+      console.log("Socket disconnected!")
+      callback()
     })
-  }
+  } 
+  */
 
-  onNewMessage(callback = (data) => console.log(data)) {
+  onNewMessage(callback) {
     this.#socket.on("message-new", (data) => {
       callback(checkIfYou(data))
+    })
+  }
+
+  sendNewMessage(msg) {
+    return new Promise(async (resolve, reject) => {
+      this.#socket.volatile.emit("message-new", msg, (data) => {
+        resolve(checkIfYou(data))
+      })
+    })
+  }
+
+  getNewerMessagesThanId(id) {
+    return new Promise(async (resolve, reject) => {
+      this.#socket.volatile.emit("message-getNewer", id, (data) => {
+        resolve(checkIfYou(data))
+      })
+    })
+  }
+
+  getOlderMessagesThanId(id) {
+    return new Promise(async (resolve, reject) => {
+      this.#socket.volatile.emit("message-getOlder", id, (data) => {
+        resolve(checkIfYou(data))
+      })
     })
   }
 }
