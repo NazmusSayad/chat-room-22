@@ -54,7 +54,6 @@ const loadMoreMessages = async (oldestMessage) => {
     const id = oldestMessage.dataset.id
     const data = await model.Socket.lodeMoreMessages(id)
     data.forEach((msg) => {
-      msg.you = msg.email === model.STATE.user.email
       ChatView.prependMessage(msg)
     })
   } catch (err) {
@@ -69,7 +68,6 @@ const initChat = async () => {
 
     const starterMessages = await model.Socket.start()
     starterMessages.reverse().forEach((msg) => {
-      msg.you = msg.email === model.STATE.user.email
       ChatView.appendMessage(msg)
     })
 

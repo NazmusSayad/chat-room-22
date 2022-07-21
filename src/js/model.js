@@ -7,6 +7,19 @@ export const STATE = {
   auth: null,
 }
 
+const checkIfYou = (input) => {
+  if (Array.isArray(input)) {
+    input.forEach((msg) => {
+      msg.you = msg.email === STATE.user.email
+    })
+
+    return input
+  }
+
+  input.you = input.email === STATE.user.email
+  return input
+}
+
 class ChatWebSocket {
   #socket
 
@@ -19,7 +32,7 @@ class ChatWebSocket {
 
     return new Promise((resolve, reject) => {
       this.#socket.on("message-initial", (data) => {
-        resolve(data)
+        resolve(checkIfYou(data))
       })
     })
   }
@@ -27,7 +40,7 @@ class ChatWebSocket {
   newMessage(msg) {
     return new Promise((resolve, reject) => {
       this.#socket.emit("message-new", msg, (data) => {
-        resolve(data)
+        resolve(checkIfYou(data))
       })
     })
   }
@@ -35,13 +48,15 @@ class ChatWebSocket {
   lodeMoreMessages(id) {
     return new Promise((resolve, reject) => {
       this.#socket.emit("message-loadmore", id, (data) => {
-        resolve(data)
+        resolve(checkIfYou(data))
       })
     })
   }
 
   onNewMessage(callback = (data) => console.log(data)) {
-    this.#socket.on("message-new", callback)
+    this.#socket.on("message-new", (data) => {
+      callback(checkIfYou(data))
+    })
   }
 }
 
