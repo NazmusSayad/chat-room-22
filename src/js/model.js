@@ -14,6 +14,9 @@ class ChatWebSocket {
     this.#socket = io(API_URL + "/chat", {
       auth: STATE.auth,
     })
+
+    console.log("Socket connected!")
+
     return new Promise((resolve, reject) => {
       this.#socket.on("start", (data) => {
         resolve(data)
