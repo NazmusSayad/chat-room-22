@@ -110,16 +110,3 @@ export const refactorMessageBeforeSending = (msg) => {
   msg = replaceIndividualWords(msg)
   return msg.trim()
 }
-
-export  const checkIfYou = (data) => {
-  if (Array.isArray(data)) {
-    data.forEach((msg) => {
-      msg.you = msg.email === STATE.user.email
-    })
-
-    return data
-  }
-
-  data.you = data.email === STATE.user.email
-  return data
-}

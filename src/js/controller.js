@@ -54,7 +54,9 @@ const loadMoreMessages = async (oldestMessage) => {
   try {
     const id = oldestMessage.dataset.id
     const data = await model.Socket.getOlderMessagesThanId(id)
-    data.forEach(ChatView.prependMessage)
+    data.forEach((msg) => {
+      ChatView.prependMessage(msg)
+    })
   } catch (err) {
     console.warn(err.message)
     return true
@@ -69,7 +71,9 @@ const loadSentMessagesOnReconnect = async () => {
       alert("Too many messages to laod.\nWe are reloading!")
       location.reload()
     }
-    data.forEach(ChatView.appendMessage)
+    data.forEach((msg) => {
+      ChatView.appendMessage(msg)
+    })
 
     const pendingMessages = ChatView.getPendingMessages()
     for (let element of pendingMessages) {
@@ -85,22 +89,24 @@ const loadSentMessagesOnReconnect = async () => {
 }
 
 const initChat = async () => {
-  try {
-    const starterMessages = await model.Socket.Start()
-    ChatView.render()
-    console.log("Socket connected!")
+  // try {
+  const starterMessages = await model.Socket.Start()
+  ChatView.render()
+  console.log("Socket connected!")
 
-    model.Socket.OnReconnect(loadSentMessagesOnReconnect)
-    model.Socket.onNewMessage((data) => {
-      ChatView.appendMessage(data)
-    })
+  model.Socket.OnReconnect(loadSentMessagesOnReconnect)
+  model.Socket.onNewMessage((data) => {
+    ChatView.appendMessage(data)
+  })
 
-    starterMessages.reverse().forEach(ChatView.appendMessage)
-    ChatView.setLoadedClass()
-    ChatView.addLoadMoreHandler(loadMoreMessages)
-  } catch (err) {
-    console.warn(err)
-  }
+  starterMessages.reverse().forEach((msg) => {
+    ChatView.appendMessage(msg)
+  })
+  ChatView.setLoadedClass()
+  ChatView.addLoadMoreHandler(loadMoreMessages)
+  // } catch (err) {
+  //   console.warn(err)
+  // }
 }
 
 // Add Event-Handlers

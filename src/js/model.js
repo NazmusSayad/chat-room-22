@@ -1,10 +1,23 @@
 import { io } from "socket.io-client"
 import { API_URL } from "./.config"
-import { checkIfYou, getJSON } from "./utils"
+import { getJSON } from "./utils"
 
 export const STATE = {
   user: null,
   auth: null,
+}
+
+const checkIfYou = (data) => {
+  if (Array.isArray(data)) {
+    data.forEach((msg) => {
+      msg.you = msg.email === STATE.user.email
+    })
+
+    return data
+  }
+
+  data.you = data.email === STATE.user.email
+  return data
 }
 
 class ChatWebSocket {
