@@ -150,7 +150,9 @@ const initChat = async () => {
       initChat()
     } catch (err) {
       console.error(err)
-      alert(`Something went wrong!`)
+      if(confirm(`Something went wrong!\nTry again after logout?`)) {
+       model.logOut()
+      }    
     }
   } else {
     WelcomeView.render()
