@@ -63,7 +63,7 @@ const loadMoreMessages = async (oldestMessage) => {
   }
 }
 
-const loadSentMessagesOnReconnect = async () => {
+const onReconnect = async () => {
   try {
     const id = ChatView.getOldestSentMessage().dataset.id
     const data = await model.Socket.getNewerMessagesThanId(id)
@@ -75,12 +75,13 @@ const loadSentMessagesOnReconnect = async () => {
       ChatView.appendMessage(msg)
     })
 
+    // Todo!
     const pendingMessages = ChatView.getPendingMessages()
+    model.Socket.sendNewMessages(pendingMessages)
+
     for (let element of pendingMessages) {
-      await Wait(10)
-      model.Socket.sendNewMessage(element.msg).then((data) => {
-        ChatView.appendMessageSent(element, data)
-      })
+      const data = await model.Socket.sendNewMessage(element.msg)
+      ChatView.appendMessageSent(element, data)
     }
   } catch (err) {
     console.warn(err.message)
@@ -89,24 +90,24 @@ const loadSentMessagesOnReconnect = async () => {
 }
 
 const initChat = async () => {
-  // try {
-  const starterMessages = await model.Socket.Start()
-  ChatView.render()
-  console.log("Socket connected!")
+  try {
+    const starterMessages = await model.Socket.Start()
+    ChatView.render()
+    console.log("Socket connected!")
 
-  model.Socket.OnReconnect(loadSentMessagesOnReconnect)
-  model.Socket.onNewMessage((data) => {
-    ChatView.appendMessage(data)
-  })
+    model.Socket.OnReconnect(onReconnect)
+    model.Socket.onNewMessage((data) => {
+      ChatView.appendMessage(data)
+    })
 
-  starterMessages.reverse().forEach((msg) => {
-    ChatView.appendMessage(msg)
-  })
-  ChatView.setLoadedClass()
-  ChatView.addLoadMoreHandler(loadMoreMessages)
-  // } catch (err) {
-  //   console.warn(err)
-  // }
+    starterMessages.reverse().forEach((msg) => {
+      ChatView.appendMessage(msg)
+    })
+    ChatView.setLoadedClass()
+    ChatView.addLoadMoreHandler(loadMoreMessages)
+  } catch (err) {
+    console.warn(err)
+  }
 }
 
 // Add Event-Handlers
@@ -150,9 +151,9 @@ const initChat = async () => {
       initChat()
     } catch (err) {
       console.error(err)
-      if(confirm(`Something went wrong!\nTry again after logout?`)) {
-       model.logOut()
-      }    
+      if (confirm(`Something went wrong!\nTry again after logout?`)) {
+        model.logOut()
+      }
     }
   } else {
     WelcomeView.render()

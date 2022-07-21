@@ -56,20 +56,17 @@ export const signUp = async (token) => {
 }
 
 export const logOut = () => {
-  localStorage.removeItem("auth")
+  localStorage.removeItem("token")
   location.reload()
 }
 
-const checkIfYou = (data) => {
-  if (Array.isArray(data)) {
-    data.forEach((msg) => {
-      msg.you = msg.email === STATE.user.email
-    })
+const checkIfYou = function (data) {
+  if (!Array.isArray(data)) data = [...arguments]
 
-    return data
-  }
+  data.forEach((msg) => {
+    msg.you = msg.email === STATE.user.email
+  })
 
-  data.you = data.email === STATE.user.email
   return data
 }
 
@@ -91,11 +88,14 @@ class ChatWebSocket {
   }
 
   OnReconnect(callback = () => {}) {
+    const onConnect = this.OnConnect
+    const self = this
+
     const defaultReconnect = this.#socket.io.onreconnect
     this.#socket.io.onreconnect = function () {
       defaultReconnect.call(this)
       console.log("Socket reconnected!")
-      callback()
+      onConnect.call(self, callback)
     }
   }
 
@@ -106,7 +106,6 @@ class ChatWebSocket {
     })
   }
 
-  /* 
   OnConnect(callback = () => {}) {
     if (this.#socket.connected) callback()
     else this.#socket.on("connect", callback)
@@ -117,10 +116,8 @@ class ChatWebSocket {
       this.OnConnect(resolve)
     })
   }
-  
-  */
 
-  onNewMessage() {
+  onNewMessage(callback) {
     this.#socket.on("message-new", (data) => {
       callback(checkIfYou(data))
     })
@@ -134,8 +131,23 @@ class ChatWebSocket {
     })
   }
 
+  sendNewMessages(msgs) {
+    if (!Array.isArray(msgs)) {
+      msgs = arguments
+    }
+
+    return // Todo!
+
+    return new Promise(async (resolve, reject) => {
+      this.#socket.volatile.emit("messages-new", msgs, (data) => {
+        resolve(checkIfYou(data))
+      })
+    })
+  }
+
   getNewerMessagesThanId(id) {
     return new Promise(async (resolve, reject) => {
+      console.log(this.#socket.connected)
       this.#socket.volatile.emit("message-getNewer", id, (data) => {
         resolve(checkIfYou(data))
       })

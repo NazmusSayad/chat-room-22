@@ -120,7 +120,7 @@ class Chat_Form_Messages extends Chat_Form {
     elements.forEach((element) => {
       element.msg = element.querySelector(`[text]`).textContent
     })
-    return elements
+    return [...elements]
   }
 
   setLoadedClass() {
@@ -137,7 +137,10 @@ class Chat_Form_Messages extends Chat_Form {
 
     if (data._id) {
       const isMsgAlreadyRendered = this._messageContainer.querySelector(`[data-id="${data._id}"]`)
-      if (isMsgAlreadyRendered) return false
+      if (isMsgAlreadyRendered) {
+        console.log(data)
+        return false
+      }
 
       element.dataset.id = data._id
       text.title = simplifyDate(data.sent)
