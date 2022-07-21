@@ -15,7 +15,7 @@ class ChatWebSocket {
       auth: STATE.auth,
     })
 
-    this.onDisconnect()
+    this.OnDisconnect()
 
     return new Promise((resolve, reject) => {
       this.#socket.on("message-initial", (data) => {
@@ -24,7 +24,7 @@ class ChatWebSocket {
     })
   }
 
-  OnReconnect(callback) {
+  OnReconnect(callback = () => {}) {
     const defaultReconnect = this.#socket.io.onreconnect
     this.#socket.io.onreconnect = function () {
       defaultReconnect.call(this)
@@ -33,8 +33,15 @@ class ChatWebSocket {
     }
   }
 
+  OnDisconnect(callback = () => {}) {
+    this.#socket.on("disconnect", () => {
+      console.log("Socket disconnected!")
+      callback()
+    })
+  }
+
   /* 
-  OnConnect(callback) {
+  OnConnect(callback = () => {}) {
     if (this.#socket.connected) callback()
     else this.#socket.on("connect", callback)
   }
@@ -47,14 +54,7 @@ class ChatWebSocket {
   
   */
 
-  OnDisconnect(callback) {
-    this.#socket.on("disconnect", () => {
-      console.log("Socket disconnected!")
-      callback()
-    })
-  }
-
-  onNewMessage(callback) {
+  onNewMessage() {
     this.#socket.on("message-new", (data) => {
       callback(checkIfYou(data))
     })
