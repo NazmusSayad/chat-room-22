@@ -44,14 +44,15 @@ class ChatWebSocket {
       this.OnConnect(resolve)
     })
   }
+  
+  */
 
   OnDisconnect(callback) {
     this.#socket.on("disconnect", () => {
       console.log("Socket disconnected!")
       callback()
     })
-  } 
-  */
+  }
 
   onNewMessage(callback) {
     this.#socket.on("message-new", (data) => {
