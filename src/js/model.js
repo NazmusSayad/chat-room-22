@@ -1,10 +1,48 @@
-import { API_URL } from "./CONFIG"
-import { getJSON } from "./HELPER"
+import { io } from "socket.io-client"
+import { API_URL } from "./.config"
+import { getJSON } from "./utils"
 
 export const STATE = {
   user: null,
   auth: null,
 }
+
+class ChatWebSocket {
+  #socket
+
+  start() {
+    this.#socket = io(API_URL + "/chat", {
+      auth: STATE.auth,
+    })
+    return new Promise((resolve, reject) => {
+      this.#socket.on("start", (data) => {
+        resolve(data)
+      })
+    })
+  }
+
+  newMessage(msg) {
+    return new Promise((resolve, reject) => {
+      this.#socket.emit("message-new", msg, (data) => {
+        resolve(data)
+      })
+    })
+  }
+
+  lodeMoreMessages(id) {
+    return new Promise((resolve, reject) => {
+      this.#socket.emit("message-loadmore", id, (data) => {
+        resolve(data)
+      })
+    })
+  }
+
+  onNewMessage(callback = (data) => console.log(data)) {
+    this.#socket.on("message-new", callback)
+  }
+}
+
+export const Socket = new ChatWebSocket()
 
 export const login = async (token) => {
   const res = await getJSON(API_URL + "/user", {
@@ -32,71 +70,6 @@ export const signUp = async (token) => {
 export const logOut = () => {
   localStorage.clear()
   location.reload()
-}
-
-export const postMessage = async (msg) => {
-  const res = await getJSON(API_URL + "/chat", {
-    method: "POST",
-    headers: {
-      ...STATE.auth,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ msg }),
-  })
-
-  return res.data
-}
-
-export const getMessage = async () => {
-  const res = await getJSON(API_URL + "/chats", {
-    headers: STATE.auth,
-  })
-
-  return res.data
-}
-
-export const getMessageById = async (id) => {
-  const res = await getJSON(API_URL + "/chats/" + id, {
-    headers: STATE.auth,
-  })
-
-  return res.data
-}
-
-export const startChatLoop = (
-  successCallback = (data) => console.log(data),
-  errorCallback = (data) => console.warn(data)
-) => {
-  const xhr = new XMLHttpRequest()
-  xhr.timeout = 25000
-  xhr.addEventListener(
-    "load",
-    (e) => {
-      successCallback(JSON.parse(e.target.response))
-      startChatLoop(successCallback, errorCallback)
-    },
-    { once: true }
-  )
-  xhr.addEventListener(
-    "error",
-    (e) => {
-      errorCallback(e)
-    },
-    { once: true }
-  )
-  xhr.addEventListener(
-    "timeout",
-    () => {
-      startChatLoop(successCallback, errorCallback)
-    },
-    { once: true }
-  )
-
-  xhr.open("GET", API_URL + "/chat")
-  xhr.setRequestHeader("email", STATE.auth.email)
-  xhr.setRequestHeader("password", STATE.auth.password)
-
-  xhr.send()
 }
 
 const saveAuthInfo = (data) => {

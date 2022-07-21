@@ -7,7 +7,7 @@ import {
   refactorMessageBeforeSending,
   simplifyDate,
   textLinkify,
-} from "../HELPER"
+} from "../utils.js"
 import { Views } from "./Views"
 
 class Chat extends Views {

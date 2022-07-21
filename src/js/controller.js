@@ -41,7 +41,7 @@ const sendMessage = async (msg) => {
       msg,
     })
 
-    const data = await model.postMessage(msg)
+    const data = await model.Socket.newMessage(msg)
     ChatView.appendMessageSent(element, data)
   } catch (err) {
     console.error(err)
@@ -52,7 +52,7 @@ const sendMessage = async (msg) => {
 const loadMoreMessages = async (oldestMessage) => {
   try {
     const id = oldestMessage.dataset.id
-    const data = await model.getMessageById(id)
+    const data = await model.Socket.lodeMoreMessages(id)
     data.forEach((msg) => {
       msg.you = msg.email === model.STATE.user.email
       ChatView.prependMessage(msg)
@@ -67,19 +67,14 @@ const initChat = async () => {
   try {
     ChatView.render()
 
-    model.startChatLoop(
-      ({ data }) => {
-        ChatView.appendMessage(data)
-      },
-      () => {
-        location.reload()
-      }
-    )
-
-    const data = await model.getMessage()
-    data.reverse().forEach((msg) => {
+    const starterMessages = await model.Socket.start()
+    starterMessages.reverse().forEach((msg) => {
       msg.you = msg.email === model.STATE.user.email
       ChatView.appendMessage(msg)
+    })
+
+    model.Socket.onNewMessage((data) => {
+      ChatView.appendMessage(data)
     })
 
     ChatView.setLoadedClass()
@@ -87,10 +82,6 @@ const initChat = async () => {
   } catch (err) {
     console.warn(err)
   }
-}
-
-const editProfile = () => {
-  console.log(`Render edit profile view...`)
 }
 
 // Add Event-Handlers
@@ -107,7 +98,6 @@ const editProfile = () => {
   ChatView.addTextAreaHandlers()
   ChatView.addMsgSubmitHandler(sendMessage)
   ChatView.addLogoutHandler(model.logOut)
-  // ChatView.addEditProfileHandler(editProfile)
 })()
 
 // Add Keyboard-Shortcuts

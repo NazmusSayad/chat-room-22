@@ -6,8 +6,7 @@
   ],
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
-    "build": "webpack build --config webpack.prod.js",
-    "theme": "tsc ./src/theme.ts --target es6"
+    "build": "webpack build --config webpack.prod.js"
   },
   "devDependencies": {
     "@babel/core": "^7.18.9",
@@ -28,6 +27,7 @@
     "webpack-dev-server": "^4.9.3"
   },
   "dependencies": {
-    "anchorme": "^2.1.2"
+    "anchorme": "^2.1.2",
+    "socket.io-client": "^4.5.1"
   }
 }

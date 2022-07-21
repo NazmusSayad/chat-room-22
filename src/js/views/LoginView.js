@@ -1,5 +1,5 @@
 import markup from "../../components/login.html"
-import { HTML } from "../HELPER"
+import { HTML } from "../utils.js"
 import { Views } from "./Views"
 
 class Login extends Views {
