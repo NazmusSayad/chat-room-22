@@ -1,6 +1,6 @@
 import { io } from "socket.io-client"
 import { API_URL } from "./.config"
-import { getJSON } from "./utils"
+import { getJSON, Wait } from "./utils"
 import cryptoJs from "./crypto-js"
 
 export const STATE = {
@@ -76,6 +76,7 @@ class ChatWebSocket {
   Start() {
     this.#socket = io(API_URL + "/chat", {
       auth: STATE.auth,
+      transports: ["websocket"],
     })
 
     this.OnDisconnect()
@@ -113,49 +114,57 @@ class ChatWebSocket {
 
   WaitForConnection() {
     return new Promise((resolve, reject) => {
+      console.log(this.#socket.connected)
       this.OnConnect(resolve)
     })
   }
 
   onNewMessage(callback) {
     this.#socket.on("message-new", (data) => {
-      callback(checkIfYou(data))
+      callback(checkIfYou(data)[0])
     })
   }
 
   sendNewMessage(msg) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.#socket.volatile.emit("message-new", msg, (data) => {
-        resolve(checkIfYou(data))
+        resolve(checkIfYou(data)[0])
       })
     })
   }
 
-  sendNewMessages(msgs) {
+  sendNewMessages(msgs = [0, 1, 2, 3]) {
     if (!Array.isArray(msgs)) {
       msgs = arguments
     }
 
-    return // Todo!
-
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.#socket.volatile.emit("messages-new", msgs, (data) => {
+        console.log(data)
         resolve(checkIfYou(data))
       })
     })
   }
 
   getNewerMessagesThanId(id) {
-    return new Promise(async (resolve, reject) => {
-      console.log(this.#socket.connected)
-      this.#socket.volatile.emit("message-getNewer", id, (data) => {
-        resolve(checkIfYou(data))
+    return new Promise((resolve, reject) => {
+      console.log((id = "62d9f68b666b4ff015984a01"))
+
+      // Fix this
+      
+      this.OnConnect(() => {
+        console.log(id)
+
+        this.#socket.emit("message-getNewer", id, (data) => {
+          console.log(data)
+          resolve(checkIfYou(data))
+        })
       })
     })
   }
 
   getOlderMessagesThanId(id) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.#socket.volatile.emit("message-getOlder", id, (data) => {
         resolve(checkIfYou(data))
       })

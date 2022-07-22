@@ -65,7 +65,13 @@ const loadMoreMessages = async (oldestMessage) => {
 
 const onReconnect = async () => {
   try {
+    await model.Socket.WaitForConnection()
+
+    await Wait(1000)
+    console.log("Getting data...")
+
     const id = ChatView.getOldestSentMessage().dataset.id
+
     const data = await model.Socket.getNewerMessagesThanId(id)
     if (typeof data === "number") {
       alert("Too many messages to laod.\nWe are reloading!")
@@ -75,14 +81,15 @@ const onReconnect = async () => {
       ChatView.appendMessage(msg)
     })
 
-    // Todo!
-    const pendingMessages = ChatView.getPendingMessages()
-    model.Socket.sendNewMessages(pendingMessages)
+    /*---------------------------*/
 
-    for (let element of pendingMessages) {
-      const data = await model.Socket.sendNewMessage(element.msg)
-      ChatView.appendMessageSent(element, data)
-    }
+    const pendingMessages = ChatView.getPendingMessages()
+    const messages = pendingMessages.map((element) => element.msg)
+    const datalist = await model.Socket.sendNewMessages(messages)
+
+    pendingMessages.forEach((element, ind) => {
+      ChatView.appendMessageSent(element, datalist[ind])
+    })
   } catch (err) {
     console.warn(err.message)
     return true
@@ -92,11 +99,13 @@ const onReconnect = async () => {
 const initChat = async () => {
   try {
     const starterMessages = await model.Socket.Start()
+
     ChatView.render()
     console.log("Socket connected!")
 
     model.Socket.OnReconnect(onReconnect)
     model.Socket.onNewMessage((data) => {
+      console.log(data)
       ChatView.appendMessage(data)
     })
 
@@ -159,3 +168,9 @@ const initChat = async () => {
     WelcomeView.render()
   }
 })()
+
+// document.onclick = () => {
+//   model.Socket.getNewerMessagesThanId("62d9f04ffa93150992cd4606").then((data) => {
+//     console.log(data)
+//   })
+// }
