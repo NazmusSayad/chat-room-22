@@ -24,6 +24,7 @@ export const Start = () => {
     Socket.on("connect", () => {
       
       if (init) {
+        console.log("Socket reconnected!")
         handlers.onReconnection()
       } else {
         console.log("Socket connected!")
@@ -56,7 +57,6 @@ export const WaitForConnection = async () => {
 
 export const receiveMessages = () => {
   Socket.on("message-new", (data) => {
-    console.log({ data })
     handlers.receiveMessages(checkIfYou(data))
   })
 }

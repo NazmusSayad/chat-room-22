@@ -107,7 +107,7 @@ class Chat_Form_Messages extends Chat_Form {
 
   _messageContainer = this._element.querySelector(`#chat-container`)
 
-  getOldestSentMessage() {
+  getLastSentMessage() {
     const firstPendingMessage = this._messageContainer.querySelector(`[data-status="pending"]`)
     if (firstPendingMessage) {
       return firstPendingMessage.previousElementSibling
@@ -156,6 +156,13 @@ class Chat_Form_Messages extends Chat_Form {
     return element
   }
 
+  ifNeedsToScroll() {
+    const scrollBottom = getScrollBottom(this._messageContainer)
+    const skipHeight = this._messageContainer.clientHeight
+
+    return scrollBottom < skipHeight
+  }
+
   scrollToBottom() {
     this._messageContainer.scrollTo({
       top: this._messageContainer.scrollHeight,
@@ -167,14 +174,17 @@ class Chat_Form_Messages extends Chat_Form {
   appendMessage(data) {
     const element = this._generateMessageMarkup(data)
     if (!element) return
+    const lastSentMessage = this.getLastSentMessage()
 
-    this._messageContainer.appendChild(element)
-    const scrollBottom = getScrollBottom(this._messageContainer)
-    const skipHeight = this._messageContainer.clientHeight
+    if (data._id && lastSentMessage) {
+      console.log(lastSentMessage)
+      lastSentMessage.after(element)
+    } else {
+      this._messageContainer.appendChild(element)
+    }
 
-    if (scrollBottom < skipHeight || data.you) {
+    if (this.ifNeedsToScroll() || data.you) {
       this.scrollToBottom()
-
       if (document.visibilityState === "hidden" && this._loaded) {
         newMessageNotification(data.user, data.msg)
       }
@@ -202,10 +212,6 @@ class Chat_Form_Messages extends Chat_Form {
   }
 
   appendMessageSent(element, data) {
-    if (!element.isEqualNode(this._messageContainer.lastElementChild)) {
-      this._messageContainer.appendChild(element)
-    }
-
     element.dataset.id = data._id
     element.querySelector("[text]").title = simplifyDate(data.sent)
     element.dataset.status = "sent"

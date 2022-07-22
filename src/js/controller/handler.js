@@ -84,33 +84,38 @@ export const loadMoreMessages = async (oldestMessage) => {
   }
 }
 
+const loadLeftMessagesOnReconnect = async () => {
+  const id = ChatView.getLastSentMessage()?.dataset?.id
+  if (!id) return
+
+  const data = await Chat.getNewerMessagesThanId(id)
+  if (typeof data === "number") {
+    alert("Too many messages to laod.\nWe are reloading!")
+    location.reload()
+  }
+
+  const ifNeedsToScroll = ChatView.ifNeedsToScroll()
+  data.forEach((msg) => {
+    ChatView.appendMessage(msg)
+  })
+  if (ifNeedsToScroll) ChatView.scrollToBottom()
+}
+
+const sendPendingMessagesOnReconnect = async () => {
+  const pendingMessages = ChatView.getPendingMessages()
+  if (!pendingMessages.length) return
+
+  const messages = pendingMessages.map((element) => element.msg)
+  const datalist = await Chat.sendMessages(messages)
+  pendingMessages.forEach((element, ind) => {
+    ChatView.appendMessageSent(element, datalist[ind])
+  })
+}
+
 export const onReconnect = async () => {
   try {
-    await Chat.WaitForConnection()
-    const id = ChatView.getOldestSentMessage()?.dataset?.id
-    const data = await Chat.getNewerMessagesThanId(id)
-
-    if (typeof data === "number") {
-      alert("Too many messages to laod.\nWe are reloading!")
-      location.reload()
-    }
-    data.forEach((msg) => {
-      ChatView.appendMessage(msg)
-    })
-
-    console.log("Load recent messages done!")
-
-    /*---------------------------*/
-
-    const pendingMessages = ChatView.getPendingMessages()
-    console.log({ pendingMessages })
-    const messages = pendingMessages.map((element) => element.msg)
-    const datalist = await Chat.sendMessages(messages)
-    console.log({ datalist })
-
-    pendingMessages.forEach((element, ind) => {
-      ChatView.appendMessageSent(element, datalist[ind])
-    })
+    await loadLeftMessagesOnReconnect()
+    await sendPendingMessagesOnReconnect()
   } catch (err) {
     console.warn(err.message)
     return true
