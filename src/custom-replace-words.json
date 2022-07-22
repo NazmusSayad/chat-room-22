@@ -12,8 +12,9 @@
     true
   ],
 
-  [":admin:", "Nazmus Sayad & Tasnimul Hasan", true],
-  [":dev:", "Nazmus Sayad & Tasnimul Hasan", true],
+  [":admin:", "<a style='color:goldenrod' target='_blank' href='https://github.com/NazmusSayad'>Nazmus Sayad</a> & <a style='color:goldenrod' target='_blank' href='https://github.com/Tasnimul-Hasan'>Tasnimul Hasan</a>", true],
+  
+  [":dev:", "<a target='_blank' href='https://github.com/NazmusSayad'>Nazmus Sayad</a> & <a target='_blank' href='https://github.com/Tasnimul-Hasan'>Tasnimul Hasan</a>", true],
   [
     ":repo:",
     "Client: https://github.com/NazmusSayad/chat-room-22\nServer: https://github.com/NazmusSayad/chat-room-22.server",
