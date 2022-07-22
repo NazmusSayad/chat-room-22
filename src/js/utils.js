@@ -47,8 +47,9 @@ export const simplifyDate = (date) => {
 export const makeTextReadyForRender = (input) => {
   input = input.replace(/</gim, "&lt;")
   input = input.replace(/\n/gm, "<br/>")
-
-  const linkified = anchorme({
+  input = replaceIndividualWords(input)
+  input = Twemoji.parse(input)
+  return anchorme({
     input,
     options: {
       attributes: {
@@ -57,8 +58,6 @@ export const makeTextReadyForRender = (input) => {
       },
     },
   })
-
-  return Twemoji.parse(linkified)
 }
 
 export const newMessageNotification = async (user = "Someone", body = "") => {
@@ -96,6 +95,10 @@ export const replaceIndividualWords = (text) => {
     text = text.replace(regex, newWord)
   })
 
+  return text
+}
+
+export const replaceIndividualBadWords = (text) => {
   BadWordList.forEach((word) => {
     const regex = RegExp("\\b" + word + "\\b", "igm")
     text = text.replace(regex, new Array(word.length).fill("🛇").join(""))
@@ -121,6 +124,6 @@ export const removeDuplicateLinesOrSpaces = (text) => {
 
 export const refactorMessageBeforeSending = (msg) => {
   msg = removeDuplicateLinesOrSpaces(msg)
-  msg = replaceIndividualWords(msg)
+  msg = replaceIndividualBadWords(msg)
   return emojiShortnameToUnicode(msg.trim())
 }

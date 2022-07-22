@@ -5,6 +5,9 @@
   ["sayad", "Sayad"],
   ["tanim", "Tanim"],
 
+  [":sayad:", "<a href='google.com'>Sayad</a>", true],
+  [":tanim:", "<a href='google.com'>Tanim</a>", true],
+
   [":admin:", "Nazmus Sayad & Tasnimul Hasan", true],
   [":dev:", "Nazmus Sayad & Tasnimul Hasan", true],
   [
