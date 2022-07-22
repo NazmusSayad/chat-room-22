@@ -1,8 +1,31 @@
 <section -root="welcomeView" class="welcome">
   <div class="welcome__content">
-    <h1>Connect with your mate easily</h1>
-
-    <button id="goto-login-btn" class="btn login">Login</button>
-    <button id="goto-signup-btn" class="btn signup">Signup</button>
+    <div class="form-container">
+      <h2 class="tittle" id="title" aria-details="Change it to `Login`">Sign Up</h2>
+      <!-- embed the component here with the same format -->
+      <form>
+        <input type="text" placeholder="First Name" /><br />
+        <input type="email" placeholder="Email" /><br />
+        <input type="password" placeholder="Password" /><br />
+        <input type="submit" value="Sign up" />
+      </form>
+    </div>
+    <div class="text-container">
+      <h2>
+        <span
+          id="change-it-later"
+          aria-details="Change it to `Don't` when switched to login view"
+          >Already</span
+        >
+        have an account?
+      </h2>
+      <p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis sit laudantium
+        vitae, rerum voluptate provident.
+      </p>
+      <button id="goto-login-btn" class="btn login">Login</button>
+    </div>
   </div>
+  <!-- will deal with you guys later -->
+  <button id="goto-signup-btn" class="btn signup hidden">Signup</button>
 </section>
