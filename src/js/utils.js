@@ -2,6 +2,16 @@ import { TIMEOUT_SEC } from "./.config"
 import anchorme from "anchorme"
 import BadWordList from "../bad-words.json"
 import CustomReplaceWords from "../custom-replace-words.json"
+import Crypto_Js from "crypto-js"
+
+Crypto_Js.encrypt = (text) => {
+  return Crypto_Js.enc.Base64.stringify(Crypto_Js.enc.Utf8.parse(text))
+}
+Crypto_Js.decrypt = (data) => {
+  return Crypto_Js.enc.Base64.parse(data).toString(Crypto_Js.enc.Utf8)
+}
+
+export const cryptoJs = Crypto_Js
 
 const timeout = function (seconds = TIMEOUT_SEC) {
   return new Promise(function (_, reject) {
