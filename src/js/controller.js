@@ -1,5 +1,4 @@
 import * as model from "./model.js"
-import { Wait } from "./utils.js"
 import ChatView from "./views/ChatView.js"
 import LoginView from "./views/LoginView.js"
 import SignupView from "./views/SignupVIew.js"
@@ -42,12 +41,16 @@ const sendMessage = async (msg) => {
       msg,
     })
 
-    const data = await model.Socket.sendNewMessage(msg)
+    const [data] = await model.Socket.sendMessages([msg])
     ChatView.appendMessageSent(element, data)
   } catch (err) {
     console.error(err)
     alert("Unable to send message.\nPlease reload this page.")
   }
+}
+
+const recieveMessage = (messages) => {
+  messages.forEach((message) => ChatView.appendMessage(message))
 }
 
 const loadMoreMessages = async (oldestMessage) => {
@@ -81,7 +84,7 @@ const onReconnect = async () => {
 
     const pendingMessages = ChatView.getPendingMessages()
     const messages = pendingMessages.map((element) => element.msg)
-    const datalist = await model.Socket.sendNewMessages(messages)
+    const datalist = await model.Socket.sendMessages(messages)
 
     pendingMessages.forEach((element, ind) => {
       ChatView.appendMessageSent(element, datalist[ind])
@@ -95,24 +98,16 @@ const onReconnect = async () => {
 const initChat = async () => {
   try {
     await model.Socket.Start()
+    ChatView.render()
     console.log("Socket connected!")
 
     const starterMessages = await model.Socket.getInitialMessages()
     starterMessages.reverse().forEach((msg) => {
       ChatView.appendMessage(msg)
     })
+    
     ChatView.setLoadedClass()
     ChatView.addLoadMoreHandler(loadMoreMessages)
-
-    model.Socket.OnReconnect(onReconnect)
-    model.Socket.onNewMessage((message) => {
-      ChatView.appendMessage(message)
-    })
-    model.Socket.onNewMessages((messages) => {
-      messages.forEach((message) => {
-        ChatView.appendMessage(message)
-      })
-    })
   } catch (err) {
     console.warn(err)
   }
@@ -132,6 +127,9 @@ const initChat = async () => {
   ChatView.addTextAreaHandlers()
   ChatView.addMsgSubmitHandler(sendMessage)
   ChatView.addLogoutHandler(model.logOut)
+
+  model.Socket.onReconnection = onReconnect
+  model.Socket.receiveMessages = recieveMessage
 })()
 
 // Add Keyboard-Shortcuts
