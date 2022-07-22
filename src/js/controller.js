@@ -66,10 +66,6 @@ const loadMoreMessages = async (oldestMessage) => {
 const onReconnect = async () => {
   try {
     await model.Socket.WaitForConnection()
-
-    await Wait(1000)
-    console.log("Getting data...")
-
     const id = ChatView.getOldestSentMessage().dataset.id
 
     const data = await model.Socket.getNewerMessagesThanId(id)
@@ -98,22 +94,25 @@ const onReconnect = async () => {
 
 const initChat = async () => {
   try {
-    const starterMessages = await model.Socket.Start()
-
-    ChatView.render()
+    await model.Socket.Start()
     console.log("Socket connected!")
 
-    model.Socket.OnReconnect(onReconnect)
-    model.Socket.onNewMessage((data) => {
-      console.log(data)
-      ChatView.appendMessage(data)
-    })
-
+    const starterMessages = await model.Socket.getInitialMessages()
     starterMessages.reverse().forEach((msg) => {
       ChatView.appendMessage(msg)
     })
     ChatView.setLoadedClass()
     ChatView.addLoadMoreHandler(loadMoreMessages)
+
+    model.Socket.OnReconnect(onReconnect)
+    model.Socket.onNewMessage((message) => {
+      ChatView.appendMessage(message)
+    })
+    model.Socket.onNewMessages((messages) => {
+      messages.forEach((message) => {
+        ChatView.appendMessage(message)
+      })
+    })
   } catch (err) {
     console.warn(err)
   }
@@ -168,9 +167,3 @@ const initChat = async () => {
     WelcomeView.render()
   }
 })()
-
-// document.onclick = () => {
-//   model.Socket.getNewerMessagesThanId("62d9f04ffa93150992cd4606").then((data) => {
-//     console.log(data)
-//   })
-// }

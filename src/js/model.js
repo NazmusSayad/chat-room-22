@@ -82,9 +82,7 @@ class ChatWebSocket {
     this.OnDisconnect()
 
     return new Promise((resolve, reject) => {
-      this.#socket.on("message-initial", (data) => {
-        resolve(checkIfYou(data))
-      })
+      this.OnConnect(resolve)
     })
   }
 
@@ -114,7 +112,6 @@ class ChatWebSocket {
 
   WaitForConnection() {
     return new Promise((resolve, reject) => {
-      console.log(this.#socket.connected)
       this.OnConnect(resolve)
     })
   }
@@ -122,6 +119,12 @@ class ChatWebSocket {
   onNewMessage(callback) {
     this.#socket.on("message-new", (data) => {
       callback(checkIfYou(data)[0])
+    })
+  }
+
+  onNewMessages(callback) {
+    this.#socket.on("messages-new", (data) => {
+      callback(checkIfYou(data))
     })
   }
 
@@ -140,25 +143,24 @@ class ChatWebSocket {
 
     return new Promise((resolve, reject) => {
       this.#socket.volatile.emit("messages-new", msgs, (data) => {
-        console.log(data)
+        resolve(checkIfYou(data))
+      })
+    })
+  }
+
+  getInitialMessages() {
+    return new Promise((resolve, reject) => {
+      this.#socket.emit("message-initial", (data) => {
         resolve(checkIfYou(data))
       })
     })
   }
 
   getNewerMessagesThanId(id) {
+    // Fix this
     return new Promise((resolve, reject) => {
-      console.log((id = "62d9f68b666b4ff015984a01"))
-
-      // Fix this
-      
-      this.OnConnect(() => {
-        console.log(id)
-
-        this.#socket.emit("message-getNewer", id, (data) => {
-          console.log(data)
-          resolve(checkIfYou(data))
-        })
+      this.#socket.emit("message-getNewer", id, (data) => {
+        resolve(checkIfYou(data))
       })
     })
   }
