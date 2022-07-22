@@ -183,10 +183,10 @@ class Chat_Form_Messages extends Chat_Form {
     if (this.ifNeedsToScroll() || data.you) {
       this.scrollToBottom()
       if (document.visibilityState === "hidden" && this._loaded) {
-        newMessageNotification(data.user, data.msg)
+        newMessageNotification(data.name, data.msg)
       }
     } else {
-      newMessageNotification(data.user, data.msg)
+      newMessageNotification(data.name, data.msg)
     }
 
     return element

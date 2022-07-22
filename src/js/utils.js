@@ -60,7 +60,7 @@ export const makeTextReadyForRender = (input) => {
   })
 }
 
-export const newMessageNotification = async (user = "Someone", body = "") => {
+export const newMessageNotification = async (user, body) => {
   await Notification.requestPermission()
   if (Notification.permission === "denied") return
 
