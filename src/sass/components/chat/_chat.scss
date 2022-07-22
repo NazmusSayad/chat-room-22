@@ -1,4 +1,4 @@
-#root[view='chatView'] {
+#root[view="chatView"] {
   background-color: var(--root-bg);
 }
 
@@ -13,7 +13,7 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   transition-property: width, height, border-radius;
   transition-duration: 0.25s;
 
@@ -54,6 +54,13 @@
       color: var(--dark);
       animation: slide-message 0.5s forwards;
 
+      img.emoji {
+        display: inline;
+        height: 1.1em;
+        aspect-ratio: 1;
+        margin-bottom: -0.2em;
+      }
+
       span {
         color: var(--clr-secondary);
         font-weight: 700;
@@ -63,7 +70,6 @@
       }
 
       p {
-        // Ihapar
         max-width: 100%;
         color: var(--text-them);
         background: var(--light);
@@ -76,16 +82,10 @@
         a {
           color: inherit;
         }
-
-        img {
-          //  ami shob jaygay rem use kortechi para nei.....ekhane em lagbeni.....font size er sathe miliye nite....ok
-          height: 1em;
-          aspect-ratio: 1;
-        }
       }
     }
 
-    .message[data-user='you'] {
+    .message[data-user="you"] {
       align-items: flex-end;
       margin-left: auto;
       animation-name: slide-message-you;
@@ -99,11 +99,11 @@
       }
     }
 
-    .message[data-status='pending'] p {
+    .message[data-status="pending"] p {
       background: var(--clr-primary-light);
     }
 
-    .message[data-status='sent'] p {
+    .message[data-status="sent"] p {
       transition: 0.3s;
     }
   }
