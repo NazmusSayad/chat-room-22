@@ -5,8 +5,12 @@
   ["sayad", "Sayad"],
   ["tanim", "Tanim"],
 
-  [":sayad:", "<a target='_blank' href='https://github.com/NazmusSayad'>Sayad</a>", true],
-  [":tanim:", "<a target='_blank' href='https://github.com/Tasnimul-Hasan'>Tanim</a>", true],
+  [":sayad:", "<a target='_blank' href='https://github.com/NazmusSayad'>Nazmus Sayad</a>", true],
+  [
+    ":tanim:",
+    "<a target='_blank' href='https://github.com/Tasnimul-Hasan'>Tasnimul Hasan</a>",
+    true
+  ],
 
   [":admin:", "Nazmus Sayad & Tasnimul Hasan", true],
   [":dev:", "Nazmus Sayad & Tasnimul Hasan", true],
