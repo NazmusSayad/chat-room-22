@@ -4,8 +4,7 @@
   font-family: 'Poppins', sans-serif;
   width: 100vw;
   height: 100vh;
-  background: url('https://images.unsplash.com/photo-1523821741446-edb2b68bb7a0')
-    no-repeat center center/cover;
+  background: url('../assests/background-large.jpg') no-repeat center center/cover;
   display: grid;
   place-items: center;
 
@@ -14,24 +13,105 @@
 
     display: flex;
     align-items: center;
-    max-width: 68rem;
+    max-height: 35rem;
     background: var(--root-bg);
     padding-inline: var(--column-gap);
     gap: var(--column-gap);
 
+    .btn {
+      padding: 0.5rem 3rem;
+      border-radius: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1rem;
+      outline: none;
+    }
+
+    .form-container form {
+      width: 40rem;
+      padding: 4rem;
+      background-color: var(--bg-light);
+      display: flex;
+      flex-direction: column;
+      gap: 3.5rem;
+
+      h2 {
+        font-size: 1.8rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: var(--clr-primary);
+      }
+
+      button {
+        border: none;
+        background-color: var(--clr-primary);
+        color: var(--background);
+        align-self: flex-end;
+      }
+
+      .input-container {
+        position: relative;
+
+        input {
+          width: 100%;
+          padding: 1rem 0;
+          font-size: 1.5rem;
+          color: var(--foreground);
+          margin-bottom: 3.5rem;
+          border: none;
+          border-bottom: 1px solid var(--clr-placeholder);
+          outline: none;
+          background: transparent;
+
+          &:focus {
+            border-color: var(--clr-primary);
+          }
+        }
+
+        input.error {
+          border-color: var(--error);
+        }
+
+        label {
+          position: absolute;
+          top: 0;
+          left: 0;
+          padding: 1rem 0;
+          font-size: 1.5rem;
+          color: var(--clr-placeholder);
+          pointer-events: none;
+          transition: 0.5s;
+        }
+
+        %label {
+          top: -20px;
+          left: 0;
+          color: var(--clr-primary);
+          font-size: 12px;
+        }
+
+        input:focus ~ label {
+          @extend %label;
+        }
+        input:not(:placeholder-shown) ~ label {
+          @extend %label;
+        }
+      }
+    }
+
     .text-container {
       max-width: 25rem;
-      color: var(--black);
+      color: var(--foreground);
       font-weight: 300;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      padding-block: 8rem;
+      gap: 1.5rem;
+      padding-block: 4rem;
       align-items: flex-start;
 
       h2 {
         font-size: 2.4rem;
         font-weight: inherit;
+        line-height: 1.2;
       }
       p {
         font-size: 1.2rem;
@@ -42,13 +122,18 @@
 
       button {
         background: transparent;
-        padding: 0.5rem 3rem;
-        border: 1px solid var(--black);
-        border-radius: 0.5rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1rem;
-        outline: none;
+        border: 1px solid var(--foreground);
+        transition: 0.5s ease;
+
+        &:hover {
+          color: var(--background);
+          background: var(--foreground);
+        }
       }
     }
   }
+}
+
+html[theme='dark'] .welcome {
+  --root-bg: rgb(24 24 24 / 85%);
 }

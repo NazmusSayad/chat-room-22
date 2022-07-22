@@ -1,13 +1,13 @@
-import { TIMEOUT_SEC } from "./.config"
-import anchorme from "anchorme"
-import BadWordList from "../bad-words.json"
-import CustomReplaceWords from "../custom-replace-words.json"
-import Crypto_Js from "crypto-js"
+import { TIMEOUT_SEC } from './.config'
+import anchorme from 'anchorme'
+import BadWordList from '../bad-words.json'
+import CustomReplaceWords from '../custom-replace-words.json'
+import Crypto_Js from 'crypto-js'
 
-Crypto_Js.encrypt = (text) => {
+Crypto_Js.encrypt = text => {
   return Crypto_Js.enc.Base64.stringify(Crypto_Js.enc.Utf8.parse(text))
 }
-Crypto_Js.decrypt = (data) => {
+Crypto_Js.decrypt = data => {
   return Crypto_Js.enc.Base64.parse(data).toString(Crypto_Js.enc.Utf8)
 }
 
@@ -26,43 +26,43 @@ export const getJSON = async function () {
     const res = await Promise.race([timeout(), fetch(...arguments)])
     const data = await res.json()
 
-    if (!res.ok) throw new Error(data.message + " " + data.status)
+    if (!res.ok) throw new Error(data.message + ' ' + data.status)
     return data
   } catch (error) {
     throw error
   }
 }
 
-export const HTML = function (body = "<div></div>") {
-  return new DOMParser().parseFromString(body, "text/html").body.firstElementChild
+export const HTML = function (body = '<div></div>') {
+  return new DOMParser().parseFromString(body, 'text/html').body.firstElementChild
 }
 
-export const simplifyDate = (date) => {
+export const simplifyDate = date => {
   date = new Date(date)
   return date.toLocaleString()
 }
 
-export const textLinkify = (input) => {
-  input = input.replace(/</gim, "&lt;")
-  input = input.replace(/\n/gm, "<br/>")
+export const makeTextReadyForRender = input => {
+  input = input.replace(/</gim, '&lt;')
+  input = input.replace(/\n/gm, '<br/>')
 
   return anchorme({
     input,
     options: {
       attributes: {
-        target: "_blank",
-        class: "message-link",
+        target: '_blank',
+        class: 'message-link',
       },
     },
   })
 }
 
-export const newMessageNotification = async (user = "Someone", body = "") => {
+export const newMessageNotification = async (user = 'Someone', body = '') => {
   await Notification.requestPermission()
-  if (Notification.permission === "denied") return
+  if (Notification.permission === 'denied') return
 
   const id = String(Math.random())
-  const title = "New message from: " + user
+  const title = 'New message from: ' + user
   const notification = new Notification(title, {
     body,
     vibrate: [1],
@@ -74,48 +74,48 @@ export const newMessageNotification = async (user = "Someone", body = "") => {
 }
 
 export const Wait = function (duration) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(resolve, duration)
   })
 }
 
-export const getScrollBottom = (element) => {
+export const getScrollBottom = element => {
   const offset = element.scrollTop + element.clientHeight
   const height = element.scrollHeight
   return height - offset
 }
 
-export const replaceIndividualWords = (text) => {
+export const replaceIndividualWords = text => {
   CustomReplaceWords.forEach(([word, newWord, caseIns]) => {
-    const isCaseInsensitive = caseIns ? "i" : ""
-    const regex = new RegExp("^" + word + "$", "gm" + isCaseInsensitive)
+    const isCaseInsensitive = caseIns ? 'i' : ''
+    const regex = new RegExp('^' + word + '$', 'gm' + isCaseInsensitive)
     text = text.replace(regex, newWord)
   })
 
-  BadWordList.forEach((word) => {
-    const regex = RegExp("\\b" + word + "\\b", "igm")
-    text = text.replace(regex, new Array(word.length).fill("🛇").join(""))
+  BadWordList.forEach(word => {
+    const regex = RegExp('\\b' + word + '\\b', 'igm')
+    text = text.replace(regex, new Array(word.length).fill('🛇').join(''))
 
-    const regex2 = new RegExp(word.split("").join("\n"), "igm")
-    text = text.replace(regex2, new Array(word.length).fill("🛇").join("\n"))
+    const regex2 = new RegExp(word.split('').join('\n'), 'igm')
+    text = text.replace(regex2, new Array(word.length).fill('🛇').join('\n'))
   })
 
   return text
 }
 
-export const removeDuplicateLinesOrSpaces = (text) => {
-  while (text.includes("\n\n")) {
-    text = text.replace(/\n\n/gim, "\n")
+export const removeDuplicateLinesOrSpaces = text => {
+  while (text.includes('\n\n')) {
+    text = text.replace(/\n\n/gim, '\n')
   }
 
-  while (text.includes("  ")) {
-    text = text.replace(/  /gim, " ")
+  while (text.includes('  ')) {
+    text = text.replace(/  /gim, ' ')
   }
 
   return text
 }
 
-export const refactorMessageBeforeSending = (msg) => {
+export const refactorMessageBeforeSending = msg => {
   msg = removeDuplicateLinesOrSpaces(msg)
   msg = replaceIndividualWords(msg)
   return msg.trim()

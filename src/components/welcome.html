@@ -1,13 +1,25 @@
 <section -root="welcomeView" class="welcome">
   <div class="welcome__content">
     <div class="form-container">
-      <h2 class="tittle" id="title" aria-details="Change it to `Login`">Sign Up</h2>
       <!-- embed the component here with the same format -->
       <form>
-        <input type="text" placeholder="First Name" /><br />
-        <input type="email" placeholder="Email" /><br />
-        <input type="password" placeholder="Password" /><br />
-        <input type="submit" value="Sign up" />
+        <h2 class="tittle" id="title" aria-details="Change it to `Login`">Sign Up</h2>
+        <div>
+          <div class="input-container">
+            <!-- giving a class of error to the input fields will make the underlines red -->
+            <input type="text" id="first-name" required placeholder=" " />
+            <label for="first-name">First Name</label>
+          </div>
+          <div class="input-container">
+            <input type="email" id="email" required placeholder=" " />
+            <label for="email">Email</label>
+          </div>
+          <div class="input-container">
+            <input type="password" id="password" required placeholder=" " />
+            <label for="password">Password</label>
+          </div>
+        </div>
+        <button type="submit" class="btn">Sign Up</button>
       </form>
     </div>
     <div class="text-container">

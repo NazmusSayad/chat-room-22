@@ -8,7 +8,7 @@ $clr-light: #f1f2f3;
 */
 
 @mixin theme($mode) {
-  @if ($mode == "light") {
+  @if ($mode == 'light') {
     --root-bg: #ebeeed;
     --light: var(--white);
     --dark: var(--black);
@@ -16,24 +16,32 @@ $clr-light: #f1f2f3;
     --clr-primary-light: #bbf1d7;
     --clr-secondary: #8aafe7;
     --clr-shadow: #ddd;
+    --clr-placeholder: #aaa;
     --bg-dark: #eee;
     --bg-light: #f6faf9;
     --bg-lighter: var(--light);
 
+    --foreground: var(--black);
+    --background: var(--white);
+
     --text-you: var(--white);
     --text-them: var(--black);
   }
-  @if ($mode == "dark") {
+  @if ($mode == 'dark') {
     --light: var(--black);
     --dark: var(--white);
     --clr-shadow: #000;
     --clr-shadow: #2f4f4f30;
     --clr-primary: #269e64;
+    --clr-placeholder: #ccc;
     --clr-primary-light: #0c251a;
     --bg-dark: #181818;
     --bg-light: #151515;
     --bg-lighter: var(--dark);
     --root-bg: var(--bg-dark);
+
+    --foreground: var(--white);
+    --background: var(--black);
 
     --text-them: var(--white);
   }
@@ -42,9 +50,10 @@ $clr-light: #f1f2f3;
 :root {
   --black: #111;
   --white: #fefefe;
-  @include theme("light");
+  --error: #e57373;
+  @include theme('light');
 }
 
 @include root-dark {
-  @include theme("dark");
+  @include theme('dark');
 }
