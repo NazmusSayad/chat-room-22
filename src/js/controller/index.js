@@ -10,6 +10,7 @@ import WelcomeView from "../views/WelcomeView.js"
 ;(() => {
   WelcomeView.addSignupHandler(handler.signupPage)
   WelcomeView.addLoginHandler(handler.loginPage)
+  WelcomeView.addSignupSubmitHandler(handler.signupFormSubmit)
 
   LoginView.addSignupHandler(handler.signupPage)
   LoginView.addSubmitHandler(handler.loginFormSubmit)

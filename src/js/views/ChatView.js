@@ -62,7 +62,7 @@ class Chat_Form extends Chat {
       event.preventDefault()
       const { msg } = event.target
       const value = refactorMessageBeforeSending(msg.value)
-      if (!value.length) return
+      if (!value) return
 
       callback(value)
       msg.value = ""

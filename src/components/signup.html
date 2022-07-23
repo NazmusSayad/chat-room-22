@@ -8,3 +8,49 @@
 
   <button id="goto-login-btn">Go to login</button>
 </section>
+
+<!-- remove the bullshit above -->
+
+<form>
+  <h2 class="tittle" id="title">Sign Up</h2>
+  <div id="inputs">
+    <div class="input-container">
+      <!-- giving a class of error to the input fields will make the underlines red -->
+      <input
+        type="text"
+        id="first-name"
+        required
+        placeholder=" "
+        autocomplete="off"
+        name="first-name"
+        role="presentation"
+      />
+      <label for="first-name">First Name</label>
+    </div>
+    <div class="input-container">
+      <input
+        type="email"
+        id="email"
+        required
+        placeholder=" "
+        autocomplete="off"
+        name="email"
+        role="presentation"
+      />
+      <label for="email">Email</label>
+    </div>
+    <div class="input-container">
+      <input
+        type="password"
+        id="password"
+        required
+        placeholder=" "
+        autocomplete="new-password"
+        name="password"
+        role="presentation"
+      />
+      <label for="password">Password</label>
+    </div>
+  </div>
+  <button type="submit" class="btn" id="submit">Sign Up</button>
+</form>

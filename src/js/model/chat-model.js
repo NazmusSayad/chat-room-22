@@ -18,6 +18,10 @@ const checkIfYou = function (data) {
 export const Start = () => {
   Socket = io(API_URL + "/chat", {
     auth: STATE.auth,
+    reconnection: true,
+    reconnectionDelay: 500,
+    reconnectionDelayMax: 5000,
+    reconnectionAttempts: Infinity,
   })
 
   return new Promise((resolve, reject) => {
@@ -80,14 +84,12 @@ export const getInitialMessages = () => {
 }
 
 export const getNewerMessagesThanId = (id) => {
-  // Fix this
   return new Promise((resolve, reject) => {
     Socket.volatile.emit("message-getNewer", id, (data) => {
       resolve(checkIfYou(data))
     })
   })
 }
-console.log("I am from line: 90")
 
 export const getOlderMessagesThanId = (id) => {
   return new Promise((resolve, reject) => {

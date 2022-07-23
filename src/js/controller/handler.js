@@ -40,6 +40,7 @@ export const loginFormSubmit = async (token) => {
 }
 
 export const signupFormSubmit = async (token) => {
+
   try {
     await User.signUp(token)
     initChat()

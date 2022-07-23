@@ -50,6 +50,14 @@ input[type="submit"] {
   }
 }
 
+input:autofill {
+  transition-delay: 604800s;
+}
+
+input:-webkit-autofill {
+  transition-delay: 604800s;
+}
+
 input,
 button,
 textarea,

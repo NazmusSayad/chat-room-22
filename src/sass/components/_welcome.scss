@@ -1,10 +1,13 @@
 .welcome {
   --root-bg: rgb(235 238 237 / 85%);
+  @include theme-dark {
+    --root-bg: rgb(24 24 24 / 85%);
+  }
 
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   width: 100vw;
   height: 100vh;
-  background: url('../assests/background-large.jpg') no-repeat center center/cover;
+  background: url("../assests/background-large.jpg") no-repeat center center/cover;
   display: grid;
   place-items: center;
 
@@ -28,10 +31,12 @@
 
     .form-container form {
       width: 40rem;
+      min-height: 42rem;
       padding: 4rem;
       background-color: var(--bg-light);
       display: flex;
       flex-direction: column;
+      justify-content: center;
       gap: 3.5rem;
 
       h2 {
@@ -115,7 +120,7 @@
       }
       p {
         font-size: 1.2rem;
-        line-height: 1.4rem;
+        line-height: 1.6rem;
         font-weight: inherit;
         text-align: justify;
       }
@@ -132,8 +137,4 @@
       }
     }
   }
-}
-
-html[theme='dark'] .welcome {
-  --root-bg: rgb(24 24 24 / 85%);
 }
