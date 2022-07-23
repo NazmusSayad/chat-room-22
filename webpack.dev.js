@@ -2,13 +2,15 @@ const { CONFIG, PATH } = require("./webpack.common")
 
 CONFIG.mode = "development"
 CONFIG.stats = "errors-warnings"
-CONFIG.devtool = "eval-cheap-source-map"
+CONFIG.devtool = "eval-source-map"
 
 CONFIG.devServer = {
-  watchFiles: ["src/*"],
+  watchFiles: ["src/*", "public/*"],
 
   client: {
     logging: "none",
+    overlay: false,
+    progress: false,
   },
 
   static: {
