@@ -28,10 +28,12 @@
 
     .form-container form {
       width: 40rem;
+      min-height: 42rem;
       padding: 4rem;
       background-color: var(--bg-light);
       display: flex;
       flex-direction: column;
+      justify-content: center;
       gap: 3.5rem;
 
       h2 {
@@ -134,6 +136,8 @@
   }
 }
 
-html[theme='dark'] .welcome {
-  --root-bg: rgb(24 24 24 / 85%);
+.welcome {
+  @include theme-dark {
+    --root-bg: rgb(24 24 24 / 85%);
+  }
 }
