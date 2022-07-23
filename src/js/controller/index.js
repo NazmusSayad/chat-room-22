@@ -1,20 +1,13 @@
-import * as User from '../model/user-model.js'
-import * as Chat from '../model/chat-model.js'
-import * as handler from './handler.js'
-import ChatView from '../views/ChatView.js'
-import WelcomeView from '../views/WelcomeView.js'
+import * as User from "../model/user-model.js"
+import * as Chat from "../model/chat-model.js"
+import * as handler from "./handler.js"
+import ChatView from "../views/ChatView.js"
+import WelcomeView from "../views/WelcomeView.js"
 
 // Add Event-Handlers
 ;(() => {
-  // WelcomeView.addSignupHandler(handler.signupPage)
-  // WelcomeView.addLoginHandler(handler.loginPage)
-  // WelcomeView.addSignupSubmitHandler(handler.signupFormSubmit)
-
-  // LoginView.addSignupHandler(handler.signupPage)
-  // LoginView.addSubmitHandler(handler.loginFormSubmit)
-
-  // SignupView.addLoginHandler(handler.loginPage)
-  // SignupView.addSubmitHandler(handler.signupFormSubmit)
+  WelcomeView.addSignupViewHandler(handler.signupPage)
+  WelcomeView.addLoginViewHandler(handler.loginPage)
 
   ChatView.addTextAreaHandlers()
   ChatView.addMsgSubmitHandler(handler.sendMessage)

@@ -23,10 +23,12 @@ class Welcome extends Views {
   }
 
   showSignUp() {
+    this._element.setAttribute(`view`, "sign-up")
     this._formContainer.innerHTML = ""
     this._formContainer.appendChild(this._signupForm)
   }
   showLogin() {
+    this._element.setAttribute(`view`, "log-in")
     this._formContainer.innerHTML = ""
     this._formContainer.appendChild(this._loginForm)
   }
@@ -37,6 +39,12 @@ class Welcome extends Views {
 
   addSignupViewHandler(callback) {
     this._element.querySelector(`#goto-signup-btn`).onclick = (event) => callback(event)
+  }
+
+  addFormSubmitHandlers() {}
+
+  addFormInputHandlers() {
+    console.log(this._loginForm)
   }
 }
 

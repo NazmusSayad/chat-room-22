@@ -1,13 +1,14 @@
 import * as User from "../model/user-model.js"
 import * as Chat from "../model/chat-model.js"
 import ChatView from "../views/ChatView.js"
+import WelcomeView from "../views/WelcomeView.js"
 
 export const loginPage = () => {
-  LoginView.render()
+  WelcomeView.showLogin()
 }
 
 export const signupPage = () => {
-  SignupView.render()
+  WelcomeView.showSignUp()
 }
 
 export const loginFormSubmit = async (token) => {

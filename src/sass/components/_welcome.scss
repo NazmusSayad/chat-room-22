@@ -11,6 +11,20 @@
   display: grid;
   place-items: center;
 
+  &[view="log-in"] {
+    .text-already,
+    #goto-login-btn {
+      display: none;
+    }
+  }
+
+  &[view="sign-up"] {
+    .text-dont,
+    #goto-signup-btn {
+      display: none;
+    }
+  }
+
   &__content {
     --column-gap: 4rem;
 
@@ -20,20 +34,6 @@
     background: var(--root-bg);
     padding-inline: var(--column-gap);
     gap: var(--column-gap);
-
-    &[view="log-in"] {
-      .text-already,
-      #goto-login-btn {
-        display: none;
-      }
-    }
-
-    &[view="sign-up"] {
-      .text-dont,
-      #goto-signup-btn {
-        display: none;
-      }
-    }
 
     .btn {
       padding: 0.5rem 3rem;
@@ -80,6 +80,10 @@
           border-bottom: 1px solid var(--clr-placeholder);
           outline: none;
           background: transparent;
+
+          @include theme-dark {
+            color-scheme: dark;
+          }
 
           &:focus {
             border-color: var(--clr-primary);
