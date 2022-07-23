@@ -43,6 +43,7 @@ class Welcome extends Views {
 
   addLoginSubmitHandlers(callback) {
     this._loginForm.onsubmit = (event) => {
+      const { email, password } = event.target
       event.preventDefault()
       callback({ email: email.value, password: password.value })
     }
@@ -50,6 +51,7 @@ class Welcome extends Views {
 
   addSignupSubmitHandlers(callback) {
     this._signupForm.onsubmit = (event) => {
+      const { name, email, password } = event.target
       event.preventDefault()
       callback({ name: name.value, email: email.value, password: password.value })
     }
