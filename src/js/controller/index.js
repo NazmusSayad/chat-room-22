@@ -30,6 +30,7 @@ import WelcomeView from "../views/WelcomeView.js"
       })
 
       handler.initChat()
+      
     } catch (err) {
       console.error(err)
       if (confirm(`Something went wrong!\nTry again after logout?`)) {

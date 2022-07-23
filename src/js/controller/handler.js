@@ -43,6 +43,7 @@ export const initChat = async () => {
       ChatView.appendMessage(msg)
     })
 
+    ChatView.focusTextArea()
     ChatView.setLoadedClass()
     ChatView.addLoadMoreHandler(loadMoreMessages)
   } catch (err) {

@@ -51,10 +51,12 @@ class Chat_Form extends Chat {
 
   _chatForm = this._element.querySelector(`form`)
 
-  _textareaResizer(textarea) {
-    textarea.style.height = "auto"
-    const scrollHeight = textarea.scrollHeight
-    textarea.style.height = scrollHeight > 120 ? "120px" : scrollHeight + "px"
+  _textArea = this._chatForm.querySelector(`textarea`)
+
+  _textareaResizer() {
+    this._textArea.style.height = "auto"
+    const scrollHeight = this._textArea.scrollHeight
+    this._textArea.style.height = scrollHeight > 120 ? "120px" : scrollHeight + "px"
   }
 
   addMsgSubmitHandler(callback) {
@@ -70,25 +72,26 @@ class Chat_Form extends Chat {
     }
   }
 
+  focusTextArea() {
+    this._textArea.focus()
+  }
+
   addTextAreaHandlers() {
     const form = this._chatForm
     const button = this._chatForm.querySelector(`button`)
-    const textarea = this._chatForm.querySelector(`textarea`)
 
-    form.onclick = () => {
-      textarea.focus()
-    }
+    form.onclick = this.focusTextArea()
 
-    textarea.addEventListener("keydown", (event) => {
+    this._textArea.addEventListener("keydown", (event) => {
       if (event.keyCode !== 13 || event.shiftKey || event.ctrlKey) return
       event.preventDefault()
       button.click()
     })
 
-    textarea.addEventListener("input", () => {
-      this._textareaResizer(textarea)
+    this._textArea.addEventListener("input", () => {
+      this._textareaResizer()
 
-      if (textarea.value) {
+      if (this._textArea.value) {
         button.removeAttribute(`disabled`)
       } else {
         button.setAttribute(`disabled`, "")
