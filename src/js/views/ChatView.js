@@ -25,7 +25,7 @@ class Chat extends Views {
   })()
 
   _beforeRender() {
-    document.title = "chat-room #22 | chat"
+    document.title = "chat-room #22 | Chat"
     Notification.requestPermission()
   }
 

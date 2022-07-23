@@ -29,6 +29,7 @@
   "dependencies": {
     "anchorme": "^2.1.2",
     "crypto-js": "^4.1.1",
+    "emoji-to-short-name": "^1.0.1",
     "emojione": "^4.5.0",
     "socket.io-client": "^4.5.1",
     "twemoji": "^14.0.2"

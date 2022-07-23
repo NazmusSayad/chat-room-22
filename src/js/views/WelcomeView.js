@@ -22,12 +22,14 @@ class Welcome extends Views {
   }
 
   showSignUp() {
+    document.title = "chat-room #22 | SignUp"
     this._element.setAttribute(`view`, "sign-up")
     this._formContainer.innerHTML = ""
     this._formContainer.appendChild(this._signupForm)
   }
 
   showLogin() {
+    document.title = "chat-room #22 | Login"
     this._element.setAttribute(`view`, "log-in")
     this._formContainer.innerHTML = ""
     this._formContainer.appendChild(this._loginForm)
