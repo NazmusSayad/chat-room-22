@@ -19,7 +19,6 @@ class Welcome extends Views {
 
   _beforeRender() {
     document.title = "chat-room #22"
-    console.log(this._formContainer)
   }
 
   showSignUp() {
@@ -27,6 +26,7 @@ class Welcome extends Views {
     this._formContainer.innerHTML = ""
     this._formContainer.appendChild(this._signupForm)
   }
+
   showLogin() {
     this._element.setAttribute(`view`, "log-in")
     this._formContainer.innerHTML = ""
@@ -41,17 +41,24 @@ class Welcome extends Views {
     this._element.querySelector(`#goto-signup-btn`).onclick = (event) => callback(event)
   }
 
-  addFormSubmitHandlers() {}
+  addLoginSubmitHandlers(callback) {
+    this._loginForm.onsubmit = (event) => {
+      event.preventDefault()
+      callback({ email: email.value, password: password.value })
+    }
+  }
+
+  addSignupSubmitHandlers(callback) {
+    this._signupForm.onsubmit = (event) => {
+      event.preventDefault()
+      callback({ name: name.value, email: email.value, password: password.value })
+    }
+  }
 
   addFormInputHandlers() {
-    console.log(this._loginForm)
-  }
-}
-
-/* 
-  addSignupSubmitHandler(callback) {
-    const form = this._element.querySelector(`#signup-form`)
-    const { name, email, password } = form
+    const name = this._signupForm.name
+    const emails = [this._signupForm.email, this._loginForm.email]
+    const passwords = [this._signupForm.password, this._loginForm.password]
 
     name.oninput = function () {
       if (this.value === " ") return (this.value = "")
@@ -64,23 +71,23 @@ class Welcome extends Views {
       } else this.className = ``
     }
 
-    email.oninput = function () {
-      const matchRegEx = this.value.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)?.length
-      if (matchRegEx) {
-        this.className = ``
-      } else this.className = `error`
+    for (let email of emails) {
+      email.oninput = function () {
+        const matchRegEx = this.value.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)?.length
+        if (matchRegEx) {
+          this.className = ``
+        } else this.className = `error`
+      }
     }
 
-    password.oninput = function () {
-      if (this.value.length < 6 || this.value.length > 24) {
-        this.className = `error`
-      } else this.className = ``
+    for (let password of passwords) {
+      password.oninput = function () {
+        if (this.value.length < 6 || this.value.length > 24) {
+          this.className = `error`
+        } else this.className = ``
+      }
     }
-
-    form.onsubmit = (event) => {
-      event.preventDefault()
-      callback({ name: name.value, email: email.value, password: password.value })
-    }
-  } */
+  }
+}
 
 export default new Welcome()

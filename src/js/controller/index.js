@@ -6,8 +6,11 @@ import WelcomeView from "../views/WelcomeView.js"
 
 // Add Event-Handlers
 ;(() => {
+  WelcomeView.addFormInputHandlers()
   WelcomeView.addSignupViewHandler(handler.signupPage)
   WelcomeView.addLoginViewHandler(handler.loginPage)
+  WelcomeView.addSignupSubmitHandlers(handler.signupFormSubmit)
+  WelcomeView.addLoginSubmitHandlers(handler.loginFormSubmit)
 
   ChatView.addTextAreaHandlers()
   ChatView.addMsgSubmitHandler(handler.sendMessage)

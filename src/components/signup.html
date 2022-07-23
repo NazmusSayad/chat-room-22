@@ -2,17 +2,19 @@
   <h2 class="tittle" id="title">Sign Up</h2>
   <div id="inputs">
     <div class="input-container">
-      <!-- giving a class of error to the input fields will make the underlines red -->
       <input
         type="text"
-        id="first-name"
+        id="full-name"
         required
         placeholder=" "
         autocomplete="off"
-        name="first-name"
+        name="name"
         role="presentation"
+        minlength="3"
+        maxlength="14"
+        pattern="^[a-zA-Z]{1,}(?: [a-zA-Z]+){0,2}$"
       />
-      <label for="first-name">First Name</label>
+      <label for="full-name">Full Name</label>
     </div>
     <div class="input-container">
       <input
@@ -35,6 +37,8 @@
         autocomplete="new-password"
         name="password"
         role="presentation"
+        minlength="6"
+        maxlength="24"
       />
       <label for="password">Password</label>
     </div>
