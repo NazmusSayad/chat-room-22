@@ -2,8 +2,6 @@ import * as User from '../model/user-model.js'
 import * as Chat from '../model/chat-model.js'
 import * as handler from './handler.js'
 import ChatView from '../views/ChatView.js'
-import LoginView from '../views/LoginView.js'
-import SignupView from '../views/SignupVIew.js'
 import WelcomeView from '../views/WelcomeView.js'
 
 // Add Event-Handlers
@@ -44,5 +42,6 @@ import WelcomeView from '../views/WelcomeView.js'
     }
   } else {
     WelcomeView.render()
+    WelcomeView.showSignUp()
   }
 })()

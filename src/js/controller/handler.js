@@ -1,25 +1,6 @@
 import * as User from "../model/user-model.js"
 import * as Chat from "../model/chat-model.js"
 import ChatView from "../views/ChatView.js"
-import LoginView from "../views/LoginView.js"
-import SignupView from "../views/SignupVIew.js"
-
-export const initChat = async () => {
-  try {
-    await Chat.Start()
-    ChatView.render()
-
-    const starterMessages = await Chat.getInitialMessages()
-    starterMessages.reverse().forEach((msg) => {
-      ChatView.appendMessage(msg)
-    })
-
-    ChatView.setLoadedClass()
-    ChatView.addLoadMoreHandler(loadMoreMessages)
-  } catch (err) {
-    console.warn(err)
-  }
-}
 
 export const loginPage = () => {
   LoginView.render()
@@ -40,13 +21,31 @@ export const loginFormSubmit = async (token) => {
 }
 
 export const signupFormSubmit = async (token) => {
-
   try {
     await User.signUp(token)
     initChat()
   } catch (err) {
     console.error(err)
     alert(err.message)
+  }
+}
+
+/////////////////////////////////////////////////
+
+export const initChat = async () => {
+  try {
+    await Chat.Start()
+    ChatView.render()
+
+    const starterMessages = await Chat.getInitialMessages()
+    starterMessages.reverse().forEach((msg) => {
+      ChatView.appendMessage(msg)
+    })
+
+    ChatView.setLoadedClass()
+    ChatView.addLoadMoreHandler(loadMoreMessages)
+  } catch (err) {
+    console.warn(err)
   }
 }
 

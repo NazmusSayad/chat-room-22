@@ -21,6 +21,20 @@
     padding-inline: var(--column-gap);
     gap: var(--column-gap);
 
+    &[view="log-in"] {
+      .text-already,
+      #goto-login-btn {
+        display: none;
+      }
+    }
+
+    &[view="sign-up"] {
+      .text-dont,
+      #goto-signup-btn {
+        display: none;
+      }
+    }
+
     .btn {
       padding: 0.5rem 3rem;
       border-radius: 0.5rem;
@@ -97,6 +111,7 @@
         input:focus ~ label {
           @extend %label;
         }
+
         input:not(:placeholder-shown) ~ label {
           @extend %label;
         }
@@ -118,6 +133,7 @@
         font-weight: inherit;
         line-height: 1.2;
       }
+
       p {
         font-size: 1.2rem;
         line-height: 1.6rem;

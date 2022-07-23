@@ -1,4 +1,6 @@
 import markup from "../../components/welcome.html"
+import loginMarkup from "../../components/login.html"
+import signupMarkup from "../../components/signup.html"
 import { HTML } from "../utils.js"
 import { Views } from "./Views"
 
@@ -9,18 +11,36 @@ class Welcome extends Views {
 
   _element = new HTML(markup)
 
+  _loginForm = new HTML(loginMarkup)
+
+  _signupForm = new HTML(signupMarkup)
+
+  _formContainer = this._element.querySelector(`#form-container`)
+
   _beforeRender() {
     document.title = "chat-room #22"
+    console.log(this._formContainer)
   }
 
-  addLoginHandler(callback) {
+  showSignUp() {
+    this._formContainer.innerHTML = ""
+    this._formContainer.appendChild(this._signupForm)
+  }
+  showLogin() {
+    this._formContainer.innerHTML = ""
+    this._formContainer.appendChild(this._loginForm)
+  }
+
+  addLoginViewHandler(callback) {
     this._element.querySelector(`#goto-login-btn`).onclick = (event) => callback(event)
   }
 
-  addSignupHandler(callback) {
+  addSignupViewHandler(callback) {
     this._element.querySelector(`#goto-signup-btn`).onclick = (event) => callback(event)
   }
+}
 
+/* 
   addSignupSubmitHandler(callback) {
     const form = this._element.querySelector(`#signup-form`)
     const { name, email, password } = form
@@ -53,7 +73,6 @@ class Welcome extends Views {
       event.preventDefault()
       callback({ name: name.value, email: email.value, password: password.value })
     }
-  }
-}
+  } */
 
 export default new Welcome()

@@ -4,28 +4,21 @@
       Changing the view [line:2] to `login` should do the following things
       1. remove the form element and inject the login or signup component inside `.form-container`. [line:10]
       2. Change the content of the span with id `#change-it-later` to "Don't" [line:14]. also change the id to a meaningful one
-      
-      ar kichu?
-  then push this.....pushed
-      maybe na
-      
+          
       100. I'll deal with the animation once the steps above are complete.
     -->
-    <div class="form-container"><!-- Step 1 --></div>
+    <div id="form-container" class="form-container"><!-- Step 1 --></div>
 
     <div class="text-container">
       <h2>
         <!-- Step 2 -->
-        <span
-          id="change-it-later"
-          aria-details="Change it to `Don't` when switched to login view"
-          >Already</span
-        >
+        <span class="text-already">Already</span>
+        <span class="text-dont">Don't</span>
         have an account?
       </h2>
       <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis sit laudantium
-        vitae, rerum voluptate provident.
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis sit laudantium vitae,
+        rerum voluptate provident.
       </p>
 
       <button id="goto-login-btn" class="btn login">Login</button>
