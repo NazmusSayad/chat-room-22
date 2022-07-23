@@ -2,18 +2,18 @@ import { TIMEOUT_SEC } from "./.config"
 import anchorme from "anchorme"
 import BadWordList from "../bad-words.json"
 import CustomReplaceWords from "../custom-replace-words.json"
-import Crypto_Js from "crypto-js"
-import { shortnameToUnicode as emojiShortnameToUnicode } from "emojione"
+import CryptoJs from "crypto-js"
+import Emojione from "emojione"
 import Twemoji from "twemoji"
 
-Crypto_Js.encrypt = (text) => {
-  return Crypto_Js.enc.Base64.stringify(Crypto_Js.enc.Utf8.parse(text))
+CryptoJs.encrypt = (text) => {
+  return CryptoJs.enc.Base64.stringify(CryptoJs.enc.Utf8.parse(text))
 }
-Crypto_Js.decrypt = (data) => {
-  return Crypto_Js.enc.Base64.parse(data).toString(Crypto_Js.enc.Utf8)
+CryptoJs.decrypt = (data) => {
+  return CryptoJs.enc.Base64.parse(data).toString(CryptoJs.enc.Utf8)
 }
 
-export const cryptoJs = Crypto_Js
+export const cryptoJs = CryptoJs
 
 const timeout = function (seconds = TIMEOUT_SEC) {
   return new Promise(function (_, reject) {
@@ -37,27 +37,6 @@ export const getJSON = async function () {
 
 export const HTML = function (body = "<div></div>") {
   return new DOMParser().parseFromString(body, "text/html").body.firstElementChild
-}
-
-export const simplifyDate = (date) => {
-  date = new Date(date)
-  return date.toLocaleString()
-}
-
-export const makeTextReadyForRender = (input) => {
-  input = input.replace(/</gim, "&lt;")
-  input = input.replace(/\n/gm, "<br/>")
-  input = replaceIndividualWords(input)
-  input = Twemoji.parse(input)
-  return anchorme({
-    input,
-    options: {
-      attributes: {
-        target: "_blank",
-        class: "message-link",
-      },
-    },
-  })
 }
 
 export const newMessageNotification = async (user, body) => {
@@ -86,6 +65,28 @@ export const getScrollBottom = (element) => {
   const offset = element.scrollTop + element.clientHeight
   const height = element.scrollHeight
   return height - offset
+}
+
+export const simplifyDate = (date) => {
+  date = new Date(date)
+  return date.toLocaleString()
+}
+
+export const makeTextReadyForRender = (input) => {
+  input = input.replace(/</gim, "&lt;")
+  input = input.replace(/\n/gm, "<br/>")
+  input = replaceIndividualWords(input)
+  input = anchorme({
+    input,
+    options: {
+      attributes: {
+        target: "_blank",
+        class: "message-link",
+      },
+    },
+  })
+
+  return Twemoji.parse(input)
 }
 
 export const replaceIndividualWords = (text) => {
@@ -125,5 +126,5 @@ export const removeDuplicateLinesOrSpaces = (text) => {
 export const refactorMessageBeforeSending = (msg) => {
   msg = removeDuplicateLinesOrSpaces(msg)
   msg = replaceIndividualBadWords(msg)
-  return emojiShortnameToUnicode(msg.trim())
+  return Emojione.shortnameToUnicode(msg.trim())
 }

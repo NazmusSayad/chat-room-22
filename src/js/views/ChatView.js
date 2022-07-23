@@ -62,7 +62,8 @@ class Chat_Form extends Chat {
       event.preventDefault()
       const { msg } = event.target
       const value = refactorMessageBeforeSending(msg.value)
-      if (value === " ") return
+      if (!value.length) return
+
       callback(value)
       msg.value = ""
       this._textareaResizer(msg)

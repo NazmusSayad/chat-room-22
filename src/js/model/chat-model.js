@@ -22,7 +22,6 @@ export const Start = () => {
 
   return new Promise((resolve, reject) => {
     Socket.on("connect", () => {
-      
       if (init) {
         console.log("Socket reconnected!")
         handlers.onReconnection()
@@ -74,6 +73,7 @@ export const sendMessages = (msgs) => {
 export const getInitialMessages = () => {
   return new Promise((resolve, reject) => {
     Socket.volatile.emit("message-initial", (data) => {
+      console.log("I got initial messages.")
       resolve(checkIfYou(data))
     })
   })
