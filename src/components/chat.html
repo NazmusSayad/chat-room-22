@@ -11,7 +11,7 @@
       </ul>
     </div>
 
-    <button id="theme-toggle" onclick="appTheme.toggle()" title="Alt+T">
+    <button id="theme-toggle" onclick="appTheme.toggle()">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="472.39"
@@ -34,13 +34,7 @@
 
   <form id="chat-form" class="chat__form" hideButton>
     <div class="textarea-container">
-      <textarea
-        name="msg"
-        placeholder="Aa..."
-        autocomplete="off"
-        rows="1"
-        required
-      ></textarea>
+      <textarea name="msg" placeholder="Aa..." autocomplete="off" rows="1" required></textarea>
     </div>
     <button type="submit" disabled>${Send}</button>
   </form>
