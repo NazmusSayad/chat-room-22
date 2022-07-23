@@ -3,59 +3,33 @@
     <!-- 
       Changing the view [line:2] to `login` should do the following things
       1. remove the form element and inject the login or signup component inside `.form-container`. [line:10]
-      2. Change the content of the span with id `#change-it-later` to "Don't" [line:57]. also change the id to a meaningful one
-      3. the button on [line:68] should be inejected dynamicaly with js. you know what i mean, right?
-      4. I'll deal with the animation once the steps above are complete.
-     -->
-    <div class="form-container">
-      <form id="signup-form">
-        <h2 class="tittle" id="title" aria-details="Change it to `Login`">Sign Up</h2>
-        <div>
-          <div class="input-container">
-            <input
-              pattern="^[a-zA-Z]{1,}(?: [a-zA-Z]+){0,2}$"
-              type="text"
-              name="name"
-              id="full-name"
-              required
-              placeholder=" "
-            />
-            <label for="full-name">Full Name</label>
-          </div>
-          <div class="input-container">
-            <input type="email" name="email" id="email" required placeholder=" " />
-            <label for="email">Email</label>
-          </div>
-          <div class="input-container">
-            <input
-              minlength="6"
-              maxlength="24"
-              name="password"
-              type="password"
-              id="password"
-              required
-              placeholder=" "
-            />
-            <label for="password">Password</label>
-          </div>
-        </div>
-        <button type="submit" class="btn" id="submit">Sign Up</button>
-      </form>
-    </div>
+      2. Change the content of the span with id `#change-it-later` to "Don't" [line:14]. also change the id to a meaningful one
+      
+      ar kichu?
+  then push this.....
+      maybe na
+      
+      100. I'll deal with the animation once the steps above are complete.
+    -->
+    <div class="form-container"><!-- Step 1 --></div>
+
     <div class="text-container">
       <h2>
-        <span id="change-it-later" aria-details="Change it to `Don't` when switched to login view"
+        <!-- Step 2 -->
+        <span
+          id="change-it-later"
+          aria-details="Change it to `Don't` when switched to login view"
           >Already</span
         >
         have an account?
       </h2>
       <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis sit laudantium vitae,
-        rerum voluptate provident.
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis sit laudantium
+        vitae, rerum voluptate provident.
       </p>
+
       <button id="goto-login-btn" class="btn login">Login</button>
+      <button id="goto-signup-btn" class="btn signup">Signup</button>
     </div>
   </div>
-
-  <button id="goto-signup-btn" class="btn signup hidden">Signup</button>
 </section>
