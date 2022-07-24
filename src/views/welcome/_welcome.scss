@@ -12,11 +12,16 @@
   background: url("../../assests/background-large.jpg") no-repeat center center/cover;
   display: grid;
   place-items: center;
+  padding-bottom: 3vh;
 
   &[view="log-in"] {
     .text-already,
     #goto-login-btn {
       display: none;
+    }
+
+    .form-container {
+      order: 1;
     }
   }
 

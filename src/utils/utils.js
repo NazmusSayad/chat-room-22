@@ -111,17 +111,14 @@ export const replaceIndividualBadWords = (text) => {
   return text
 }
 
-console.log("Line:114")
 
 export const removeDuplicateLinesOrSpaces = (text) => {
   while (text.includes("\n\n")) {
     text = text.replace(/\n\n/gim, "\n")
   }
-
   while (text.includes("  ")) {
     text = text.replace(/  /gim, " ")
   }
-
   return text
 }
 

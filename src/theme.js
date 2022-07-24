@@ -24,7 +24,7 @@ class Theme {
     } else if (current === "light") {
       this.light()
     } else {
-      this.default()
+      this.auto()
     }
   }
 
@@ -40,6 +40,21 @@ class Theme {
       return this.#conf.root.setAttribute(this.#conf.rootAtt, theme)
     }
     this.#conf.root.removeAttribute(this.#conf.rootAtt, theme)
+  }
+
+  run() {
+    this.#init()
+    this.#watch()
+  }
+
+  auto() {
+    const media = matchMedia("(prefers-color-scheme: dark)")
+    if (media.matches) {
+      this.#set("auto-dark")
+    } else {
+      this.#set("auto-light")
+    }
+    localStorage.removeItem(this.#conf.dataKey)
   }
 
   light() {
@@ -60,25 +75,22 @@ class Theme {
     } else if (current.includes("light")) {
       this.dark()
     } else {
-      this.default()
+      this.auto()
     }
   }
 
-  default() {
-    const media = matchMedia("(prefers-color-scheme: dark)")
-    if (media.matches) {
-      this.#set("auto-dark")
+  toggle3() {
+    const current = this.#current()
+
+    if (current.includes("auto")) {
+      this.light()
+    } else if (current.includes("light")) {
+      this.dark()
     } else {
-      this.#set("auto-light")
+      this.auto()
     }
-    localStorage.removeItem(this.#conf.dataKey)
-  }
-
-  start() {
-    this.#init()
-    this.#watch()
   }
 }
 
 const appTheme = new Theme()
-appTheme.start()
+appTheme.run()

@@ -1,6 +1,6 @@
 import { io } from "socket.io-client"
 import { API_URL } from "../.config"
-import { STATE } from "./user-model"
+import STATE from "./STATE"
 
 let init = false
 let Socket = null
@@ -39,6 +39,7 @@ export const Start = () => {
 
     Socket.on("disconnect", () => {
       console.log("Socket disconnected!")
+      handlers.onDisconnect()
     })
   })
 }
@@ -101,5 +102,6 @@ export const getOlderMessagesThanId = (id) => {
 
 export const handlers = {
   onReconnection: () => {},
+  onDisconnect: () => {},
   receiveMessages: (messages) => {},
 }

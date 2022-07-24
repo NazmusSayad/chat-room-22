@@ -1,5 +1,6 @@
 import * as User from "../model/user-model.js"
 import * as Chat from "../model/chat-model.js"
+import STATE from "../model/STATE.js"
 import * as handler from "./handler.js"
 import ChatView from "../views/chat/ChatView.js"
 import WelcomeView from "../views/welcome/WelcomeView.js"
@@ -17,20 +18,20 @@ import WelcomeView from "../views/welcome/WelcomeView.js"
   ChatView.addLogoutHandler(User.logOut)
 
   Chat.handlers.onReconnection = handler.onReconnect
+  Chat.handlers.onDisconnect = handler.onDisconnect
   Chat.handlers.receiveMessages = handler.recieveMessage
 })()
 
 // Init
 ;(async () => {
-  if (User.STATE.auth) {
+  if (STATE.auth) {
     try {
       await User.login({
-        email: User.STATE.auth.email,
-        password: User.STATE.auth.password,
+        email: STATE.auth.email,
+        password: STATE.auth.password,
       })
 
       handler.initChat()
-      
     } catch (err) {
       console.error(err)
       if (confirm(`Something went wrong!\nTry again after logout?`)) {

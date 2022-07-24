@@ -1,5 +1,6 @@
 import * as User from "../model/user-model.js"
 import * as Chat from "../model/chat-model.js"
+import STATE from "../model/STATE.js"
 import ChatView from "../views/chat/ChatView.js"
 import WelcomeView from "../views/welcome/WelcomeView.js"
 
@@ -31,8 +32,6 @@ export const signupFormSubmit = async (token) => {
   }
 }
 
-/////////////////////////////////////////////////
-
 export const initChat = async () => {
   try {
     await Chat.Start()
@@ -54,8 +53,8 @@ export const initChat = async () => {
 export const sendMessage = async (msg) => {
   try {
     const element = ChatView.appendMessage({
-      name: User.STATE.user.name,
-      email: User.STATE.user.email,
+      name: STATE.user.name,
+      email: STATE.user.email,
       you: true,
       msg,
     })
@@ -73,8 +72,11 @@ export const recieveMessage = (messages) => {
 }
 
 export const loadMoreMessages = async (oldestMessage) => {
+  if (STATE.isLoadMoreMessageReqRunning) return
+  STATE.isLoadMoreMessageReqRunning = true
+
   try {
-    const id = oldestMessage?.dataset?.id
+    const id = oldestMessage.dataset.id
     const data = await Chat.getOlderMessagesThanId(id)
 
     data.forEach((msg) => {
@@ -84,6 +86,7 @@ export const loadMoreMessages = async (oldestMessage) => {
     console.warn(err.message)
     return true
   }
+  STATE.isLoadMoreMessageReqRunning = false
 }
 
 const loadLeftMessagesOnReconnect = async () => {
@@ -114,7 +117,12 @@ const sendPendingMessagesOnReconnect = async () => {
   })
 }
 
+export const onDisconnect = () => {
+  ChatView.showConncetionStatusOffline()
+}
+
 export const onReconnect = async () => {
+  ChatView.showConncetionStatusOnline()
   try {
     await loadLeftMessagesOnReconnect()
     await sendPendingMessagesOnReconnect()

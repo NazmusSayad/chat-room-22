@@ -159,3 +159,41 @@
     }
   }
 }
+
+#connection-status {
+  position: fixed;
+  left: 3.5rem;
+  bottom: 2.5rem;
+  background-color: var(--root-bg);
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  max-height: fit-content;
+  transform: translateY(calc(100% + 3rem));
+  transition: transform 0.5s ease-in-out;
+
+  &.show {
+    transform: translateY(0);
+    transition-duration: 0.2s;
+  }
+
+  p {
+    display: none;
+  }
+
+  &[data-status="online"] {
+    .online {
+      display: block;
+      color: green;
+    }
+  }
+
+  &[data-status="offline"] {
+    .offline {
+      display: block;
+      color: red;
+    }
+  }
+}
