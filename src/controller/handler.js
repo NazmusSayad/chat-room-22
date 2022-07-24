@@ -36,7 +36,6 @@ export const initChat = async () => {
   try {
     await Chat.Start()
     ChatView.render()
-
     const starterMessages = await Chat.getInitialMessages()
     starterMessages.reverse().forEach((msg) => {
       ChatView.appendMessage(msg)

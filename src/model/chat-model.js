@@ -25,21 +25,18 @@ export const Start = () => {
   })
 
   return new Promise((resolve, reject) => {
-    Socket.on("connect", () => {
-      if (init) {
-        console.log("Socket reconnected!")
-        handlers.onReconnection()
-      } else {
-        console.log("Socket connected!")
-        init = true
-        receiveMessages()
-        resolve()
-      }
+    Socket.on("disconnect", () => {
+      handlers.onDisconnect()
     })
 
-    Socket.on("disconnect", () => {
-      console.log("Socket disconnected!")
-      handlers.onDisconnect()
+    Socket.on("connect", () => {
+      if (init) {
+        handlers.onReconnection()
+      } else {
+        init = true
+        receiveMessages()
+        setTimeout(resolve, 50)
+      }
     })
   })
 }
@@ -78,7 +75,6 @@ export const sendMessages = (msgs) => {
 export const getInitialMessages = () => {
   return new Promise((resolve, reject) => {
     Socket.volatile.emit("message-initial", (data) => {
-      console.log("I got initial messages.")
       resolve(checkIfYou(data))
     })
   })
