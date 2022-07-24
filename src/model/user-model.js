@@ -1,5 +1,5 @@
 import { API_URL } from "../.config.js"
-import { cryptoJs, getJSON } from "../utils"
+import { cryptoJs, getJSON } from "../utils/utils.js"
 
 export const STATE = {
   get user() {

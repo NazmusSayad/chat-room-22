@@ -1,14 +1,7 @@
-/*
-$clr-dark: #131517;
-$clr-dark-light: #1e1f25;
-$clr-dark-lighter: #282932;
-$clr-blue-magantaish: #606389;
-$clr-blue: #296eff;
-$clr-light: #f1f2f3;
-*/
+@use "../abstracts/" as *;
 
 @mixin theme($mode) {
-  @if ($mode == 'light') {
+  @if ($mode == "light") {
     --root-bg: #ebeeed;
     --light: var(--white);
     --dark: var(--black);
@@ -27,7 +20,7 @@ $clr-light: #f1f2f3;
     --text-you: var(--white);
     --text-them: var(--black);
   }
-  @if ($mode == 'dark') {
+  @if ($mode == "dark") {
     --light: var(--black);
     --dark: var(--white);
     --clr-shadow: #000;
@@ -51,9 +44,9 @@ $clr-light: #f1f2f3;
   --black: #111;
   --white: #fefefe;
   --error: #e57373;
-  @include theme('light');
+  @include theme("light");
 }
 
 @include root-dark {
-  @include theme('dark');
+  @include theme("dark");
 }

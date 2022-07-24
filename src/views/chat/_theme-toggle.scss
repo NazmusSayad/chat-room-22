@@ -1,9 +1,11 @@
+@use "../" as *;
+
 #theme-toggle {
   cursor: pointer;
   background: 0;
   border: 0;
   opacity: 0.8;
-  padding: .5rem;
+  padding: 0.5rem;
   border-radius: 50%;
   position: relative;
   isolation: isolate;

@@ -1,6 +1,8 @@
-import markup from "../../components/chat.html"
-
-import messageMarkup from "../../components/chatMessage.html"
+import markup from "./chat.html"
+import messageMarkup from "./chatMessage.html"
+import "./_chat.scss"
+import "./_dropdown.scss"
+import "./_theme-toggle.scss"
 import {
   getScrollBottom,
   HTML,
@@ -8,8 +10,8 @@ import {
   refactorMessageBeforeSending,
   simplifyDate,
   makeTextReadyForRender,
-} from "../utils.js"
-import { Views } from "./Views"
+} from "../../utils/utils.js"
+import { Views } from "../Views.js"
 
 class Chat extends Views {
   constructor() {

@@ -1,8 +1,9 @@
-import markup from "../../components/welcome.html"
-import loginMarkup from "../../components/login.html"
-import signupMarkup from "../../components/signup.html"
-import { HTML } from "../utils.js"
-import { Views } from "./Views"
+import markup from "./welcome.html"
+import loginMarkup from "./login.html"
+import signupMarkup from "./signup.html"
+import "./_welcome.scss"
+import { HTML } from "../../utils/utils.js"
+import { Views } from "../Views.js"
 
 class Welcome extends Views {
   constructor() {

@@ -1,3 +1,5 @@
+@use "../" as *;
+
 #root[view="chatView"] {
   background-color: var(--root-bg);
 }
@@ -17,7 +19,7 @@
   transition-property: width, height, border-radius;
   transition-duration: 0.25s;
 
-  @include --($small) {
+  @include break($small) {
     height: 100%;
     width: 100%;
     border-radius: 0;

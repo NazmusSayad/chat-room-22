@@ -1,4 +1,4 @@
-import { TIMEOUT_SEC } from "./.config"
+import { TIMEOUT_SEC } from "../.config.js"
 import anchorme from "anchorme"
 import BadWordList from "../bad-words.json"
 import CustomReplaceWords from "../custom-replace-words.json"

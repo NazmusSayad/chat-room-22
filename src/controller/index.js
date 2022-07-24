@@ -1,8 +1,8 @@
 import * as User from "../model/user-model.js"
 import * as Chat from "../model/chat-model.js"
 import * as handler from "./handler.js"
-import ChatView from "../views/ChatView.js"
-import WelcomeView from "../views/WelcomeView.js"
+import ChatView from "../views/chat/ChatView.js"
+import WelcomeView from "../views/welcome/WelcomeView.js"
 
 // Add Event-Handlers
 ;(() => {
