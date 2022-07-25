@@ -9,10 +9,20 @@
   font-family: "Poppins", sans-serif;
   width: 100vw;
   height: 100vh;
-  background: url("../../assests/background-large.jpg") no-repeat center center/cover;
+  background-image: url("../../assests/background-large.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   display: grid;
   place-items: center;
   padding-bottom: 3vh;
+
+  @include break($small) {
+    background-image: url("../../assests/background-small.jpg");
+  }
+  @include break($xxsmall) {
+    background-image: none;
+  }
 
   &[view="log-in"] {
     .text-already,
@@ -42,6 +52,10 @@
     padding-inline: var(--column-gap);
     gap: var(--column-gap);
 
+    @include break($large) {
+      display: unset;
+    }
+
     .btn {
       padding: 0.5rem 3rem;
       border-radius: 0.5rem;
@@ -50,92 +64,159 @@
       outline: none;
     }
 
-    .form-container form {
+    .form-container {
       width: 40rem;
-      min-height: 42rem;
-      padding: 4rem;
       background-color: var(--bg-light);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 3.5rem;
 
-      h2 {
-        font-size: 1.8rem;
-        font-weight: 400;
-        text-transform: uppercase;
-        color: var(--clr-primary);
+      @include break($large) {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      @include break($xsmall) {
+        height: 100%;
+        width: 100vw;
       }
 
-      button {
-        border: none;
-        background-color: var(--clr-primary);
-        color: var(--background);
-        align-self: flex-end;
-      }
+      form {
+        width: 100%;
+        min-height: 42rem;
+        padding: 4rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 3.5rem;
 
-      .input-container {
-        position: relative;
-
-        input {
-          width: 100%;
-          padding: 1rem 0;
-          font-size: 1.5rem;
-          color: var(--foreground);
-          margin-bottom: 3.5rem;
-          border: none;
-          border-bottom: 1px solid var(--clr-placeholder);
-          outline: none;
-          background: transparent;
-
-          @include theme-dark {
-            color-scheme: dark;
-          }
-
-          &:focus {
-            border-color: var(--clr-primary);
-          }
-        }
-
-        input.error {
-          border-color: var(--error);
-        }
-
-        label {
-          position: absolute;
-          top: 0;
-          left: 0;
-          padding: 1rem 0;
-          font-size: 1.5rem;
-          color: var(--clr-placeholder);
-          pointer-events: none;
-          transition: 0.5s;
-        }
-
-        %label {
-          top: -20px;
-          left: 0;
+        h2 {
+          font-size: 1.8rem;
+          font-weight: 400;
+          text-transform: uppercase;
           color: var(--clr-primary);
-          font-size: 12px;
         }
 
-        input:focus ~ label {
-          @extend %label;
+        button {
+          border: none;
+          background-color: var(--clr-primary);
+          color: var(--white);
+          align-self: flex-end;
+          transition: 0.2s ease;
+
+          &:hover {
+            background-color: var(--clr-hover);
+          }
+          &:active {
+            background-color: var(--clr-active);
+          }
+          @include break($large) {
+            width: 100%;
+          }
         }
 
-        input:not(:placeholder-shown) ~ label {
-          @extend %label;
+        .input-container {
+          position: relative;
+
+          .icon {
+            color: var(--clr-placeholder);
+            font-size: 1.5rem;
+            position: absolute;
+            right: 0;
+            bottom: 4.5rem;
+          }
+
+          input {
+            width: 100%;
+            padding: 1rem 0;
+            padding-right: 2rem;
+            font-size: 1.5rem;
+            color: var(--foreground);
+            margin-bottom: 3.5rem;
+            border: none;
+            border-bottom: 1px solid var(--clr-placeholder);
+            outline: none;
+            background: transparent;
+
+            @include theme-dark {
+              color-scheme: dark;
+            }
+
+            &:focus {
+              border-color: var(--clr-primary);
+            }
+            &:focus ~ .icon {
+              color: var(--clr-primary);
+            }
+            &[name="password"] ~ .icon {
+              transition: 0.2s ease;
+              cursor: pointer;
+              &:hover {
+                color: var(--clr-primary);
+              }
+            }
+          }
+
+          input.error {
+            border-color: var(--error);
+          }
+
+          label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 1rem 0;
+            font-size: 1.5rem;
+            color: var(--clr-placeholder);
+            pointer-events: none;
+            transition: 0.5s;
+          }
+
+          %label {
+            top: -20px;
+            left: 0;
+            color: var(--clr-primary);
+            font-size: 12px;
+          }
+
+          input:focus ~ label {
+            @extend %label;
+          }
+
+          input:not(:placeholder-shown) ~ label {
+            @extend %label;
+          }
+        }
+        .navigator {
+          display: none;
+          @include break($large) {
+            display: unset;
+            color: var(--clr-placeholder);
+            font-size: 1.4rem;
+            text-align: center;
+
+            a {
+              transition: 0.2s ease;
+              color: var(--clr-hover);
+
+              &:hover {
+                color: var(--clr-primary);
+              }
+            }
+          }
         }
       }
     }
 
     .text-container {
+      @include break($large) {
+        display: none;
+      }
+
       max-width: 25rem;
       color: var(--foreground);
       font-weight: 300;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 2.5rem;
       padding-block: 4rem;
       align-items: flex-start;
 

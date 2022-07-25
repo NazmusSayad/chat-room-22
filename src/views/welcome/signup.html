@@ -5,43 +5,44 @@
       <input
         type="text"
         id="full-name"
-        required
         placeholder=" "
-        autocomplete="off"
         name="name"
-        role="presentation"
+        autocomplete="username"
         minlength="3"
         maxlength="14"
         pattern="^[a-zA-Z]{1,}(?: [a-zA-Z]+){0,2}$"
+        required
       />
+      <i class="fas fa-user icon"></i>
       <label for="full-name">Full Name</label>
     </div>
     <div class="input-container">
       <input
         type="email"
         id="email"
-        required
         placeholder=" "
-        autocomplete="off"
         name="email"
-        role="presentation"
+        autocomplete="email"
+        required
       />
+      <i class="fas fa-at icon"></i>
       <label for="email">Email</label>
     </div>
     <div class="input-container">
       <input
         type="password"
         id="password"
-        required
         placeholder=" "
         autocomplete="new-password"
         name="password"
-        role="presentation"
         minlength="6"
         maxlength="24"
+        required
       />
+      <i class="fas fa-eye icon"></i>
       <label for="password">Password</label>
     </div>
   </div>
   <button type="submit" class="btn" id="submit">Sign Up</button>
+  <span class="navigator">Already have an account? <a href="#">Login</a></span>
 </form>
