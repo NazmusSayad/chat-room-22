@@ -9,10 +9,20 @@
   font-family: "Poppins", sans-serif;
   width: 100vw;
   height: 100vh;
-  background: url("../../assests/background-large.jpg") no-repeat center center/cover;
+  background-image: url("../../assests/background-large.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   display: grid;
   place-items: center;
   padding-bottom: 3vh;
+
+  @include break($small) {
+    background-image: url("../../assests/background-small.jpg");
+  }
+  @include break($xsmall) {
+    background-image: none;
+  }
 
   &[view="log-in"] {
     .text-already,
@@ -55,18 +65,23 @@
     }
 
     .form-container {
+      width: min(40rem, 100vw);
+      background-color: var(--bg-light);
+
       @include break($large) {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
       }
+      @include break($xsmall) {
+        height: 100%;
+      }
 
       form {
-        width: 40rem;
+        width: 100%;
         min-height: 42rem;
         padding: 4rem;
-        background-color: var(--bg-light);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -181,7 +196,7 @@
       font-weight: 300;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 2.5rem;
       padding-block: 4rem;
       align-items: flex-start;
 
