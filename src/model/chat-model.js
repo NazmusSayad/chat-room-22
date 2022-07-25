@@ -20,7 +20,7 @@ export const Start = () => {
     auth: STATE.auth,
     reconnection: true,
     reconnectionDelay: 500,
-    reconnectionDelayMax: 3000,
+    reconnectionDelayMax: 2500,
     reconnectionAttempts: Infinity,
   })
 

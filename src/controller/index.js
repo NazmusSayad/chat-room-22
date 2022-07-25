@@ -2,6 +2,7 @@ import STATE from "../model/STATE.js"
 import * as User from "../model/user-model.js"
 import * as Chat from "../model/chat-model.js"
 import * as handler from "./handler.js"
+import * as socketListner from "./socket-listner.js"
 import ChatView from "../views/chat/ChatView.js"
 import WelcomeView from "../views/welcome/WelcomeView.js"
 
@@ -16,12 +17,12 @@ import WelcomeView from "../views/welcome/WelcomeView.js"
   ChatView.addTextAreaHandlers()
   ChatView.addMsgSubmitHandler(handler.sendMessage)
   ChatView.addLogoutHandler(User.logOut)
-  ChatView.deleteMessageListner = handler.deleteMessageHandler
+  ChatView.deleteMessageListner = handler.deleteMessage
 
-  Chat.handlers.onReconnection = handler.onReconnect
-  Chat.handlers.onDisconnect = handler.onDisconnect
-  Chat.handlers.onReceiveMessages = handler.onRecieveMessage
-  Chat.handlers.onDeleteMessages = handler.onDeleteMessage
+  Chat.handlers.onReconnection = socketListner.onReconnect
+  Chat.handlers.onDisconnect = socketListner.onDisconnect
+  Chat.handlers.onReceiveMessages = socketListner.onRecieveMessage
+  Chat.handlers.onDeleteMessages = socketListner.onDeleteMessage
 })()
 
 // Init

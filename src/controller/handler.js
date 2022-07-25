@@ -12,12 +12,6 @@ export const signupPage = () => {
   WelcomeView.showSignUp()
 }
 
-export const deleteMessageHandler = async (id) => {
-  const status = await Chat.deleteMessage(id)
-  if (!status) return
-  deleteMessage(id)
-}
-
 export const loginFormSubmit = async (token) => {
   try {
     await User.login(token)
@@ -70,6 +64,12 @@ export const sendMessage = async (msg) => {
   }
 }
 
+export const deleteMessage = async (id) => {
+  const status = await Chat.deleteMessage(id)
+  if (!status) return
+  ChatView.deleteMessage(id)
+}
+
 export const loadMoreMessages = async (oldestMessage) => {
   if (STATE.isLoadMoreMessageReqRunning) return
   STATE.isLoadMoreMessageReqRunning = true
@@ -86,55 +86,4 @@ export const loadMoreMessages = async (oldestMessage) => {
     return true
   }
   STATE.isLoadMoreMessageReqRunning = false
-}
-
-/////////////////////////////////////////////////////
-
-const loadLeftMessagesOnReconnect = async () => {
-  const id = ChatView.getLastSentMessage()?.dataset?.id
-  if (!id) return
-
-  const data = await Chat.getNewerMessagesThanId(id)
-  if (typeof data === "number") {
-    alert("Too many messages to laod.\nWe are reloading!")
-    location.reload()
-  }
-
-  const ifNeedsToScroll = ChatView.ifNeedsToScroll()
-  data.forEach((message) => ChatView.appendMessage(message))
-  if (ifNeedsToScroll) ChatView.scrollToBottom()
-}
-
-const sendPendingMessagesOnReconnect = async () => {
-  const pendingMessages = ChatView.getPendingMessages()
-  if (!pendingMessages.length) return
-
-  const messages = pendingMessages.map((element) => element.msg)
-  const datalist = await Chat.sendMessages(messages)
-  pendingMessages.forEach((element, ind) => {
-    ChatView.appendMessageSent(element, datalist[ind])
-  })
-}
-
-export const onRecieveMessage = (messages) => {
-  messages.forEach((message) => ChatView.appendMessage(message))
-}
-
-export const onDeleteMessage = (id) => {
-  ChatView.deleteMessage(id)
-}
-
-export const onDisconnect = () => {
-  ChatView.showConncetionStatusOffline()
-}
-
-export const onReconnect = async () => {
-  ChatView.showConncetionStatusOnline()
-  try {
-    await loadLeftMessagesOnReconnect()
-    await sendPendingMessagesOnReconnect()
-  } catch (err) {
-    console.warn(err.message)
-    return true
-  }
 }
