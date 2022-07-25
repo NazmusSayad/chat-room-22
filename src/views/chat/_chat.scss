@@ -56,6 +56,10 @@
       color: var(--dark);
       animation: slide-message 0.5s forwards;
 
+      &.delete {
+        animation: delete-message 0.35s forwards !important;
+      }
+
       img.emoji {
         display: inline;
         height: 1.1em;

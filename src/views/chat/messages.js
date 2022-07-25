@@ -42,7 +42,7 @@ class Chat_Form_Messages extends Chat_Form {
     this._loaded = true
   }
 
-  _generateMessageMarkup(data, deleteHandler) {
+  _generateMessageMarkup(data) {
     const element = new HTML(messageMarkup)
     const user = element.querySelector(`[user]`)
     const text = element.querySelector(`[text]`)
@@ -63,9 +63,17 @@ class Chat_Form_Messages extends Chat_Form {
     }
 
     if (data.you) {
-      element.addEventListener("click", () => {
-        this.deleteMessageListner(element.dataset.id)
-      })
+      /*
+      const deleteButton = element.querySelector(`something`)
+      deleteButton.addEventListener(
+        "click",
+        () => {
+          this.deleteMessageListner(element.dataset.id)
+        },
+        { once: true }
+      )
+      */
+
       element.dataset.user = "you"
     }
 
@@ -87,8 +95,8 @@ class Chat_Form_Messages extends Chat_Form {
     })
   }
 
-  appendMessage(data, deleteHandler) {
-    const element = this._generateMessageMarkup(data, deleteHandler)
+  appendMessage(data) {
+    const element = this._generateMessageMarkup(data)
     if (!element) return
     const lastSentMessage = this.getLastSentMessage()
 
@@ -110,8 +118,8 @@ class Chat_Form_Messages extends Chat_Form {
     return element
   }
 
-  prependMessage(data, deleteHandler) {
-    const element = this._generateMessageMarkup(data, deleteHandler)
+  prependMessage(data) {
+    const element = this._generateMessageMarkup(data)
     if (!element) return
 
     const scrollBottom = getScrollBottom(this._messageContainer)
@@ -134,7 +142,8 @@ class Chat_Form_Messages extends Chat_Form {
 
   deleteMessage(id) {
     const element = this._messageContainer.querySelector(`.message[data-id="${id}"]`)
-    element.remove()
+    element.addEventListener("animationend", element.remove)
+    element.classList.add(`delete`)
   }
 
   async addLoadMoreHandler(callback) {
