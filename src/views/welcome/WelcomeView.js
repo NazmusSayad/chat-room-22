@@ -37,15 +37,29 @@ class Welcome extends Views {
   }
 
   addLoginViewHandler(callback) {
-    this._element.querySelector(`#goto-login-btn`).onclick = event => callback(event)
+    const buttons = [
+      this._element.querySelector(`#goto-login-btn`),
+      this._signupForm.querySelector(`#goto-login-btn-2`),
+    ]
+
+    buttons.forEach((button) => {
+      button.onclick = (event) => callback(event)
+    })
   }
 
   addSignupViewHandler(callback) {
-    this._element.querySelector(`#goto-signup-btn`).onclick = event => callback(event)
+    const buttons = [
+      this._element.querySelector(`#goto-signup-btn`),
+      this._loginForm.querySelector(`#goto-signup-btn-2`),
+    ]
+
+    buttons.forEach((button) => {
+      button.onclick = (event) => callback(event)
+    })
   }
 
   addLoginSubmitHandlers(callback) {
-    this._loginForm.onsubmit = event => {
+    this._loginForm.onsubmit = (event) => {
       const { email, password } = event.target
       event.preventDefault()
       callback({ email: email.value, password: password.value })
@@ -53,7 +67,7 @@ class Welcome extends Views {
   }
 
   addSignupSubmitHandlers(callback) {
-    this._signupForm.onsubmit = event => {
+    this._signupForm.onsubmit = (event) => {
       const { name, email, password } = event.target
       event.preventDefault()
       callback({ name: name.value, email: email.value, password: password.value })
@@ -64,6 +78,16 @@ class Welcome extends Views {
     const name = this._signupForm.name
     const emails = [this._signupForm.email, this._loginForm.email]
     const passwords = [this._signupForm.password, this._loginForm.password]
+
+    passwords.forEach((password) => {
+      password.nextElementSibling.addEventListener("click", function () {
+        this.classList.toggle("fa-eye")
+        this.classList.toggle("fa-eye-slash")
+
+        const passAttr = password.getAttribute("type")
+        password.setAttribute("type", passAttr === "password" ? "text" : "password")
+      })
+    })
 
     name.onchange = () => {
       name.oninput = function () {
