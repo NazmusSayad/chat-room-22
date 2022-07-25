@@ -38,9 +38,9 @@
     <button type="submit" disabled>${Send}</button>
   </form>
 
-  <section id="connection-status">
+  <section id="connection-status" class="show">
     <p class="online">Your are online now</p>
     <p class="offline">You are offline now</p>
-    <button onclick="this.parentElement.classList.remove(`show`)">X</button>
+    <i onclick="this.parentElement.classList.remove(`show`)" class="fal fa-times"></i>
   </section>
 </section>

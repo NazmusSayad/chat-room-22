@@ -1,6 +1,6 @@
-@use '../' as *;
+@use "../" as *;
 
-#root[view='chatView'] {
+#root[view="chatView"] {
   background-color: var(--root-bg);
 }
 
@@ -15,7 +15,7 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   transition-property: width, height, border-radius;
   transition-duration: 0.25s;
 
@@ -87,7 +87,7 @@
       }
     }
 
-    .message[data-user='you'] {
+    .message[data-user="you"] {
       align-items: flex-end;
       margin-left: auto;
       animation-name: slide-message-you;
@@ -101,11 +101,11 @@
       }
     }
 
-    .message[data-status='pending'] p {
+    .message[data-status="pending"] p {
       background: var(--clr-primary-light);
     }
 
-    .message[data-status='sent'] p {
+    .message[data-status="sent"] p {
       transition: 0.3s;
     }
   }
@@ -164,15 +164,17 @@
   position: fixed;
   left: 3.5rem;
   bottom: 2.5rem;
-  background-color: var(--root-bg);
-  padding: 1rem 2rem;
+  color: var(--text-them);
+  padding: 1rem 1.75rem;
+  padding-right: 1.25rem;
   border-radius: 1rem;
   display: flex;
-  gap: 1rem;
+  gap: 1.25rem;
   align-items: center;
   max-height: fit-content;
   transform: translateY(calc(100% + 3rem));
   transition: transform 0.5s ease-in-out;
+  box-shadow: 0 0 1.5rem -1rem var(--text-them);
 
   &.show {
     transform: translateY(0);
@@ -183,17 +185,37 @@
     display: none;
   }
 
-  &[data-status='online'] {
-    .online {
-      display: block;
-      color: green;
+  i {
+    cursor: pointer;
+    font-size: 2rem;
+    padding: 0.5rem;
+    background: #ffffff30;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    height: 1.5em;
+    transition: 0.2s ease-in-out;
+    transition-property: background, color;
+    text-align: center;
+
+    &:hover {
+      background: #ffffff50;
+      color: var(--error);
     }
   }
 
-  &[data-status='offline'] {
+  &[data-status="online"] {
+    background: var(--clr-primary);
+
+    .online {
+      display: block;
+    }
+  }
+
+  &[data-status="offline"] {
+    background: var(--error);
+
     .offline {
       display: block;
-      color: red;
     }
   }
 }
