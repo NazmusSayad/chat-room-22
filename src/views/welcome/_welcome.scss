@@ -20,7 +20,7 @@
   @include break($small) {
     background-image: url("../../assests/background-small.jpg");
   }
-  @include break($xsmall) {
+  @include break($xxsmall) {
     background-image: none;
   }
 
@@ -65,7 +65,7 @@
     }
 
     .form-container {
-      width: min(40rem, 100vw);
+      width: 40rem;
       background-color: var(--bg-light);
 
       @include break($large) {
@@ -76,6 +76,7 @@
       }
       @include break($xsmall) {
         height: 100%;
+        width: 100vw;
       }
 
       form {
