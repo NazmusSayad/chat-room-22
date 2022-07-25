@@ -5,7 +5,9 @@
     --root-bg: #ebeeed;
     --light: var(--white);
     --dark: var(--black);
-    --clr-primary: #51db98;
+    --clr-primary: hsl(151, 66%, 60%);
+    --clr-hover: hsl(151, 66%, 50%);
+    --clr-active: hsl(151, 66%, 45%);
     --clr-primary-light: #bbf1d7;
     --clr-secondary: #8aafe7;
     --clr-shadow: #ddd;
@@ -25,7 +27,9 @@
     --dark: var(--white);
     --clr-shadow: #000;
     --clr-shadow: #2f4f4f30;
-    --clr-primary: #269e64;
+    --clr-primary: hsl(151, 66%, 40%);
+    --clr-hover: hsl(151, 66%, 30%);
+    --clr-active: hsl(151, 66%, 25%);
     --clr-placeholder: #ccc;
     --clr-primary-light: #0c251a;
     --bg-dark: #181818;

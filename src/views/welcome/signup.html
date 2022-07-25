@@ -5,14 +5,13 @@
       <input
         type="text"
         id="full-name"
-        required
         placeholder=" "
-        autocomplete="off"
         name="name"
-        role="presentation"
+        autocomplete="username"
         minlength="3"
         maxlength="14"
         pattern="^[a-zA-Z]{1,}(?: [a-zA-Z]+){0,2}$"
+        required
       />
       <label for="full-name">Full Name</label>
     </div>
@@ -20,11 +19,10 @@
       <input
         type="email"
         id="email"
-        required
         placeholder=" "
-        autocomplete="off"
         name="email"
-        role="presentation"
+        autocomplete="email"
+        required
       />
       <label for="email">Email</label>
     </div>
@@ -32,16 +30,16 @@
       <input
         type="password"
         id="password"
-        required
         placeholder=" "
         autocomplete="new-password"
         name="password"
-        role="presentation"
         minlength="6"
         maxlength="24"
+        required
       />
       <label for="password">Password</label>
     </div>
   </div>
   <button type="submit" class="btn" id="submit">Sign Up</button>
+  <span class="navigator">Already have an account? <a href="#">Login</a></span>
 </form>
