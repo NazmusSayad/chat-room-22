@@ -1,6 +1,6 @@
+import STATE from "../model/STATE.js"
 import * as User from "../model/user-model.js"
 import * as Chat from "../model/chat-model.js"
-import STATE from "../model/STATE.js"
 import ChatView from "../views/chat/ChatView.js"
 import WelcomeView from "../views/welcome/WelcomeView.js"
 
@@ -10,6 +10,12 @@ export const loginPage = () => {
 
 export const signupPage = () => {
   WelcomeView.showSignUp()
+}
+
+export const deleteMessageHandler = async (id) => {
+  const status = await Chat.deleteMessage(id)
+  if (!status) return
+  deleteMessage(id)
 }
 
 export const loginFormSubmit = async (token) => {
@@ -37,9 +43,7 @@ export const initChat = async () => {
     await Chat.Start()
     ChatView.render()
     const starterMessages = await Chat.getInitialMessages()
-    starterMessages.reverse().forEach((msg) => {
-      ChatView.appendMessage(msg)
-    })
+    starterMessages.reverse().forEach((message) => ChatView.appendMessage(message))
 
     ChatView.focusTextArea()
     ChatView.setLoadedClass()
@@ -66,10 +70,6 @@ export const sendMessage = async (msg) => {
   }
 }
 
-export const recieveMessage = (messages) => {
-  messages.forEach((message) => ChatView.appendMessage(message))
-}
-
 export const loadMoreMessages = async (oldestMessage) => {
   if (STATE.isLoadMoreMessageReqRunning) return
   STATE.isLoadMoreMessageReqRunning = true
@@ -88,6 +88,8 @@ export const loadMoreMessages = async (oldestMessage) => {
   STATE.isLoadMoreMessageReqRunning = false
 }
 
+/////////////////////////////////////////////////////
+
 const loadLeftMessagesOnReconnect = async () => {
   const id = ChatView.getLastSentMessage()?.dataset?.id
   if (!id) return
@@ -99,9 +101,7 @@ const loadLeftMessagesOnReconnect = async () => {
   }
 
   const ifNeedsToScroll = ChatView.ifNeedsToScroll()
-  data.forEach((msg) => {
-    ChatView.appendMessage(msg)
-  })
+  data.forEach((message) => ChatView.appendMessage(message))
   if (ifNeedsToScroll) ChatView.scrollToBottom()
 }
 
@@ -114,6 +114,14 @@ const sendPendingMessagesOnReconnect = async () => {
   pendingMessages.forEach((element, ind) => {
     ChatView.appendMessageSent(element, datalist[ind])
   })
+}
+
+export const onRecieveMessage = (messages) => {
+  messages.forEach((message) => ChatView.appendMessage(message))
+}
+
+export const onDeleteMessage = (id) => {
+  ChatView.deleteMessage(id)
 }
 
 export const onDisconnect = () => {

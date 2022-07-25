@@ -34,7 +34,8 @@ export const Start = () => {
         handlers.onReconnection()
       } else {
         init = true
-        receiveMessages()
+        onDeleteMessage()
+        onReceiveMessages()
         setTimeout(resolve, 50)
       }
     })
@@ -51,29 +52,43 @@ export const OnConnect = (callback) => {
 }
 
 export const WaitForConnection = async () => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     OnConnect(resolve)
   })
 }
 
-export const receiveMessages = () => {
+const onDeleteMessage = () => {
+  Socket.on("message-delete", (id) => {
+    handlers.onDeleteMessages(id)
+  })
+}
+
+const onReceiveMessages = () => {
   Socket.on("message-new", (data) => {
-    handlers.receiveMessages(checkIfYou(data))
+    handlers.onReceiveMessages(checkIfYou(data))
   })
 }
 
 export const sendMessages = (msgs) => {
   if (!Array.isArray(msgs)) throw new Error("I want an array!")
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     Socket.volatile.emit("message-new", msgs, (data) => {
       resolve(checkIfYou(data))
     })
   })
 }
 
+export const deleteMessage = (id) => {
+  return new Promise((resolve) => {
+    Socket.volatile.emit("message-delete", id, (data) => {
+      resolve(data)
+    })
+  })
+}
+
 export const getInitialMessages = () => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     Socket.volatile.emit("message-initial", (data) => {
       resolve(checkIfYou(data))
     })
@@ -81,7 +96,7 @@ export const getInitialMessages = () => {
 }
 
 export const getNewerMessagesThanId = (id) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     Socket.volatile.emit("message-getNewer", id, (data) => {
       resolve(checkIfYou(data))
     })
@@ -89,7 +104,7 @@ export const getNewerMessagesThanId = (id) => {
 }
 
 export const getOlderMessagesThanId = (id) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     Socket.volatile.emit("message-getOlder", id, (data) => {
       resolve(checkIfYou(data))
     })
@@ -99,5 +114,6 @@ export const getOlderMessagesThanId = (id) => {
 export const handlers = {
   onReconnection: () => {},
   onDisconnect: () => {},
-  receiveMessages: (messages) => {},
+  onReceiveMessages: (messages) => {},
+  onDeleteMessages: (id) => {},
 }
