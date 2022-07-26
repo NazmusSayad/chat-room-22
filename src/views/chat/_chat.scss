@@ -1,6 +1,6 @@
-@use "../" as *;
+@use '../' as *;
 
-#root[view="chatView"] {
+#root[view='chatView'] {
   background-color: var(--root-bg);
 }
 
@@ -15,7 +15,7 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  font-family: "Rubik", sans-serif;
+  font-family: 'Rubik', sans-serif;
   transition-property: width, height, border-radius;
   transition-duration: 0.25s;
 
@@ -47,8 +47,7 @@
     }
 
     .message {
-      width: fit-content;
-      max-width: min(80%, 45rem);
+      width: 100%;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -56,8 +55,35 @@
       color: var(--dark);
       animation: slide-message 0.5s forwards;
 
-      &.delete {
-        animation: delete-message 0.35s forwards !important;
+      &:hover .text > .delete {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .text {
+        width: 80%;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+
+        .delete {
+          color: var(--clr-placeholder);
+          background-color: transparent;
+          display: none;
+          border: 0;
+          outline: 0;
+          opacity: 0;
+          transform: scale(0);
+          transition: 0.35s ease;
+
+          &:hover {
+            color: var(--foreground);
+          }
+
+          &:active {
+            color: var(--error);
+          }
+        }
       }
 
       img.emoji {
@@ -91,10 +117,18 @@
       }
     }
 
-    .message[data-user="you"] {
+    .message[data-user='you'] {
       align-items: flex-end;
       margin-left: auto;
       animation-name: slide-message-you;
+
+      .text {
+        flex-direction: row-reverse;
+
+        .delete {
+          display: unset;
+        }
+      }
 
       p {
         color: var(--text-you);
@@ -105,11 +139,11 @@
       }
     }
 
-    .message[data-status="pending"] p {
+    .message[data-status='pending'] p {
       background: var(--clr-primary-light);
     }
 
-    .message[data-status="sent"] p {
+    .message[data-status='sent'] p {
       transition: 0.3s;
     }
   }
@@ -207,7 +241,7 @@
     }
   }
 
-  &[data-status="online"] {
+  &[data-status='online'] {
     background: var(--clr-primary);
 
     .online {
@@ -215,7 +249,7 @@
     }
   }
 
-  &[data-status="offline"] {
+  &[data-status='offline'] {
     background: var(--error);
 
     .offline {

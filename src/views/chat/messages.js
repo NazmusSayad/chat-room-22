@@ -63,16 +63,15 @@ class Chat_Form_Messages extends Chat_Form {
     }
 
     if (data.you) {
-      /*
-      const deleteButton = element.querySelector(`something`)
+      const deleteButton = element.querySelector(`#delete-button`)
+
       deleteButton.addEventListener(
-        "click",
+        'click',
         () => {
           this.deleteMessageListner(element.dataset.id)
         },
         { once: true }
       )
-      */
 
       element.dataset.user = 'you'
     }
