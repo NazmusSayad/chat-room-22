@@ -12,7 +12,7 @@ const loadLeftMessagesOnReconnect = async () => {
   }
 
   const ifNeedsToScroll = ChatView.ifNeedsToScroll()
-  data.forEach((message) => ChatView.appendMessage(message))
+  data.forEach(message => ChatView.appendMessage(message))
   if (ifNeedsToScroll) ChatView.scrollToBottom()
 }
 
@@ -20,7 +20,7 @@ const sendPendingMessagesOnReconnect = async () => {
   const pendingMessages = ChatView.getPendingMessages()
   if (!pendingMessages.length) return
 
-  const messages = pendingMessages.map((element) => element.msg)
+  const messages = pendingMessages.map(element => element.msg)
   const datalist = await Chat.sendMessages(messages)
   pendingMessages.forEach((element, ind) => {
     ChatView.appendMessageSent(element, datalist[ind])
@@ -42,10 +42,10 @@ export const onReconnect = async () => {
   }
 }
 
-export const onRecieveMessage = (messages) => {
-  messages.forEach((message) => ChatView.appendMessage(message))
+export const onRecieveMessage = messages => {
+  messages.forEach(message => ChatView.appendMessage(message))
 }
 
-export const onDeleteMessage = (id) => {
+export const onDeleteMessage = id => {
   ChatView.deleteMessage(id)
 }

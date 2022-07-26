@@ -1,6 +1,6 @@
 // Add Keyboard-Shortcuts
 ;(() => {
-  window.onkeydown = (event) => {
+  window.onkeydown = event => {
     if (event.key === "t" && event.altKey && !event.ctrlKey && !event.shiftKey) {
       appTheme.toggle()
     }
