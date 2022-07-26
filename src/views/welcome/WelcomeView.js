@@ -1,9 +1,9 @@
-import markup from "./welcome.html"
-import loginMarkup from "./login.html"
-import signupMarkup from "./signup.html"
-import "./_welcome.scss"
-import { HTML } from "../../utils/utils.js"
-import { Views } from "../Views.js"
+import markup from './welcome.html'
+import loginMarkup from './login.html'
+import signupMarkup from './signup.html'
+import './_welcome.scss'
+import { HTML } from '../../utils/utils.js'
+import { Views } from '../Views.js'
 
 class Welcome extends Views {
   constructor() {
@@ -19,20 +19,20 @@ class Welcome extends Views {
   _formContainer = this._element.querySelector(`#form-container`)
 
   _beforeRender() {
-    document.title = "chat-room #22"
+    document.title = 'chat-room #22'
   }
 
   showSignUp() {
-    document.title = "chat-room #22 | SignUp"
-    this._element.setAttribute(`view`, "sign-up")
-    this._formContainer.innerHTML = ""
+    document.title = 'chat-room #22 | SignUp'
+    this._element.setAttribute(`view`, 'sign-up')
+    this._formContainer.innerHTML = ''
     this._formContainer.appendChild(this._signupForm)
   }
 
   showLogin() {
-    document.title = "chat-room #22 | Login"
-    this._element.setAttribute(`view`, "log-in")
-    this._formContainer.innerHTML = ""
+    document.title = 'chat-room #22 | Login'
+    this._element.setAttribute(`view`, 'log-in')
+    this._formContainer.innerHTML = ''
     this._formContainer.appendChild(this._loginForm)
   }
 
@@ -80,19 +80,19 @@ class Welcome extends Views {
     const passwords = [this._signupForm.password, this._loginForm.password]
 
     passwords.forEach(password => {
-      password.nextElementSibling.addEventListener("click", function () {
-        this.classList.toggle("fa-eye")
-        this.classList.toggle("fa-eye-slash")
+      password.nextElementSibling.addEventListener('click', function () {
+        this.classList.toggle('fa-eye')
+        this.classList.toggle('fa-eye-slash')
 
-        const passAttr = password.getAttribute("type")
-        password.setAttribute("type", passAttr === "password" ? "text" : "password")
+        const passAttr = password.getAttribute('type')
+        password.setAttribute('type', passAttr === 'password' ? 'text' : 'password')
       })
     })
 
     name.onchange = () => {
       name.oninput = function () {
-        if (this.value === " ") return (this.value = "")
-        if (this.value.endsWith("  ")) return (this.value = this.value.slice(0, -1))
+        if (this.value === ' ') return (this.value = '')
+        if (this.value.endsWith('  ')) return (this.value = this.value.slice(0, -1))
 
         const regEx = new RegExp(this.getAttribute(`pattern`))
         const matchRegEx = this.value.match(regEx)?.length

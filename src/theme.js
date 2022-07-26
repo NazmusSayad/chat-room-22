@@ -3,8 +3,8 @@ class Theme {
 
   constructor({
     root = document.querySelector(`:root`),
-    rootAtt = "theme",
-    dataKey = "theme",
+    rootAtt = 'theme',
+    dataKey = 'theme',
   } = {}) {
     this.#conf = { root, rootAtt, dataKey }
   }
@@ -19,9 +19,9 @@ class Theme {
   #init() {
     const current = this.#selected()
 
-    if (current === "dark") {
+    if (current === 'dark') {
       this.dark()
-    } else if (current === "light") {
+    } else if (current === 'light') {
       this.light()
     } else {
       this.auto()
@@ -29,7 +29,7 @@ class Theme {
   }
 
   #watch() {
-    const media = matchMedia("(prefers-color-scheme: dark)")
+    const media = matchMedia('(prefers-color-scheme: dark)')
     media.onchange = () => {
       this.#init()
     }
@@ -48,31 +48,31 @@ class Theme {
   }
 
   auto() {
-    const media = matchMedia("(prefers-color-scheme: dark)")
+    const media = matchMedia('(prefers-color-scheme: dark)')
     if (media.matches) {
-      this.#set("auto-dark")
+      this.#set('auto-dark')
     } else {
-      this.#set("auto-light")
+      this.#set('auto-light')
     }
     localStorage.removeItem(this.#conf.dataKey)
   }
 
   light() {
-    this.#set("light")
-    this.#save("light")
+    this.#set('light')
+    this.#save('light')
   }
 
   dark() {
-    this.#set("dark")
-    this.#save("dark")
+    this.#set('dark')
+    this.#save('dark')
   }
 
   toggle() {
     const current = this.#current()
 
-    if (current.includes("dark")) {
+    if (current.includes('dark')) {
       this.light()
-    } else if (current.includes("light")) {
+    } else if (current.includes('light')) {
       this.dark()
     } else {
       this.auto()
@@ -82,9 +82,9 @@ class Theme {
   toggle3() {
     const current = this.#current()
 
-    if (current.includes("auto")) {
+    if (current.includes('auto')) {
       this.light()
-    } else if (current.includes("light")) {
+    } else if (current.includes('light')) {
       this.dark()
     } else {
       this.auto()

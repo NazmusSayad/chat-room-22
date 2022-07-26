@@ -1,13 +1,13 @@
-import * as Chat from "../model/chat-model.js"
-import ChatView from "../views/chat/ChatView.js"
+import * as Chat from '../model/chat-model.js'
+import ChatView from '../views/chat/ChatView.js'
 
 const loadLeftMessagesOnReconnect = async () => {
   const id = ChatView.getLastSentMessage()?.dataset?.id
   if (!id) return
 
   const data = await Chat.getNewerMessagesThanId(id)
-  if (typeof data === "number") {
-    alert("Too many messages to laod.\nWe are reloading!")
+  if (typeof data === 'number') {
+    alert('Too many messages to laod.\nWe are reloading!')
     location.reload()
   }
 

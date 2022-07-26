@@ -1,12 +1,12 @@
-import { API_URL } from "../.config.js"
-import { cryptoJs, getJSON } from "../utils/utils.js"
+import { API_URL } from '../.config.js'
+import { cryptoJs, getJSON } from '../utils/utils.js'
 
 const saveAuthInfo = data => {
   localStorage.setItem(`token`, cryptoJs.encrypt(JSON.stringify(data)))
 }
 
 export const login = async token => {
-  const res = await getJSON(API_URL + "/user", {
+  const res = await getJSON(API_URL + '/user', {
     headers: {
       email: token.email,
       password: token.password,
@@ -17,10 +17,10 @@ export const login = async token => {
 }
 
 export const signUp = async token => {
-  const res = await getJSON(API_URL + "/user", {
-    method: "POST",
+  const res = await getJSON(API_URL + '/user', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(token),
   })
@@ -29,6 +29,6 @@ export const signUp = async token => {
 }
 
 export const logOut = () => {
-  localStorage.removeItem("token")
+  localStorage.removeItem('token')
   location.reload()
 }

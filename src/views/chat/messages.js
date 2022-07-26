@@ -1,15 +1,15 @@
-import Chat_Form from "./form.js"
-import messageMarkup from "./chatMessage.html"
-import "./_chat.scss"
-import "./_dropdown.scss"
-import "./_theme-toggle.scss"
+import Chat_Form from './form.js'
+import messageMarkup from './chatMessage.html'
+import './_chat.scss'
+import './_dropdown.scss'
+import './_theme-toggle.scss'
 import {
   getScrollBottom,
   HTML,
   newMessageNotification,
   simplifyDate,
   makeTextReadyForRender,
-} from "../../utils/utils.js"
+} from '../../utils/utils.js'
 
 class Chat_Form_Messages extends Chat_Form {
   constructor() {
@@ -58,8 +58,8 @@ class Chat_Form_Messages extends Chat_Form {
       element.dataset.id = data._id
       text.title = simplifyDate(data.sent)
     } else {
-      element.dataset.status = "pending"
-      text.title = "Sending..."
+      element.dataset.status = 'pending'
+      text.title = 'Sending...'
     }
 
     if (data.you) {
@@ -74,7 +74,7 @@ class Chat_Form_Messages extends Chat_Form {
       )
       */
 
-      element.dataset.user = "you"
+      element.dataset.user = 'you'
     }
 
     return element
@@ -91,7 +91,7 @@ class Chat_Form_Messages extends Chat_Form {
     this._messageContainer.scrollTo({
       top: this._messageContainer.scrollHeight,
       left: 0,
-      behavior: this._loaded ? "smooth" : "auto",
+      behavior: this._loaded ? 'smooth' : 'auto',
     })
   }
 
@@ -108,7 +108,7 @@ class Chat_Form_Messages extends Chat_Form {
 
     if (this.ifNeedsToScroll() || data.you) {
       this.scrollToBottom()
-      if (document.visibilityState === "hidden" && this._loaded) {
+      if (document.visibilityState === 'hidden' && this._loaded) {
         newMessageNotification(data.name, data.msg)
       }
     } else {
@@ -130,19 +130,19 @@ class Chat_Form_Messages extends Chat_Form {
     this._messageContainer.scrollTo({
       top: scp,
       left: 0,
-      behavior: "auto",
+      behavior: 'auto',
     })
   }
 
   appendMessageSent(element, data) {
     element.dataset.id = data._id
-    element.querySelector("[text]").title = simplifyDate(data.sent)
-    element.dataset.status = "sent"
+    element.querySelector('[text]').title = simplifyDate(data.sent)
+    element.dataset.status = 'sent'
   }
 
   deleteMessage(id) {
     const element = this._messageContainer.querySelector(`.message[data-id="${id}"]`)
-    element.addEventListener("animationend", element.remove)
+    element.addEventListener('animationend', element.remove)
     element.classList.add(`delete`)
   }
 

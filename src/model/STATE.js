@@ -1,4 +1,4 @@
-import { cryptoJs } from "../utils/utils.js"
+import { cryptoJs } from '../utils/utils.js'
 
 export default {
   get user() {

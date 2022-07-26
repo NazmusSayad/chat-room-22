@@ -1,6 +1,6 @@
-import { io } from "socket.io-client"
-import { API_URL } from "../.config"
-import STATE from "./STATE"
+import { io } from 'socket.io-client'
+import { API_URL } from '../.config'
+import STATE from './STATE'
 
 let init = false
 let Socket = null
@@ -16,7 +16,7 @@ const checkIfYou = function (data) {
 }
 
 export const Start = () => {
-  Socket = io(API_URL + "/chat", {
+  Socket = io(API_URL + '/chat', {
     auth: STATE.auth,
     reconnection: true,
     reconnectionDelay: 500,
@@ -25,11 +25,11 @@ export const Start = () => {
   })
 
   return new Promise((resolve, reject) => {
-    Socket.on("disconnect", () => {
+    Socket.on('disconnect', () => {
       handlers.onDisconnect()
     })
 
-    Socket.on("connect", () => {
+    Socket.on('connect', () => {
       if (init) {
         handlers.onReconnection()
       } else {
@@ -48,7 +48,7 @@ export const status = () => {
 
 export const OnConnect = callback => {
   if (Socket.connected) callback()
-  else Socket.on("connect", callback)
+  else Socket.on('connect', callback)
 }
 
 export const WaitForConnection = async () => {
@@ -58,22 +58,22 @@ export const WaitForConnection = async () => {
 }
 
 const onDeleteMessage = () => {
-  Socket.on("message-delete", id => {
+  Socket.on('message-delete', id => {
     handlers.onDeleteMessages(id)
   })
 }
 
 const onReceiveMessages = () => {
-  Socket.on("message-new", data => {
+  Socket.on('message-new', data => {
     handlers.onReceiveMessages(checkIfYou(data))
   })
 }
 
 export const sendMessages = msgs => {
-  if (!Array.isArray(msgs)) throw new Error("I want an array!")
+  if (!Array.isArray(msgs)) throw new Error('I want an array!')
 
   return new Promise(resolve => {
-    Socket.volatile.emit("message-new", msgs, data => {
+    Socket.volatile.emit('message-new', msgs, data => {
       resolve(checkIfYou(data))
     })
   })
@@ -81,7 +81,7 @@ export const sendMessages = msgs => {
 
 export const deleteMessage = id => {
   return new Promise(resolve => {
-    Socket.volatile.emit("message-delete", id, data => {
+    Socket.volatile.emit('message-delete', id, data => {
       resolve(data)
     })
   })
@@ -89,7 +89,7 @@ export const deleteMessage = id => {
 
 export const getInitialMessages = () => {
   return new Promise(resolve => {
-    Socket.volatile.emit("message-initial", data => {
+    Socket.volatile.emit('message-initial', data => {
       resolve(checkIfYou(data))
     })
   })
@@ -97,7 +97,7 @@ export const getInitialMessages = () => {
 
 export const getNewerMessagesThanId = id => {
   return new Promise(resolve => {
-    Socket.volatile.emit("message-getNewer", id, data => {
+    Socket.volatile.emit('message-getNewer', id, data => {
       resolve(checkIfYou(data))
     })
   })
@@ -105,7 +105,7 @@ export const getNewerMessagesThanId = id => {
 
 export const getOlderMessagesThanId = id => {
   return new Promise(resolve => {
-    Socket.volatile.emit("message-getOlder", id, data => {
+    Socket.volatile.emit('message-getOlder', id, data => {
       resolve(checkIfYou(data))
     })
   })

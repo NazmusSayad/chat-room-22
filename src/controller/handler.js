@@ -1,8 +1,8 @@
-import STATE from "../model/STATE.js"
-import * as User from "../model/user-model.js"
-import * as Chat from "../model/chat-model.js"
-import ChatView from "../views/chat/ChatView.js"
-import WelcomeView from "../views/welcome/WelcomeView.js"
+import STATE from '../model/STATE.js'
+import * as User from '../model/user-model.js'
+import * as Chat from '../model/chat-model.js'
+import ChatView from '../views/chat/ChatView.js'
+import WelcomeView from '../views/welcome/WelcomeView.js'
 
 export const loginPage = () => {
   WelcomeView.showLogin()
@@ -60,7 +60,7 @@ export const sendMessage = async msg => {
     ChatView.appendMessageSent(element, data)
   } catch (err) {
     console.error(err)
-    alert("Unable to send message.\nPlease reload this page.")
+    alert('Unable to send message.\nPlease reload this page.')
   }
 }
 
