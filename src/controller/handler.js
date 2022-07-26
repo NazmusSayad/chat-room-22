@@ -12,7 +12,7 @@ export const signupPage = () => {
   WelcomeView.showSignUp()
 }
 
-export const loginFormSubmit = async (token) => {
+export const loginFormSubmit = async token => {
   try {
     await User.login(token)
     initChat()
@@ -22,7 +22,7 @@ export const loginFormSubmit = async (token) => {
   }
 }
 
-export const signupFormSubmit = async (token) => {
+export const signupFormSubmit = async token => {
   try {
     await User.signUp(token)
     initChat()
@@ -37,7 +37,7 @@ export const initChat = async () => {
     await Chat.Start()
     ChatView.render()
     const starterMessages = await Chat.getInitialMessages()
-    starterMessages.reverse().forEach((message) => ChatView.appendMessage(message))
+    starterMessages.reverse().forEach(message => ChatView.appendMessage(message))
 
     ChatView.focusTextArea()
     ChatView.setLoadedClass()
@@ -47,7 +47,7 @@ export const initChat = async () => {
   }
 }
 
-export const sendMessage = async (msg) => {
+export const sendMessage = async msg => {
   try {
     const element = ChatView.appendMessage({
       name: STATE.user.name,
@@ -64,13 +64,13 @@ export const sendMessage = async (msg) => {
   }
 }
 
-export const deleteMessage = async (id) => {
+export const deleteMessage = async id => {
   const status = await Chat.deleteMessage(id)
   if (!status) return
   ChatView.deleteMessage(id)
 }
 
-export const loadMoreMessages = async (oldestMessage) => {
+export const loadMoreMessages = async oldestMessage => {
   if (STATE.isLoadMoreMessageReqRunning) return
   STATE.isLoadMoreMessageReqRunning = true
 
@@ -78,7 +78,7 @@ export const loadMoreMessages = async (oldestMessage) => {
     const id = oldestMessage.dataset.id
     const data = await Chat.getOlderMessagesThanId(id)
 
-    data.forEach((msg) => {
+    data.forEach(msg => {
       ChatView.prependMessage(msg)
     })
   } catch (err) {

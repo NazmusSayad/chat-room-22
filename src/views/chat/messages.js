@@ -31,7 +31,7 @@ class Chat_Form_Messages extends Chat_Form {
 
   getPendingMessages() {
     const elements = this._messageContainer.querySelectorAll(`[data-status="pending"]`)
-    elements.forEach((element) => {
+    elements.forEach(element => {
       element.msg = element.querySelector(`[text]`).textContent
     })
 
@@ -153,7 +153,7 @@ class Chat_Form_Messages extends Chat_Form {
       if (isNoMessageFound) break
     }
 
-    this._messageContainer.onscroll = (event) => {
+    this._messageContainer.onscroll = event => {
       if (event.target.scrollTop === 0) {
         const oldestMessage = this._messageContainer.firstElementChild
         callback(oldestMessage)

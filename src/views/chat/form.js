@@ -20,7 +20,7 @@ class Chat_Form extends Chat {
   }
 
   addMsgSubmitHandler(callback) {
-    this._chatForm.onsubmit = (event) => {
+    this._chatForm.onsubmit = event => {
       event.preventDefault()
       const { msg } = event.target
       const value = refactorMessageBeforeSending(msg.value)
@@ -42,7 +42,7 @@ class Chat_Form extends Chat {
 
     form.onclick = this.focusTextArea()
 
-    this._textArea.addEventListener("keydown", (event) => {
+    this._textArea.addEventListener("keydown", event => {
       if (event.keyCode !== 13 || event.shiftKey || event.ctrlKey) return
       event.preventDefault()
       button.click()
