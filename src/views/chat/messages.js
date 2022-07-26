@@ -32,7 +32,7 @@ class Chat_Form_Messages extends Chat_Form {
   getPendingMessages() {
     const elements = this._messageContainer.querySelectorAll(`[data-status="pending"]`)
     elements.forEach(element => {
-      element.msg = element.querySelector(`[text]`).textContent
+      element.msg = element.querySelector(`.paragraph`).textContent
     })
 
     return [...elements]
@@ -44,8 +44,8 @@ class Chat_Form_Messages extends Chat_Form {
 
   _generateMessageMarkup(data) {
     const element = new HTML(messageMarkup)
-    const user = element.querySelector(`[user]`)
-    const text = element.querySelector(`[text]`)
+    const user = element.querySelector(`.user`)
+    const text = element.querySelector(`.paragraph`)
     user.textContent = data.name
     text.innerHTML = makeTextReadyForRender(data.msg)
 
@@ -63,7 +63,7 @@ class Chat_Form_Messages extends Chat_Form {
     }
 
     if (data.you) {
-      const deleteButton = element.querySelector(`#delete-button`)
+      const deleteButton = element.querySelector(`.delete`)
 
       deleteButton.addEventListener(
         'click',
@@ -135,7 +135,7 @@ class Chat_Form_Messages extends Chat_Form {
 
   appendMessageSent(element, data) {
     element.dataset.id = data._id
-    element.querySelector('[text]').title = simplifyDate(data.sent)
+    element.querySelector('.paragraph').title = simplifyDate(data.sent)
     element.dataset.status = 'sent'
   }
 

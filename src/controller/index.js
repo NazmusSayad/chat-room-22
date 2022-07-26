@@ -36,7 +36,8 @@ import WelcomeView from '../views/welcome/WelcomeView.js'
 
       handler.initChat()
     } catch (err) {
-      console.error(err)
+      if (err.name === 'TypeError') return
+
       if (confirm(`Something went wrong!\nTry again after logout?`)) {
         User.logOut()
       }

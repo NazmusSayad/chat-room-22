@@ -55,19 +55,14 @@
       color: var(--dark);
       animation: slide-message 0.5s forwards;
 
-      &:hover .text > .delete {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      .text {
+      .body {
         width: 80%;
         display: flex;
         align-items: center;
-        gap: 1.5rem;
+        gap: 1rem;
 
         .delete {
-          color: var(--clr-placeholder);
+          color: gray;
           background-color: transparent;
           display: none;
           border: 0;
@@ -93,7 +88,7 @@
         margin-bottom: -0.2em;
       }
 
-      span {
+      .user {
         color: var(--clr-secondary);
         font-weight: 700;
         font-size: 1.4rem;
@@ -115,36 +110,56 @@
           color: inherit;
         }
       }
-    }
 
-    .message[data-user='you'] {
-      align-items: flex-end;
-      margin-left: auto;
-      animation-name: slide-message-you;
+      &:hover .body > .delete {
+        opacity: 1;
+        transform: scale(1);
+      }
 
-      .text {
-        flex-direction: row-reverse;
+      &.delete {
+        transform-origin: left;
+        animation: delete-message 0.5s forwards !important;
+      }
 
-        .delete {
-          display: unset;
+      &[data-user='you'] {
+        align-items: flex-end;
+        margin-left: auto;
+        animation-name: slide-message-you;
+
+        &.delete {
+          transform-origin: right;
+        }
+
+        .body {
+          flex-direction: row-reverse;
+
+          .delete {
+            display: unset;
+          }
+        }
+
+        p {
+          color: var(--text-you);
+          background: var(--clr-primary);
+          border-radius: 2rem;
+          border-top-right-radius: 0;
+          align-self: flex-end;
         }
       }
 
-      p {
-        color: var(--text-you);
-        background: var(--clr-primary);
-        border-radius: 2rem;
-        border-top-right-radius: 0;
-        align-self: flex-end;
+      &[data-status='pending'] {
+        p {
+          background: var(--clr-primary-light);
+        }
+
+        .delete {
+          display: none !important;
+        }
       }
-    }
 
-    .message[data-status='pending'] p {
-      background: var(--clr-primary-light);
-    }
-
-    .message[data-status='sent'] p {
-      transition: 0.3s;
+      &[data-status='sent'] p {
+        transition: 0.3s;
+      }
     }
   }
 

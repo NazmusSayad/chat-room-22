@@ -3,7 +3,7 @@ import anchorme from 'anchorme'
 import BadWordList from '../bad-words.json'
 import CustomReplaceWords from '../custom-replace-words.json'
 import CryptoJs from 'crypto-js'
-import Emojione from 'emojione'
+import EmojiToShortName from 'emoji-to-short-name'
 import Twemoji from 'twemoji'
 
 CryptoJs.encrypt = text => {
@@ -124,5 +124,6 @@ export const removeDuplicateLinesOrSpaces = text => {
 export const refactorMessageBeforeSending = msg => {
   msg = removeDuplicateLinesOrSpaces(msg)
   msg = replaceIndividualBadWords(msg)
-  return Emojione.shortnameToUnicode(msg.trim())
+
+  return EmojiToShortName.decode(msg.trim())
 }
