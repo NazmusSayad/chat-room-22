@@ -68,7 +68,7 @@
           border: 0;
           outline: 0;
           opacity: 0;
-          transform: scale(0);
+          transform: scale(0) translateX(400%);
           transition: 0.35s ease;
 
           &:hover {
@@ -114,7 +114,7 @@
       &:hover {
         .body > .delete {
           opacity: 1;
-          transform: scale(1);
+          transform: scale(1) translateX(0);
         }
       }
 
@@ -127,7 +127,9 @@
         }
       }
 
-      &.delete {
+      &.deleteMode {
+        position: relative;
+        z-index: -100;
         transform-origin: left;
         animation: delete-message 0.5s forwards !important;
       }
@@ -137,7 +139,7 @@
         margin-left: auto;
         animation-name: slide-message-you;
 
-        &.delete {
+        &.deleteMode {
           transform-origin: right;
         }
 
@@ -179,6 +181,11 @@
     display: flex;
     align-items: center;
     padding: 0.7rem 1.5rem;
+
+    @include break($xsmall){
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
 
     .textarea-container {
       width: 100%;

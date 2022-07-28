@@ -152,7 +152,7 @@ class Chat_Form_Messages extends Chat_Form {
   deleteMessage(id) {
     const element = this._messageContainer.querySelector(`.message[data-id="${id}"]`)
     element.addEventListener('animationend', element.remove)
-    element.classList.add(`delete`)
+    element.classList.add(`deleteMode`)
   }
 
   async addLoadMoreHandler(callback) {
