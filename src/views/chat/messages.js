@@ -63,8 +63,20 @@ class Chat_Form_Messages extends Chat_Form {
     }
 
     if (data.you) {
-      const deleteButton = element.querySelector(`.delete`)
+      element.dataset.user = 'you'
 
+      /*
+      element.addEventListener('click', () => {
+        element.classList.toggle(`showDeleteBtn`)
+        this._messageContainer.querySelectorAll(`.showDeleteBtn`).forEach(prevElement => {
+          if (prevElement.isEqualNode(element)) return
+
+          prevElement.classList.remove(`showDeleteBtn`)
+        })
+      })
+      */
+
+      const deleteButton = element.querySelector(`.delete`)
       deleteButton.addEventListener(
         'click',
         () => {
@@ -72,8 +84,6 @@ class Chat_Form_Messages extends Chat_Form {
         },
         { once: true }
       )
-
-      element.dataset.user = 'you'
     }
 
     return element

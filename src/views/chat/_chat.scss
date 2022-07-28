@@ -111,9 +111,20 @@
         }
       }
 
-      &:hover .body > .delete {
-        opacity: 1;
-        transform: scale(1);
+      &:hover {
+        .body > .delete {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @media (pointer: coarse) {
+        &.showDeleteBtn {
+          .body > .delete {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
       }
 
       &.delete {
