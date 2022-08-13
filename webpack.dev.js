@@ -1,14 +1,14 @@
-const { CONFIG, PATH } = require("./webpack.common")
+const { CONFIG, PATH } = require('./webpack.common')
 
-CONFIG.mode = "development"
-CONFIG.stats = "errors-warnings"
-CONFIG.devtool = "eval-source-map"
+CONFIG.mode = 'development'
+CONFIG.stats = 'errors-warnings'
+CONFIG.devtool = 'eval-source-map'
 
 CONFIG.devServer = {
-  watchFiles: ["src/*", "public/*"],
+  watchFiles: ['src/*', 'public/*'],
 
   client: {
-    logging: "none",
+    logging: 'none',
     overlay: false,
     progress: false,
   },
@@ -17,7 +17,7 @@ CONFIG.devServer = {
     directory: PATH.output,
   },
 
-  host: "localhost",
+  host: 'localhost',
   port: 80,
   hot: true,
   compress: false,

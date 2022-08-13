@@ -15,21 +15,25 @@ export const signupPage = () => {
 export const loginFormSubmit = async token => {
   try {
     await User.login(token)
-    initChat()
+    await initChat()
   } catch (err) {
     console.error(err)
     alert(err.message)
   }
+
+  WelcomeView.enableButtons()
 }
 
 export const signupFormSubmit = async token => {
   try {
     await User.signUp(token)
-    initChat()
+    await initChat()
   } catch (err) {
     console.error(err)
     alert(err.message)
   }
+
+  WelcomeView.enableButtons()
 }
 
 export const initChat = async () => {
@@ -37,7 +41,9 @@ export const initChat = async () => {
     await Chat.Start()
     ChatView.render()
     const starterMessages = await Chat.getInitialMessages()
-    starterMessages.reverse().forEach(message => ChatView.appendMessage(message))
+    starterMessages
+      .reverse()
+      .forEach(message => ChatView.appendMessage(message))
 
     ChatView.focusTextArea()
     ChatView.setLoadedClass()

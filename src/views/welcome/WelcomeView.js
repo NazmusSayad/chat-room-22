@@ -12,11 +12,11 @@ class Welcome extends Views {
 
   _element = new HTML(markup)
 
-  _loginForm = new HTML(loginMarkup)
+  #loginForm = new HTML(loginMarkup)
 
-  _signupForm = new HTML(signupMarkup)
+  #signupForm = new HTML(signupMarkup)
 
-  _formContainer = this._element.querySelector(`#form-container`)
+  #formContainer = this._element.querySelector(`#form-container`)
 
   _beforeRender() {
     document.title = 'chat-room #22'
@@ -25,21 +25,21 @@ class Welcome extends Views {
   showSignUp() {
     document.title = 'chat-room #22 | SignUp'
     this._element.setAttribute(`view`, 'sign-up')
-    this._formContainer.innerHTML = ''
-    this._formContainer.appendChild(this._signupForm)
+    this.#formContainer.innerHTML = ''
+    this.#formContainer.appendChild(this.#signupForm)
   }
 
   showLogin() {
     document.title = 'chat-room #22 | Login'
     this._element.setAttribute(`view`, 'log-in')
-    this._formContainer.innerHTML = ''
-    this._formContainer.appendChild(this._loginForm)
+    this.#formContainer.innerHTML = ''
+    this.#formContainer.appendChild(this.#loginForm)
   }
 
   addLoginViewHandler(callback) {
     const buttons = [
       this._element.querySelector(`#goto-login-btn`),
-      this._signupForm.querySelector(`#goto-login-btn-2`),
+      this.#signupForm.querySelector(`#goto-login-btn-2`),
     ]
 
     buttons.forEach(button => {
@@ -50,7 +50,7 @@ class Welcome extends Views {
   addSignupViewHandler(callback) {
     const buttons = [
       this._element.querySelector(`#goto-signup-btn`),
-      this._loginForm.querySelector(`#goto-signup-btn-2`),
+      this.#loginForm.querySelector(`#goto-signup-btn-2`),
     ]
 
     buttons.forEach(button => {
@@ -58,26 +58,52 @@ class Welcome extends Views {
     })
   }
 
+  #disabledButtons = []
+
+  disableButtons() {
+    const allButtons = document.querySelectorAll('button')
+    this.#disabledButtons = allButtons
+
+    allButtons.forEach(button => button.setAttribute('disabled', ''))
+  }
+
+  enableButtons() {
+    this.#disabledButtons.forEach(button => button.removeAttribute('disabled'))
+  }
+
   addLoginSubmitHandlers(callback) {
-    this._loginForm.onsubmit = event => {
-      const { email, password } = event.target
+    this.#loginForm.onsubmit = event => {
       event.preventDefault()
-      callback({ email: email.value, password: password.value })
+      const { email, password } = event.target
+      this.disableButtons()
+
+      callback({
+        email: email.value,
+        password: password.value,
+      })
     }
   }
 
   addSignupSubmitHandlers(callback) {
-    this._signupForm.onsubmit = event => {
-      const { name, email, password } = event.target
+    this.#signupForm.onsubmit = event => {
       event.preventDefault()
-      callback({ name: name.value, email: email.value, password: password.value })
+      const { name, email, password } = event.target
+      this.disableButtons()
+
+      callback({
+        name: name.value,
+        email: email.value,
+        password: password.value,
+      })
     }
   }
 
   addFormInputHandlers() {
-    const name = this._signupForm.name
-    const emails = [this._signupForm.email, this._loginForm.email]
-    const passwords = [this._signupForm.password, this._loginForm.password]
+    // TODO: Need Refactor!!
+
+    const name = this.#signupForm.name
+    const emails = [this.#signupForm.email, this.#loginForm.email]
+    const passwords = [this.#signupForm.password, this.#loginForm.password]
 
     passwords.forEach(password => {
       password.nextElementSibling.addEventListener('click', function () {
@@ -85,14 +111,18 @@ class Welcome extends Views {
         this.classList.toggle('fa-eye-slash')
 
         const passAttr = password.getAttribute('type')
-        password.setAttribute('type', passAttr === 'password' ? 'text' : 'password')
+        password.setAttribute(
+          'type',
+          passAttr === 'password' ? 'text' : 'password'
+        )
       })
     })
 
     name.onchange = () => {
       name.oninput = function () {
         if (this.value === ' ') return (this.value = '')
-        if (this.value.endsWith('  ')) return (this.value = this.value.slice(0, -1))
+        if (this.value.endsWith('  '))
+          return (this.value = this.value.slice(0, -1))
 
         const regEx = new RegExp(this.getAttribute(`pattern`))
         const matchRegEx = this.value.match(regEx)?.length
