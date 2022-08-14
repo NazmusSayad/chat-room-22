@@ -7,7 +7,7 @@ import ChatView from '../views/chat/ChatView.js'
 import WelcomeView from '../views/welcome/WelcomeView.js'
 
 // Add Event-Handlers
-;(() => {
+{
   WelcomeView.addFormInputHandlers()
   WelcomeView.addSignupViewHandler(handler.signupPage)
   WelcomeView.addLoginViewHandler(handler.loginPage)
@@ -23,7 +23,10 @@ import WelcomeView from '../views/welcome/WelcomeView.js'
   Chat.handlers.onDisconnect = socketListner.onDisconnect
   Chat.handlers.onReceiveMessages = socketListner.onRecieveMessage
   Chat.handlers.onDeleteMessages = socketListner.onDeleteMessage
-})()
+}
+
+// Ping the server...
+User.pingServer()
 
 // Init
 ;(async () => {
