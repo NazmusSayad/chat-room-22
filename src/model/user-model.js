@@ -1,4 +1,4 @@
-import { API_URL, SERVER_URL } from '../.config.js'
+import { API_URL, SERVER_URL } from '../config.js'
 import { cryptoJs, getJSON } from '../utils/utils.js'
 
 const saveAuthInfo = data => {
