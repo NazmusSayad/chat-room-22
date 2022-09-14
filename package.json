@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "anchorme": "^2.1.2",
+    "axios": "^0.27.2",
     "crypto-js": "^4.1.1",
     "emoji-to-short-name": "^1.0.1",
     "socket.io-client": "^4.5.1",

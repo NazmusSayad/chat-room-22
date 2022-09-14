@@ -16,18 +16,19 @@ class Chat_Form extends Chat {
   _textareaResizer() {
     this._textArea.style.height = 'auto'
     const scrollHeight = this._textArea.scrollHeight
-    this._textArea.style.height = scrollHeight > 120 ? '120px' : scrollHeight + 'px'
+    this._textArea.style.height =
+      scrollHeight > 120 ? '120px' : scrollHeight + 'px'
   }
 
   addMsgSubmitHandler(callback) {
     this._chatForm.onsubmit = event => {
       event.preventDefault()
-      const { msg } = event.target
+      const { msg, files } = event.target
       const value = refactorMessageBeforeSending(msg.value)
       if (!value) return
 
-      callback(value)
-      msg.value = ''
+      callback({ msg: value, files: files.files })
+      event.target.reset()
       this._textareaResizer(msg)
     }
   }

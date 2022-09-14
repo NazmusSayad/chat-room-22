@@ -21,7 +21,9 @@ class Chat_Form_Messages extends Chat_Form {
   _messageContainer = this._element.querySelector(`#chat-container`)
 
   getLastSentMessage() {
-    const firstPendingMessage = this._messageContainer.querySelector(`[data-status="pending"]`)
+    const firstPendingMessage = this._messageContainer.querySelector(
+      `[data-status="pending"]`
+    )
 
     if (firstPendingMessage) {
       return firstPendingMessage.previousElementSibling
@@ -30,7 +32,9 @@ class Chat_Form_Messages extends Chat_Form {
   }
 
   getPendingMessages() {
-    const elements = this._messageContainer.querySelectorAll(`[data-status="pending"]`)
+    const elements = this._messageContainer.querySelectorAll(
+      `[data-status="pending"]`
+    )
     elements.forEach(element => {
       element.msg = element.querySelector(`.paragraph`).textContent
     })
@@ -50,7 +54,9 @@ class Chat_Form_Messages extends Chat_Form {
     text.innerHTML = makeTextReadyForRender(data.msg)
 
     if (data._id) {
-      const isMsgAlreadyRendered = this._messageContainer.querySelector(`[data-id="${data._id}"]`)
+      const isMsgAlreadyRendered = this._messageContainer.querySelector(
+        `[data-id="${data._id}"]`
+      )
       if (isMsgAlreadyRendered) {
         return false
       }
@@ -65,6 +71,7 @@ class Chat_Form_Messages extends Chat_Form {
     if (data.you) {
       element.dataset.user = 'you'
 
+      // Phone delete feature... turned of bcz of css classes
       /*
       element.addEventListener('click', () => {
         element.classList.toggle(`showDeleteBtn`)
@@ -135,7 +142,9 @@ class Chat_Form_Messages extends Chat_Form {
     this._messageContainer.prepend(element)
 
     const scp =
-      this._messageContainer.scrollHeight - scrollBottom - this._messageContainer.clientHeight
+      this._messageContainer.scrollHeight -
+      scrollBottom -
+      this._messageContainer.clientHeight
     this._messageContainer.scrollTo({
       top: scp,
       left: 0,
@@ -150,7 +159,9 @@ class Chat_Form_Messages extends Chat_Form {
   }
 
   deleteMessage(id) {
-    const element = this._messageContainer.querySelector(`.message[data-id="${id}"]`)
+    const element = this._messageContainer.querySelector(
+      `.message[data-id="${id}"]`
+    )
     element.addEventListener('animationend', element.remove)
     element.classList.add(`deleteMode`)
   }

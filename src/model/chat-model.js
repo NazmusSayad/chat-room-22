@@ -1,6 +1,8 @@
 import { io } from 'socket.io-client'
 import { API_URL } from '../config'
+import { getJSON } from '../utils/utils'
 import STATE from './STATE'
+import axios from 'axios'
 
 let init = false
 let Socket = null
@@ -57,6 +59,28 @@ export const WaitForConnection = async () => {
   })
 }
 
+const sendFiles = async files => {
+  const promises = files.map(file => {
+    const form = new FormData()
+    form.append('upload_preset', 'nyvecbqo')
+    form.append('file', file)
+
+    return axios.post(
+      'https://api.cloudinary.com/v1_1/nazmussayad/image/upload',
+      form,
+      {
+        headers: {
+          'content-type':
+            'multipart/form-data; boundary=---011000010111000001101001',
+        },
+      }
+    )
+  })
+
+  const data = await Promise.all(promises)
+  return data.map(({ data }) => data.secure_url)
+}
+
 const onDeleteMessage = () => {
   Socket.on('message-delete', id => {
     handlers.onDeleteMessages(id)
@@ -69,8 +93,16 @@ const onReceiveMessages = () => {
   })
 }
 
-export const sendMessages = msgs => {
-  if (!Array.isArray(msgs)) throw new Error('I want an array!')
+export const sendMessages = async msgs => {
+  if (!Array.isArray(msgs)) throw new Error('I want an array!') // :DEV
+
+  for (let msg of msgs) {
+    if (msg.files.length) {
+      msg.files = await sendFiles([...msg.files])
+    } else {
+      msg.files = undefined
+    }
+  }
 
   return new Promise(resolve => {
     Socket.volatile.emit('message-new', msgs, data => {

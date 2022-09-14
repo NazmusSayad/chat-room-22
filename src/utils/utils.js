@@ -18,16 +18,17 @@ export const cryptoJs = CryptoJs
 const timeout = function (seconds = TIMEOUT_SEC) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${seconds} second`))
+      reject(
+        new Error(`Request took too long! Timeout after ${seconds} second`)
+      )
     }, seconds * 1000)
   })
 }
 
 export const getJSON = async function () {
   try {
-    const res = await Promise.race([timeout(), fetch(...arguments)])
+    const res = await Promise.race([fetch(...arguments), timeout()])
     const data = await res.json()
-
     if (!res.ok) throw new Error(data.message + ' ' + data.status)
     return data
   } catch (error) {
@@ -36,7 +37,8 @@ export const getJSON = async function () {
 }
 
 export const HTML = function (body = '<div></div>') {
-  return new DOMParser().parseFromString(body, 'text/html').body.firstElementChild
+  return new DOMParser().parseFromString(body, 'text/html').body
+    .firstElementChild
 }
 
 export const newMessageNotification = async (user, body) => {

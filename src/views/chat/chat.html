@@ -33,14 +33,24 @@
 
   <form id="chat-form" class="chat__form" hideButton>
     <div class="textarea-container">
-      <textarea name="msg" placeholder="Aa..." autocomplete="off" rows="1" required></textarea>
+      <textarea
+        name="msg"
+        placeholder="Aa..."
+        autocomplete="off"
+        rows="1"
+        required
+      ></textarea>
     </div>
+    <input type="file" name="files" multiple />
     <button type="submit" disabled>${Send}</button>
   </form>
 
   <section id="connection-status" class="">
     <p class="online">Your are online now</p>
     <p class="offline">You are offline now</p>
-    <i onclick="this.parentElement.classList.remove(`show`)" class="fal fa-times"></i>
+    <i
+      onclick="this.parentElement.classList.remove(`show`)"
+      class="fal fa-times"
+    ></i>
   </section>
 </section>

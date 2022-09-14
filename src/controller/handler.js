@@ -53,16 +53,16 @@ export const initChat = async () => {
   }
 }
 
-export const sendMessage = async msg => {
+export const sendMessage = async formData => {
   try {
     const element = ChatView.appendMessage({
       name: STATE.user.name,
       email: STATE.user.email,
       you: true,
-      msg,
+      ...formData,
     })
 
-    const [data] = await Chat.sendMessages([msg])
+    const [data] = await Chat.sendMessages([formData])
     ChatView.appendMessageSent(element, data)
   } catch (err) {
     console.error(err)
