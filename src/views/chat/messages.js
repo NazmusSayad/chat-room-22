@@ -16,23 +16,23 @@ class Chat_Form_Messages extends Chat_Form {
     super()
   }
 
-  _loaded = false
+  #loaded = false
 
-  _messageContainer = this._element.querySelector(`#chat-container`)
+  #messageContainer = this._element.querySelector(`#chat-container`)
 
   getLastSentMessage() {
-    const firstPendingMessage = this._messageContainer.querySelector(
+    const firstPendingMessage = this.#messageContainer.querySelector(
       `[data-status="pending"]`
     )
 
     if (firstPendingMessage) {
       return firstPendingMessage.previousElementSibling
     }
-    return this._messageContainer.lastElementChild
+    return this.#messageContainer.lastElementChild
   }
 
   getPendingMessages() {
-    const elements = this._messageContainer.querySelectorAll(
+    const elements = this.#messageContainer.querySelectorAll(
       `[data-status="pending"]`
     )
     elements.forEach(element => {
@@ -43,10 +43,10 @@ class Chat_Form_Messages extends Chat_Form {
   }
 
   setLoadedClass() {
-    this._loaded = true
+    this.#loaded = true
   }
 
-  _generateImagesMarkup(images) {
+  #generateImagesMarkup(images) {
     return images.map(imgSrc => {
       if (typeof imgSrc !== 'string') imgSrc = URL.createObjectURL(imgSrc)
       const imgElement = document.createElement('img')
@@ -55,10 +55,10 @@ class Chat_Form_Messages extends Chat_Form {
     })
   }
 
-  _generateMessageMarkup(data) {
+  #generateMessageMarkup(data) {
     const element = new HTML(messageMarkup)
     const imageContainer = element.querySelector('.images') // DEV
-    const images = this._generateImagesMarkup(data.files)
+    const images = this.#generateImagesMarkup(data.files)
 
     const user = element.querySelector(`.user`)
     const text = element.querySelector(`.paragraph`)
@@ -67,7 +67,7 @@ class Chat_Form_Messages extends Chat_Form {
     imageContainer.append(...images)
 
     if (data._id) {
-      const isMsgAlreadyRendered = this._messageContainer.querySelector(
+      const isMsgAlreadyRendered = this.#messageContainer.querySelector(
         `[data-id="${data._id}"]`
       )
       if (isMsgAlreadyRendered) {
@@ -110,34 +110,34 @@ class Chat_Form_Messages extends Chat_Form {
   }
 
   ifNeedsToScroll() {
-    const scrollBottom = getScrollBottom(this._messageContainer)
-    const skipHeight = this._messageContainer.clientHeight
+    const scrollBottom = getScrollBottom(this.#messageContainer)
+    const skipHeight = this.#messageContainer.clientHeight
 
     return scrollBottom < skipHeight
   }
 
   scrollToBottom() {
-    this._messageContainer.scrollTo({
-      top: this._messageContainer.scrollHeight,
+    this.#messageContainer.scrollTo({
+      top: this.#messageContainer.scrollHeight,
       left: 0,
-      behavior: this._loaded ? 'smooth' : 'auto',
+      behavior: this.#loaded ? 'smooth' : 'auto',
     })
   }
 
   appendMessage(data) {
-    const element = this._generateMessageMarkup(data)
+    const element = this.#generateMessageMarkup(data)
     if (!element) return
     const lastSentMessage = this.getLastSentMessage()
 
     if (data._id && lastSentMessage) {
       lastSentMessage.after(element)
     } else {
-      this._messageContainer.appendChild(element)
+      this.#messageContainer.appendChild(element)
     }
 
     if (this.ifNeedsToScroll() || data.you) {
       this.scrollToBottom()
-      if (document.visibilityState === 'hidden' && this._loaded) {
+      if (document.visibilityState === 'hidden' && this.#loaded) {
         newMessageNotification(data.name, data.msg)
       }
     } else {
@@ -148,18 +148,18 @@ class Chat_Form_Messages extends Chat_Form {
   }
 
   prependMessage(data) {
-    const element = this._generateMessageMarkup(data)
+    const element = this.#generateMessageMarkup(data)
     if (!element) return
 
-    const scrollBottom = getScrollBottom(this._messageContainer)
-    this._messageContainer.prepend(element)
+    const scrollBottom = getScrollBottom(this.#messageContainer)
+    this.#messageContainer.prepend(element)
 
-    const scp =
-      this._messageContainer.scrollHeight -
+    const scrollPos =
+      this.#messageContainer.scrollHeight -
       scrollBottom -
-      this._messageContainer.clientHeight
-    this._messageContainer.scrollTo({
-      top: scp,
+      this.#messageContainer.clientHeight
+    this.#messageContainer.scrollTo({
+      top: scrollPos,
       left: 0,
       behavior: 'auto',
     })
@@ -172,7 +172,7 @@ class Chat_Form_Messages extends Chat_Form {
   }
 
   deleteMessage(id) {
-    const element = this._messageContainer.querySelector(
+    const element = this.#messageContainer.querySelector(
       `.message[data-id="${id}"]`
     )
     element.addEventListener('animationend', element.remove)
@@ -180,15 +180,15 @@ class Chat_Form_Messages extends Chat_Form {
   }
 
   async addLoadMoreHandler(callback) {
-    while (this._messageContainer.scrollTop === 0) {
-      const oldestMessage = this._messageContainer.firstElementChild
+    while (this.#messageContainer.scrollTop === 0) {
+      const oldestMessage = this.#messageContainer.firstElementChild
       const isNoMessageFound = await callback(oldestMessage)
       if (isNoMessageFound) break
     }
 
-    this._messageContainer.onscroll = event => {
+    this.#messageContainer.onscroll = event => {
       if (event.target.scrollTop === 0) {
-        const oldestMessage = this._messageContainer.firstElementChild
+        const oldestMessage = this.#messageContainer.firstElementChild
         callback(oldestMessage)
       }
     }

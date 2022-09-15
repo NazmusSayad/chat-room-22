@@ -9,19 +9,21 @@ class Chat_Form extends Chat {
     super()
   }
 
-  _chatForm = this._element.querySelector(`form`)
+  #chatForm = this._element.querySelector(`form`)
 
-  _textArea = this._chatForm.querySelector(`textarea`)
+  #textArea = this.#chatForm.querySelector(`textarea`)
 
-  _textareaResizer() {
-    this._textArea.style.height = 'auto'
-    const scrollHeight = this._textArea.scrollHeight
-    this._textArea.style.height =
+  #imageQueue = []
+
+  #textareaResizer() {
+    this.#textArea.style.height = 'auto'
+    const scrollHeight = this.#textArea.scrollHeight
+    this.#textArea.style.height =
       scrollHeight > 120 ? '120px' : scrollHeight + 'px'
   }
 
   addMsgSubmitHandler(callback) {
-    this._chatForm.onsubmit = event => {
+    this.#chatForm.onsubmit = event => {
       event.preventDefault()
       const { msg, files } = event.target
       const value = refactorMessageBeforeSending(msg.value)
@@ -29,30 +31,37 @@ class Chat_Form extends Chat {
 
       callback({ msg: value, files: [...files.files] })
       event.target.reset()
-      this._textareaResizer(msg)
+      this.#textareaResizer(msg)
     }
   }
 
   focusTextArea() {
-    this._textArea.focus()
+    this.#textArea.focus()
   }
 
   addTextAreaHandlers() {
-    const form = this._chatForm
-    const button = this._chatForm.querySelector(`button`)
+    const form = this.#chatForm
+    const button = this.#chatForm.querySelector(`button`)
+    const file = this.#chatForm.querySelector('input[type=file]')
 
     form.onclick = this.focusTextArea()
 
-    this._textArea.addEventListener('keydown', event => {
+    file.onchange = event => {
+      this.#imageQueue.push(...event.target.files)
+      event.target.value = ''
+      console.log(this.#imageQueue)
+    }
+
+    this.#textArea.addEventListener('keydown', event => {
       if (event.keyCode !== 13 || event.shiftKey || event.ctrlKey) return
       event.preventDefault()
       button.click()
     })
 
-    this._textArea.addEventListener('input', () => {
-      this._textareaResizer()
+    this.#textArea.addEventListener('input', () => {
+      this.#textareaResizer()
 
-      if (this._textArea.value) {
+      if (this.#textArea.value) {
         button.removeAttribute(`disabled`)
       } else {
         button.setAttribute(`disabled`, '')
