@@ -47,11 +47,11 @@ class Chat_Form extends Chat {
 
     form.onclick = this.focusTextArea()
 
-    // file.onchange = event => {
-    //   this.#imageQueue.push(...event.target.files)
-    //   event.target.value = ''
-    //   console.log(this.#imageQueue)
-    // }
+    file.onchange = event => {
+      this.#imageQueue.push(...event.target.files)
+      event.target.value = ''
+      console.log(this.#imageQueue)
+    }
 
     this.#textArea.addEventListener('keydown', event => {
       if (event.keyCode !== 13 || event.shiftKey || event.ctrlKey) return
