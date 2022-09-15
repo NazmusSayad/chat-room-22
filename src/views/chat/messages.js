@@ -46,12 +46,25 @@ class Chat_Form_Messages extends Chat_Form {
     this._loaded = true
   }
 
+  _generateImagesMarkup(images) {
+    return images.map(imgSrc => {
+      if (typeof imgSrc !== 'string') imgSrc = URL.createObjectURL(imgSrc)
+      const imgElement = document.createElement('img')
+      imgElement.src = imgSrc
+      return imgElement
+    })
+  }
+
   _generateMessageMarkup(data) {
     const element = new HTML(messageMarkup)
+    const imageContainer = element.querySelector('.images') // DEV
+    const images = this._generateImagesMarkup(data.files)
+
     const user = element.querySelector(`.user`)
     const text = element.querySelector(`.paragraph`)
     user.textContent = data.name
     text.innerHTML = makeTextReadyForRender(data.msg)
+    imageContainer.append(...images)
 
     if (data._id) {
       const isMsgAlreadyRendered = this._messageContainer.querySelector(

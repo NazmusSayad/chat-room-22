@@ -27,7 +27,7 @@ class Chat_Form extends Chat {
       const value = refactorMessageBeforeSending(msg.value)
       if (!value) return
 
-      callback({ msg: value, files: files.files })
+      callback({ msg: value, files: [...files.files] })
       event.target.reset()
       this._textareaResizer(msg)
     }

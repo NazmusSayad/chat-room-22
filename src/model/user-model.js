@@ -7,7 +7,6 @@ const saveAuthInfo = data => {
 
 export const pingServer = async () => {
   const res = await fetch(SERVER_URL + '/ping')
-  console.log(res)
 }
 
 export const login = async token => {

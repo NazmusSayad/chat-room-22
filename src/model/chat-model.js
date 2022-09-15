@@ -98,7 +98,7 @@ export const sendMessages = async msgs => {
 
   for (let msg of msgs) {
     if (msg.files.length) {
-      msg.files = await sendFiles([...msg.files])
+      msg.files = await sendFiles(msg.files)
     } else {
       msg.files = undefined
     }

@@ -29,7 +29,7 @@ export const getJSON = async function () {
   try {
     const res = await Promise.race([fetch(...arguments), timeout()])
     const data = await res.json()
-    if (!res.ok) throw new Error(data.message + ' ' + data.status)
+    if (!res.ok) throw new Error(data.message)
     return data
   } catch (error) {
     throw error
