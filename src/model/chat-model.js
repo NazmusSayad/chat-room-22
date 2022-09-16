@@ -1,6 +1,5 @@
 import { io } from 'socket.io-client'
-import { API_URL } from '../config'
-import { getJSON } from '../utils/utils'
+import { API_URL, CLD_PRESET, CLD_URL } from '../config'
 import STATE from './STATE'
 import axios from 'axios'
 
@@ -62,19 +61,9 @@ export const WaitForConnection = async () => {
 const sendFiles = async files => {
   const promises = files.map(file => {
     const form = new FormData()
-    form.append('upload_preset', 'nyvecbqo')
+    form.append('upload_preset', CLD_PRESET)
     form.append('file', file)
-
-    return axios.post(
-      'https://api.cloudinary.com/v1_1/nazmussayad/image/upload',
-      form,
-      {
-        headers: {
-          'content-type':
-            'multipart/form-data',
-        },
-      }
-    )
+    return axios.post(CLD_URL, form)
   })
 
   const data = await Promise.all(promises)

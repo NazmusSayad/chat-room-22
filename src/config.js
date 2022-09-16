@@ -10,3 +10,6 @@ export let SERVER_URL =
     : PROD_SERVER_URL
 export const API_URL = SERVER_URL + '/v1/api'
 export const TIMEOUT_SEC = 20
+export const CLD_PRESET = 'nyvecbqo'
+export const CLD_URL =
+  'https://api.cloudinary.com/v1_1/nazmussayad/image/upload'
