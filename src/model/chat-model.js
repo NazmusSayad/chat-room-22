@@ -71,7 +71,7 @@ const sendFiles = async files => {
       {
         headers: {
           'content-type':
-            'multipart/form-data; boundary=---011000010111000001101001',
+            'multipart/form-data',
         },
       }
     )

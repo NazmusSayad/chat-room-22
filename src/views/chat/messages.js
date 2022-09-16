@@ -14,11 +14,17 @@ import {
 class Chat_Form_Messages extends Chat_Form {
   constructor() {
     super()
+
+    this.#imageModal.onclick = ({ target, currentTarget }) => {
+      target.closest('.content') || currentTarget.classList.remove('show')
+    }
   }
 
   #loaded = false
 
   #messageContainer = this._element.querySelector(`#chat-container`)
+
+  #imageModal = this._element.querySelector('#image-modal')
 
   getLastSentMessage() {
     const firstPendingMessage = this.#messageContainer.querySelector(
@@ -46,11 +52,28 @@ class Chat_Form_Messages extends Chat_Form {
     this.#loaded = true
   }
 
-  #generateImagesMarkup(images) {
-    return images.map(imgSrc => {
+  #showImageModal(imgSrc) {
+    const modalImg = this.#imageModal.querySelector('img')
+    this.#imageModal.classList.add('show')
+    modalImg.src = imgSrc
+  }
+
+  #generateImagesMarkup(data) {
+    return data.files.map(imgSrc => {
       if (typeof imgSrc !== 'string') imgSrc = URL.createObjectURL(imgSrc)
       const imgElement = document.createElement('img')
+
       imgElement.src = imgSrc
+      imgElement.alt = 'Download failed!'
+
+      imgElement.onclick = event => {
+        this.#showImageModal(event.currentTarget.src)
+      }
+
+      imgElement.onload = () => {
+        if (this.ifNeedsToScroll() || !data._id) this.scrollToBottom()
+      }
+
       return imgElement
     })
   }
@@ -58,7 +81,7 @@ class Chat_Form_Messages extends Chat_Form {
   #generateMessageMarkup(data) {
     const element = new HTML(messageMarkup)
     const imageContainer = element.querySelector('.images') // DEV
-    const images = this.#generateImagesMarkup(data.files)
+    const images = this.#generateImagesMarkup(data)
 
     const user = element.querySelector(`.user`)
     const text = element.querySelector(`.paragraph`)
@@ -71,6 +94,7 @@ class Chat_Form_Messages extends Chat_Form {
         `[data-id="${data._id}"]`
       )
       if (isMsgAlreadyRendered) {
+        console.warn('// Duplicate:', isMsgAlreadyRendered)
         return false
       }
 
@@ -81,20 +105,12 @@ class Chat_Form_Messages extends Chat_Form {
       text.title = 'Sending...'
     }
 
+    if (data.files.length) {
+      element.dataset.image = ''
+    }
+
     if (data.you) {
       element.dataset.user = 'you'
-
-      // Phone delete feature... turned of bcz of css classes
-      /*
-      element.addEventListener('click', () => {
-        element.classList.toggle(`showDeleteBtn`)
-        this._messageContainer.querySelectorAll(`.showDeleteBtn`).forEach(prevElement => {
-          if (prevElement.isEqualNode(element)) return
-
-          prevElement.classList.remove(`showDeleteBtn`)
-        })
-      })
-      */
 
       const deleteButton = element.querySelector(`.delete`)
       deleteButton.addEventListener(
@@ -107,6 +123,10 @@ class Chat_Form_Messages extends Chat_Form {
     }
 
     return element
+  }
+
+  scrollIfNeeds() {
+    this.ifNeedsToScroll() && this.scrollToBottom()
   }
 
   ifNeedsToScroll() {
@@ -137,6 +157,7 @@ class Chat_Form_Messages extends Chat_Form {
 
     if (this.ifNeedsToScroll() || data.you) {
       this.scrollToBottom()
+
       if (document.visibilityState === 'hidden' && this.#loaded) {
         newMessageNotification(data.name, data.msg)
       }

@@ -13,8 +13,6 @@ class Chat_Form extends Chat {
 
   #textArea = this.#chatForm.querySelector(`textarea`)
 
-  #imageQueue = []
-
   #textareaResizer() {
     this.#textArea.style.height = 'auto'
     const scrollHeight = this.#textArea.scrollHeight
@@ -27,11 +25,9 @@ class Chat_Form extends Chat {
       event.preventDefault()
       const { msg, files } = event.target
       const value = refactorMessageBeforeSending(msg.value)
-      if (!value) return
 
       callback({ msg: value, files: [...files.files] })
       event.target.reset()
-      this.#imageQueue.length = 0
       this.#textareaResizer(msg)
     }
   }
@@ -43,15 +39,27 @@ class Chat_Form extends Chat {
   addTextAreaHandlers() {
     const form = this.#chatForm
     const button = this.#chatForm.querySelector(`button`)
-    const file = this.#chatForm.querySelector('input[type=file]')
+    const fileInput = this.#chatForm.querySelector(`input[type="file"]`)
+
+    const enableDisableSendButton = () => {
+      if (this.#textArea.value || fileInput.files.length > 0) {
+        button.removeAttribute(`disabled`)
+      } else {
+        button.setAttribute(`disabled`, '')
+      }
+    }
+
+    fileInput.onchange = () => {
+      fileInput.parentElement.dataset.files = fileInput.files.length || ''
+      enableDisableSendButton()
+    }
+
+    form.onreset = () => {
+      fileInput.parentElement.dataset.files = ''
+      enableDisableSendButton()
+    }
 
     form.onclick = this.focusTextArea()
-
-    // file.onchange = event => {
-    //   this.#imageQueue.push(...event.target.files)
-    //   event.target.value = ''
-    //   console.log(this.#imageQueue)
-    // }
 
     this.#textArea.addEventListener('keydown', event => {
       if (event.keyCode !== 13 || event.shiftKey || event.ctrlKey) return
@@ -61,12 +69,7 @@ class Chat_Form extends Chat {
 
     this.#textArea.addEventListener('input', () => {
       this.#textareaResizer()
-
-      if (this.#textArea.value) {
-        button.removeAttribute(`disabled`)
-      } else {
-        button.setAttribute(`disabled`, '')
-      }
+      enableDisableSendButton()
     })
   }
 }
