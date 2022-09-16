@@ -36,15 +36,15 @@ class Chat_Form extends Chat {
     this.#textArea.focus()
   }
 
-  #enableDisableSendButton = () => {
-    if (this.#textArea.value || fileInput.files.length > 0) {
-      button.removeAttribute(`disabled`)
-    } else {
-      button.setAttribute(`disabled`, '')
-    }
-  }
-
   addTextAreaHandlers() {
+    const enableDisableSendButton = () => {
+      if (this.#textArea.value || fileInput.files.length > 0) {
+        button.removeAttribute(`disabled`)
+      } else {
+        button.setAttribute(`disabled`, '')
+      }
+    }
+
     const form = this.#chatForm
     const button = this.#chatForm.querySelector(`button`)
     const fileInput = this.#chatForm.querySelector(`input[type="file"]`)
@@ -53,13 +53,13 @@ class Chat_Form extends Chat {
 
     fileInput.onchange = () => {
       fileInput.parentElement.dataset.files = fileInput.files.length || ''
+      enableDisableSendButton()
       this.focusTextArea()
-      this.#enableDisableSendButton()
     }
 
     form.onreset = () => {
       fileInput.parentElement.dataset.files = ''
-      this.#enableDisableSendButton()
+      enableDisableSendButton()
     }
 
     this.#textArea.addEventListener('keydown', event => {
@@ -70,7 +70,7 @@ class Chat_Form extends Chat {
 
     this.#textArea.addEventListener('input', () => {
       this.#textareaResizer()
-      this.#enableDisableSendButton()
+      enableDisableSendButton()
     })
   }
 }
