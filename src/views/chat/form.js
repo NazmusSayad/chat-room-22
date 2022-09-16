@@ -36,30 +36,31 @@ class Chat_Form extends Chat {
     this.#textArea.focus()
   }
 
+  #enableDisableSendButton = () => {
+    if (this.#textArea.value || fileInput.files.length > 0) {
+      button.removeAttribute(`disabled`)
+    } else {
+      button.setAttribute(`disabled`, '')
+    }
+  }
+
   addTextAreaHandlers() {
     const form = this.#chatForm
     const button = this.#chatForm.querySelector(`button`)
     const fileInput = this.#chatForm.querySelector(`input[type="file"]`)
 
-    const enableDisableSendButton = () => {
-      if (this.#textArea.value || fileInput.files.length > 0) {
-        button.removeAttribute(`disabled`)
-      } else {
-        button.setAttribute(`disabled`, '')
-      }
-    }
+    form.onclick = this.focusTextArea()
 
     fileInput.onchange = () => {
       fileInput.parentElement.dataset.files = fileInput.files.length || ''
-      enableDisableSendButton()
+      this.focusTextArea()
+      this.#enableDisableSendButton()
     }
 
     form.onreset = () => {
       fileInput.parentElement.dataset.files = ''
-      enableDisableSendButton()
+      this.#enableDisableSendButton()
     }
-
-    form.onclick = this.focusTextArea()
 
     this.#textArea.addEventListener('keydown', event => {
       if (event.keyCode !== 13 || event.shiftKey || event.ctrlKey) return
@@ -69,7 +70,7 @@ class Chat_Form extends Chat {
 
     this.#textArea.addEventListener('input', () => {
       this.#textareaResizer()
-      enableDisableSendButton()
+      this.#enableDisableSendButton()
     })
   }
 }
