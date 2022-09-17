@@ -40,12 +40,12 @@ export const initChat = async () => {
   try {
     await Chat.Start()
     ChatView.render()
-    const starterMessages = await Chat.getInitialMessages()
-    starterMessages
-      .reverse()
-      .forEach(message => ChatView.appendMessage(message))
+
+    const initialMsg = await Chat.getInitialMessages()
+    initialMsg.reverse().forEach(message => ChatView.appendMessage(message))
 
     ChatView.focusTextArea()
+    ChatView.scrollToBottom()
     ChatView.setLoadedClass()
     ChatView.addLoadMoreHandler(loadMoreMessages)
   } catch (err) {
@@ -53,16 +53,16 @@ export const initChat = async () => {
   }
 }
 
-export const sendMessage = async formData => {
+export const sendMessage = async msgData => {
   try {
     const element = ChatView.appendMessage({
       name: STATE.user.name,
       email: STATE.user.email,
       you: true,
-      ...formData,
+      ...msgData,
     })
 
-    const [data] = await Chat.sendMessages([formData])
+    const [data] = await Chat.sendMessages([msgData])
     ChatView.appendMessageSent(element, data)
   } catch (err) {
     console.error(err)
@@ -83,10 +83,7 @@ export const loadMoreMessages = async oldestMessage => {
   try {
     const id = oldestMessage.dataset.id
     const data = await Chat.getOlderMessagesThanId(id)
-
-    data.forEach(msg => {
-      ChatView.prependMessage(msg)
-    })
+    data.forEach(msg => ChatView.prependMessage(msg))
   } catch (err) {
     console.warn(err.message)
     return true

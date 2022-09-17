@@ -8,6 +8,62 @@ import { Views } from '../Views.js'
 class Welcome extends Views {
   constructor() {
     super()
+
+    // TODO: Need Refactor!!
+
+    const name = this.#signupForm.name
+    const emails = [this.#signupForm.email, this.#loginForm.email]
+    const passwords = [this.#signupForm.password, this.#loginForm.password]
+
+    passwords.forEach(password => {
+      password.nextElementSibling.addEventListener('click', function () {
+        this.classList.toggle('fa-eye')
+        this.classList.toggle('fa-eye-slash')
+
+        const passAttr = password.getAttribute('type')
+        password.setAttribute(
+          'type',
+          passAttr === 'password' ? 'text' : 'password'
+        )
+      })
+    })
+
+    name.onchange = () => {
+      name.oninput = function () {
+        if (this.value === ' ') return (this.value = '')
+        if (this.value.endsWith('  '))
+          return (this.value = this.value.slice(0, -1))
+
+        const regEx = new RegExp(this.getAttribute(`pattern`))
+        const matchRegEx = this.value.match(regEx)?.length
+        if (this.value.length < 3 || this.value.length > 14 || !matchRegEx) {
+          this.className = `error`
+        } else this.className = ``
+      }
+    }
+
+    for (let email of emails) {
+      email.onchange = () => {
+        email.oninput = function () {
+          const matchRegEx = this.value.match(
+            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+          )?.length
+          if (matchRegEx) {
+            this.className = ``
+          } else this.className = `error`
+        }
+      }
+    }
+
+    for (let password of passwords) {
+      password.onchange = () => {
+        password.oninput = function () {
+          if (this.value.length < 6 || this.value.length > 24) {
+            this.className = `error`
+          } else this.className = ``
+        }
+      }
+    }
   }
 
   _element = new HTML(markup)
@@ -95,64 +151,6 @@ class Welcome extends Views {
         email: email.value,
         password: password.value,
       })
-    }
-  }
-
-  addFormInputHandlers() {
-    // TODO: Need Refactor!!
-
-    const name = this.#signupForm.name
-    const emails = [this.#signupForm.email, this.#loginForm.email]
-    const passwords = [this.#signupForm.password, this.#loginForm.password]
-
-    passwords.forEach(password => {
-      password.nextElementSibling.addEventListener('click', function () {
-        this.classList.toggle('fa-eye')
-        this.classList.toggle('fa-eye-slash')
-
-        const passAttr = password.getAttribute('type')
-        password.setAttribute(
-          'type',
-          passAttr === 'password' ? 'text' : 'password'
-        )
-      })
-    })
-
-    name.onchange = () => {
-      name.oninput = function () {
-        if (this.value === ' ') return (this.value = '')
-        if (this.value.endsWith('  '))
-          return (this.value = this.value.slice(0, -1))
-
-        const regEx = new RegExp(this.getAttribute(`pattern`))
-        const matchRegEx = this.value.match(regEx)?.length
-        if (this.value.length < 3 || this.value.length > 14 || !matchRegEx) {
-          this.className = `error`
-        } else this.className = ``
-      }
-    }
-
-    for (let email of emails) {
-      email.onchange = () => {
-        email.oninput = function () {
-          const matchRegEx = this.value.match(
-            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-          )?.length
-          if (matchRegEx) {
-            this.className = ``
-          } else this.className = `error`
-        }
-      }
-    }
-
-    for (let password of passwords) {
-      password.onchange = () => {
-        password.oninput = function () {
-          if (this.value.length < 6 || this.value.length > 24) {
-            this.className = `error`
-          } else this.className = ``
-        }
-      }
     }
   }
 }

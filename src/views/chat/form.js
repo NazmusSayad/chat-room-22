@@ -7,36 +7,7 @@ import { refactorMessageBeforeSending } from '../../utils/utils.js'
 class Chat_Form extends Chat {
   constructor() {
     super()
-  }
 
-  #chatForm = this._element.querySelector(`form`)
-
-  #textArea = this.#chatForm.querySelector(`textarea`)
-
-  #textareaResizer() {
-    this.#textArea.style.height = 'auto'
-    const scrollHeight = this.#textArea.scrollHeight
-    this.#textArea.style.height =
-      scrollHeight > 120 ? '120px' : scrollHeight + 'px'
-  }
-
-  addMsgSubmitHandler(callback) {
-    this.#chatForm.onsubmit = event => {
-      event.preventDefault()
-      const { msg, files } = event.target
-      const value = refactorMessageBeforeSending(msg.value)
-
-      callback({ msg: value, files: [...files.files] })
-      event.target.reset()
-      this.#textareaResizer(msg)
-    }
-  }
-
-  focusTextArea() {
-    this.#textArea.focus()
-  }
-
-  addTextAreaHandlers() {
     const enableDisableSendButton = () => {
       if (this.#textArea.value || fileInput.files.length > 0) {
         button.removeAttribute(`disabled`)
@@ -72,6 +43,33 @@ class Chat_Form extends Chat {
       this.#textareaResizer()
       enableDisableSendButton()
     })
+  }
+
+  #chatForm = this._element.querySelector(`form`)
+
+  #textArea = this.#chatForm.querySelector(`textarea`)
+
+  #textareaResizer() {
+    this.#textArea.style.height = 'auto'
+    const scrollHeight = this.#textArea.scrollHeight
+    this.#textArea.style.height =
+      scrollHeight > 120 ? '120px' : scrollHeight + 'px'
+  }
+
+  addMsgSubmitHandler(callback) {
+    this.#chatForm.onsubmit = event => {
+      event.preventDefault()
+      const { msg, files } = event.target
+      const value = refactorMessageBeforeSending(msg.value)
+
+      callback({ msg: value, files: [...files.files] })
+      event.target.reset()
+      this.#textareaResizer(msg)
+    }
+  }
+
+  focusTextArea() {
+    this.#textArea.focus()
   }
 }
 

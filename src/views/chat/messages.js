@@ -61,17 +61,13 @@ class Chat_Form_Messages extends Chat_Form {
   #generateImagesMarkup(data) {
     return data.files.map(imgSrc => {
       if (typeof imgSrc !== 'string') imgSrc = URL.createObjectURL(imgSrc)
-      const imgElement = document.createElement('img')
 
-      imgElement.src = imgSrc
-      imgElement.alt = 'Download failed!'
+      const imgElement = new HTML(
+        `<img src="${imgSrc}" alt="Download failed" />`
+      )
 
       imgElement.onclick = event => {
         this.#showImageModal(event.currentTarget.src)
-      }
-
-      imgElement.onload = () => {
-        if (this.ifNeedsToScroll() || !data._id) this.scrollToBottom()
       }
 
       return imgElement
@@ -125,10 +121,6 @@ class Chat_Form_Messages extends Chat_Form {
     return element
   }
 
-  scrollIfNeeds() {
-    this.ifNeedsToScroll() && this.scrollToBottom()
-  }
-
   ifNeedsToScroll() {
     const scrollBottom = getScrollBottom(this.#messageContainer)
     const skipHeight = this.#messageContainer.clientHeight
@@ -155,15 +147,13 @@ class Chat_Form_Messages extends Chat_Form {
       this.#messageContainer.appendChild(element)
     }
 
-    if (this.ifNeedsToScroll() || data.you) {
+    if (data.you || this.ifNeedsToScroll()) {
       this.scrollToBottom()
 
       if (document.visibilityState === 'hidden' && this.#loaded) {
         newMessageNotification(data.name, data.msg)
       }
-    } else {
-      newMessageNotification(data.name, data.msg)
-    }
+    } else newMessageNotification(data.name, data.msg)
 
     return element
   }
